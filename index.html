@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kysely Playground</title>
+  </head>
+  <body>
+    <div id="header">
+      <span id="kysely-version"></span>
+      <select id="dialect">
+        <option value="mysql">mysql</option>
+        <option value="postgres">postgres</option>
+        <option value="sqlite">sqlite</option>
+      </select>
+    </div>
+    <div id="main-container">
+      <div id="input-container"></div>
+      <div id="output-container">
+        <pre id="sql"></pre>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

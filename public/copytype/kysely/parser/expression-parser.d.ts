@@ -1,0 +1,10 @@
+import { AliasedExpression, Expression } from '../expression/expression.js';
+import { AliasNode } from '../operation-node/alias-node.js';
+import { OperationNode } from '../operation-node/operation-node.js';
+import { ExpressionBuilder } from '../query-builder/expression-builder.js';
+import { SelectQueryBuilder } from '../query-builder/select-query-builder.js';
+export declare type ExpressionOrFactory<DB, TB extends keyof DB, V> = SelectQueryBuilder<any, any, Record<string, V>> | ((eb: ExpressionBuilder<DB, TB>) => SelectQueryBuilder<any, any, Record<string, V>>) | Expression<V> | ((eb: ExpressionBuilder<DB, TB>) => Expression<V>);
+export declare type AliasedExpressionOrFactory<DB, TB extends keyof DB> = AliasedExpression<any, any> | ((qb: ExpressionBuilder<DB, TB>) => AliasedExpression<any, any>);
+export declare function parseExpression(exp: ExpressionOrFactory<any, any, any>): OperationNode;
+export declare function parseAliasedExpression(exp: AliasedExpressionOrFactory<any, any>): AliasNode;
+export declare function isExpressionOrFactory(obj: unknown): obj is ExpressionOrFactory<any, any, any>;
