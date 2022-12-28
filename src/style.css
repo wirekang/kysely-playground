@@ -9,6 +9,12 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
   box-sizing: border-box;
+  color: white;
+}
+
+select,
+option {
+  color: black;
 }
 
 html,
@@ -17,6 +23,8 @@ body {
   height: 100vh;
   margin: 0;
   padding: 0;
+  background: #1e1e1e;
+  overflow: hidden;
 }
 
 body {
@@ -37,12 +45,13 @@ body {
 
 #input-container {
   flex: 1;
-  max-width: 700px;
 }
 
 #output-container {
   flex: 1;
   margin-left: 12px;
+  background: #1e1e1e;
+  overflow: auto;
 }
 
 #error {
@@ -53,4 +62,9 @@ body {
 
 #error.empty {
   display: none;
+}
+
+div.vl {
+  display: inline-block;
+  font-size: 18px;
 }

@@ -1,13 +1,15 @@
 import { KYSELY_VERSION } from "../copytype/constants";
 import "prismjs";
 import "prismjs/components/prism-sql";
-import "prismjs/themes/prism.css";
 import "./prism-pgsql";
+import "../prism-theme.css";
 import { highlight, languages } from "prismjs";
 import { SQLDialect } from "../typings/dialect";
+import { examples } from "../examples/examples";
 
 export const events: {
-  onChangeDialect?: (v: "mysql" | "postgres" | "sqlite") => void;
+  onChangeDialect?: (v: SQLDialect) => void;
+  onChangeExample?: (ts: string) => void;
 } = {};
 
 const e = <T extends HTMLElement>(id: string): T => {
@@ -21,6 +23,7 @@ const e = <T extends HTMLElement>(id: string): T => {
 const elements = {
   header: e("header"),
   dialect: e<HTMLSelectElement>("dialect"),
+  example: e<HTMLSelectElement>("example"),
   version: e("kysely-version"),
   mainContainer: e("main-container"),
   inputContainer: e("input-container"),
@@ -51,9 +54,25 @@ export function setErrorText(e?: string) {
   elements.error.classList.remove("empty");
   elements.error.textContent = e;
 }
+setErrorText();
 
-elements.version.textContent = `kysely: ${KYSELY_VERSION}`;
+elements.version.textContent = `${KYSELY_VERSION}`;
 
 elements.dialect.addEventListener("change", () => {
   events.onChangeDialect && events.onChangeDialect(elements.dialect.value as any);
+});
+
+elements.example.append(document.createElement("option"));
+elements.example.addEventListener("change", () => {
+  const example = examples.find((v) => v.name === elements.example.value);
+  if (!example) {
+    return;
+  }
+  events.onChangeExample && events.onChangeExample(example.ts.trim());
+});
+examples.forEach((e) => {
+  const option = document.createElement("option");
+  option.textContent = e.name;
+  option.value = e.name;
+  elements.example.append(option);
 });

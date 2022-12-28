@@ -1,15 +1,16 @@
 import "./style.css";
 import { setup as setupWorker } from "./monaco/setup-worker";
-import { events, setErrorText, setSqlText } from "./ui/ui";
-import { getValue, setup as setupEditor } from "./monaco/setup-editor";
+import { events as uiEvents, setErrorText, setSqlText } from "./ui/ui";
+import { getValue, setup as setupEditor, setValue } from "./monaco/setup-editor";
 import { getCopytypeTypes } from "./copytype/copytype";
 import { KYSELY_GLOBAL_TYPE } from "./copytype/constants";
 import { format } from "./sql/format";
 import { compile } from "./sql/compile";
 import { config } from "./config/config";
+import { load, onChangeState } from "./state/state";
 
 setupWorker();
-const onChange = (v: string) => {
+const onTsChange = (v: string) => {
   try {
     const sql = format(compile(v, { dialect: config.dialect }), {
       dialect: config.dialect,
@@ -32,10 +33,26 @@ const onChange = (v: string) => {
         filePath: "file:///kysely-global.ts",
       },
     ],
-    onChange,
+    onChange: (ts) => {
+      onTsChange(ts);
+      onChangeState(config.dialect, ts);
+    },
   });
-  events.onChangeDialect = (v) => {
+  uiEvents.onChangeDialect = (v) => {
     config.dialect = v;
-    onChange(getValue());
+    const ts = getValue();
+    onTsChange(ts);
+    onChangeState(v, ts);
   };
+  uiEvents.onChangeExample = (v) => {
+    onTsChange(v);
+    onChangeState(config.dialect, v);
+    setValue(v);
+  };
+  const d = load();
+  if (d) {
+    config.dialect = d.dialect;
+    onTsChange(d.ts);
+    setValue(d.ts);
+  }
 })();
