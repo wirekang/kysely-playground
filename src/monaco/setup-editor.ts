@@ -25,6 +25,12 @@ function createEditor(root: string, value: string, onChange: (v: string) => void
     minimap: { enabled: false },
     model: monaco.editor.createModel(value, "typescript", monaco.Uri.parse("file:///main.ts")),
     theme: "vs-dark",
+    quickSuggestions: {
+      strings: true,
+      comments: false,
+      other: false,
+    },
+    quickSuggestionsDelay: 1,
   });
   codeEditor.getModel()?.onDidChangeContent(() => {
     const value = codeEditor.getModel()?.getValue();
