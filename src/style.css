@@ -68,3 +68,7 @@ div.vl {
   display: inline-block;
   font-size: 18px;
 }
+
+#loading {
+  font-size: 40px;
+}

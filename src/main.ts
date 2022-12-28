@@ -1,6 +1,6 @@
 import "./style.css";
 import { setup as setupWorker } from "./monaco/setup-worker";
-import { events as uiEvents, setErrorText, setSqlText } from "./ui/ui";
+import { events as uiEvents, onLoadingFinish, setErrorText, setSqlText } from "./ui/ui";
 import { getValue, setup as setupEditor, setValue } from "./monaco/setup-editor";
 import { getCopytypeTypes } from "./copytype/copytype";
 import { KYSELY_GLOBAL_TYPE } from "./copytype/constants";
@@ -55,4 +55,5 @@ const onTsChange = (v: string) => {
     onTsChange(d.ts);
     setValue(d.ts);
   }
+  onLoadingFinish();
 })();

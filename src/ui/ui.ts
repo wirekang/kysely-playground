@@ -30,6 +30,7 @@ const elements = {
   outputContainer: e("output-container"),
   sql: e("sql"),
   error: e("error"),
+  loading: e("loading"),
 };
 
 export function setSqlText(sql: string, dialect: SQLDialect) {
@@ -76,3 +77,27 @@ examples.forEach((e) => {
   option.value = e.name;
   elements.example.append(option);
 });
+
+let isLoading = true;
+let dotCount = 1;
+
+const loadingCb = () => {
+  if (!isLoading) {
+    return;
+  }
+
+  dotCount += 1;
+  if (dotCount === 4) {
+    dotCount = 1;
+  }
+  elements.loading.textContent = `LOADING${[...new Array(dotCount)].map(() => `.`).join("")}`;
+
+  setTimeout(loadingCb, 300);
+};
+
+loadingCb();
+
+export function onLoadingFinish() {
+  isLoading = false;
+  elements.loading.style.display = "none";
+}
