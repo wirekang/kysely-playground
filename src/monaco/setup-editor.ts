@@ -40,10 +40,6 @@ function createEditor(root: string, value: string, onChange: (v: string) => void
     }
     onChange(value);
   });
-  codeEditor.onDidBlurEditorText(() => {
-    prettify();
-  });
-  prettify();
 }
 
 export function prettify() {

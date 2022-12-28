@@ -6,6 +6,7 @@ import "../prism-theme.css";
 import { highlight, languages } from "prismjs";
 import { SQLDialect } from "../typings/dialect";
 import { examples } from "../examples/examples";
+import { prettify } from "../monaco/setup-editor";
 
 export const events: {
   onChangeDialect?: (v: SQLDialect) => void;
@@ -31,6 +32,7 @@ const elements = {
   sql: e("sql"),
   error: e("error"),
   loading: e("loading"),
+  prettify: e("prettify"),
 };
 
 export function setSqlText(sql: string, dialect: SQLDialect) {
@@ -101,3 +103,7 @@ export function onLoadingFinish() {
   isLoading = false;
   elements.loading.style.display = "none";
 }
+
+elements.prettify.addEventListener("click", () => {
+  prettify();
+});
