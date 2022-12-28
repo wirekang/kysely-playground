@@ -17,6 +17,6 @@ export async function getCopytypeTypes() {
 }
 
 async function fetchText(url: string) {
-  const r = await fetch(url);
+  const r = await fetch("/kysely-playground/" + url);
   return r.text();
 }
