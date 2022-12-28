@@ -12,11 +12,6 @@
   color: white;
 }
 
-select,
-option {
-  color: black;
-}
-
 html,
 body {
   width: 100%;
@@ -71,4 +66,11 @@ div.vl {
 
 #loading {
   font-size: 40px;
+}
+
+select,
+option,
+button {
+  background: #333;
+  color: white;
 }
