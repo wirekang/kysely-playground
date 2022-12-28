@@ -8,12 +8,17 @@ interface DB {
   [x: string]: any
 }
 
-kysely
+let query = kysely
   .selectFrom("person")
   .select(["first_name", "last_name"])
   .where("id", ">", 234)
   .where("gender", "=", "other")
+  
+if (true) {
+  query = query.orderBy("id", "desc")
+}
 
+result = query
 `;
 
 let codeEditor: editor.IStandaloneCodeEditor;

@@ -1,37 +1,53 @@
-import {
-  CompiledQuery,
-  Dialect,
-  Kysely,
-  MysqlDialect,
-  PostgresDialect,
-  SqliteDialect,
-} from "kysely";
+import { Compilable, Dialect, Kysely, MysqlDialect, PostgresDialect, SqliteDialect } from "kysely";
 import { transpile } from "typescript";
+import { SQLDialect } from "../typings/dialect";
 
 export function compile(
   ts: string,
   options: {
-    dialect: "mysql" | "postgres" | "sqlite";
+    dialect: SQLDialect;
   }
 ) {
-  let dialect: Dialect;
-  switch (options.dialect) {
+  const { result } = doEval({ ts, dialect: newKyselyDialect(options.dialect) });
+  if (result === null) {
+    throw new NoResultException();
+  }
+  if (typeof result.compile !== "function") {
+    throw new ResultIsNotCompilableException();
+  }
+  return result.compile();
+}
+
+function newKyselyDialect(dialect: SQLDialect) {
+  switch (dialect) {
     case "postgres":
-      dialect = new PostgresDialect({} as any);
+      return new PostgresDialect({} as any);
       break;
     case "sqlite":
-      dialect = new SqliteDialect({} as any);
+      return new SqliteDialect({} as any);
       break;
     default:
-      dialect = new MysqlDialect({} as any);
+      return new MysqlDialect({} as any);
   }
+}
 
-  // @ts-ignore
-  const kysely = new Kysely({ dialect });
-  const compilable = eval(transpile(ts));
-  if (!compilable.compile) {
-    throw new Error("TODO: no compile()");
+function doEval(thisIsArgumentVariableName: { ts: string; dialect: Dialect }) {
+  const kysely = new Kysely({ dialect: thisIsArgumentVariableName.dialect });
+  let result: Compilable<any> | null = null as any;
+  eval(transpile(thisIsArgumentVariableName.ts));
+  return { kysely, result };
+}
+
+export class NoResultException extends Error {
+  constructor() {
+    super(
+      "no result.\nVariable result should be an Compilable such as SelectQueryBuilder.\nEx: result = kysely.selectFrom('person').selectAll()"
+    );
   }
-  const query: CompiledQuery = compilable.compile();
-  return query;
+}
+
+export class ResultIsNotCompilableException extends Error {
+  constructor() {
+    super("result is not a compilable");
+  }
 }

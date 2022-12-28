@@ -1,4 +1,5 @@
 import { formatDialect as ff, KeywordCase, mysql, postgresql, sqlite } from "sql-formatter";
+import { SQLDialect } from "../typings/dialect";
 
 export function format(
   v: {
@@ -7,22 +8,21 @@ export function format(
   },
   options: {
     keywordCase?: KeywordCase;
-    language: "mysql" | "postgres" | "sqlite";
+    dialect: SQLDialect;
   }
 ) {
   return ff(v.sql, {
-    dialect: parseDialect(options.language),
+    dialect: parseDialect(options.dialect),
     keywordCase: options.keywordCase ?? "preserve",
-    params:
-      // https://github.com/sql-formatter-org/sql-formatter/issues/546
-      options.language === "postgres"
-        ? undefined
-        : v.parameters.map((p) => escapeParam(p, options.language)),
+    params: convertParams(
+      v.parameters.map((p) => escapeParam(p)),
+      options.dialect
+    ),
   });
 }
 
-function parseDialect(language: "mysql" | "postgres" | "sqlite") {
-  switch (language) {
+function parseDialect(dialect: SQLDialect) {
+  switch (dialect) {
     case "mysql":
       return mysql;
     case "postgres":
@@ -32,14 +32,21 @@ function parseDialect(language: "mysql" | "postgres" | "sqlite") {
   }
 }
 
-function escapeParam(v: any, language: "mysql" | "postgres" | "sqlite") {
+function escapeParam(v: any) {
   if (typeof v !== "string") {
     return `${v}`;
   }
-  let wrap = '"';
-  switch (language) {
-    case "postgres":
-      wrap = `'`;
-  }
+  const wrap = "'";
   return `${wrap}${v}${wrap}`;
+}
+
+function convertParams(p: string[], dialect: SQLDialect) {
+  if (dialect === "postgres") {
+    const rst: any = {};
+    Object.keys(p).forEach((key, i) => {
+      rst[i + 1] = p[key as any];
+    });
+    return rst;
+  }
+  return p;
 }

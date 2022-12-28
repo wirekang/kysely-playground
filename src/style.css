@@ -25,6 +25,7 @@ body {
 
 #header {
   height: 40px;
+  padding: 0 8px;
 }
 
 #main-container {
@@ -42,4 +43,14 @@ body {
 #output-container {
   flex: 1;
   margin-left: 12px;
+}
+
+#error {
+  color: red;
+  background-color: #ddd;
+  padding: 4px;
+}
+
+#error.empty {
+  display: none;
 }

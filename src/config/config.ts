@@ -1,7 +1,8 @@
 import { KeywordCase } from "sql-formatter";
+import { SQLDialect } from "../typings/dialect";
 
 export const config: {
-  dialect: "mysql" | "postgres" | "sqlite";
+  dialect: SQLDialect;
   formatOptions: {
     keywordCase: KeywordCase;
   };
