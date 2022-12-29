@@ -1,6 +1,10 @@
 import { SQLDialect } from "../typings/dialect";
 
 let didLoad = false;
+const defaultState = {
+  dialect: "mysql",
+  ts: "result = kysely.selectFrom('')",
+};
 
 export function load() {
   didLoad = true;
@@ -15,7 +19,7 @@ export function load() {
       ts: d.ts,
     };
   }
-  return undefined;
+  return defaultState;
 }
 
 export function onChangeState(dialect: SQLDialect, ts: string) {

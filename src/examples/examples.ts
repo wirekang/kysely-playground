@@ -52,4 +52,23 @@ if (1 == 1) {
 result = query
     `,
   },
+  {
+    name: "sql template string",
+    ts: `
+interface DB {
+  user: UserTable
+}
+
+interface UserTable {
+  id: Generated<string>
+  first_name: string | null
+  last_name: string | null
+  created_at: Generated<Date>
+}
+
+result = kysely
+  .selectFrom("user")
+  .select(sql<string>\`concat(first_name, ' ', last_name)\`.as("full_name"))
+    `,
+  },
 ];

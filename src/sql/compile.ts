@@ -1,4 +1,12 @@
-import { Compilable, Dialect, Kysely, MysqlDialect, PostgresDialect, SqliteDialect } from "kysely";
+import {
+  Compilable,
+  Dialect,
+  Kysely,
+  MysqlDialect,
+  PostgresDialect,
+  SqliteDialect,
+  sql as kyselySQL,
+} from "kysely";
 import { transpile } from "typescript";
 import { SQLDialect } from "../typings/dialect";
 
@@ -32,10 +40,11 @@ function newKyselyDialect(dialect: SQLDialect) {
 }
 
 function doEval(thisIsArgumentVariableName: { ts: string; dialect: Dialect }) {
+  const sql = kyselySQL;
   const kysely = new Kysely({ dialect: thisIsArgumentVariableName.dialect });
   let result: Compilable<any> | null = null as any;
   eval(transpile(thisIsArgumentVariableName.ts));
-  return { kysely, result };
+  return { kysely, result, sql };
 }
 
 export class NoResultException extends Error {
