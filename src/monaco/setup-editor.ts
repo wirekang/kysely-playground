@@ -31,6 +31,7 @@ function createEditor(root: string, value: string, onChange: (v: string) => void
       other: false,
     },
     quickSuggestionsDelay: 1,
+    scrollBeyondLastLine: false,
   });
   codeEditor.getModel()?.onDidChangeContent(() => {
     const value = codeEditor.getModel()?.getValue();
