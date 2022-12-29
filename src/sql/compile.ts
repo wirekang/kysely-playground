@@ -4,8 +4,8 @@ import {
   Kysely,
   MysqlDialect,
   PostgresDialect,
-  SqliteDialect,
   sql as kyselySQL,
+  SqliteDialect,
 } from "kysely";
 import { transpile } from "typescript";
 import { SQLDialect } from "../typings/dialect";
@@ -44,10 +44,12 @@ function doEval(thisIsArgumentVariableName: { ts: string; dialect: Dialect }) {
   const kysely = new Kysely({ dialect: thisIsArgumentVariableName.dialect });
   const db = kysely;
   let result: Compilable<any> | null = null as any;
-  eval(transpile(thisIsArgumentVariableName.ts));
+  const exports = {};
+  const js = transpile(thisIsArgumentVariableName.ts);
+  eval(js);
 
   // prevent minification
-  return { kysely, db, result, sql };
+  return { kysely, db, result, sql, exports };
 }
 
 export class NoResultException extends Error {
