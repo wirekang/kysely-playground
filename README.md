@@ -2,7 +2,7 @@
 
 ## Guide
 
-There are some pre-defined global variables/types.
+There are some pre-defined global variables/types. You can not import another variable or type for now(If you do, type hinting will break). If you want another type or variables to include, please issue it.
 
 * ```interface DB{}```
 
@@ -23,11 +23,8 @@ Alias of `kysely`
 
 Playground calls `result.compile()` and show its result. You should always set `result`.
 
-* ```type Generated<T>```
-
-[Type alias Generated](https://koskimas.github.io/kysely/types/Generated.html)
-
-
 * ```const sql```
+  :[Sql](https://koskimas.github.io/kysely/interfaces/Sql.html)
 
-[Sql](https://koskimas.github.io/kysely/interfaces/Sql.html)
+* ```type Generated<T>```
+* ```type ColumnType<Select,Insert,Update>```
