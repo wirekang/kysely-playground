@@ -5,6 +5,7 @@ import {Kysely, Compilable, Generated as kyselyGenerated, sql as kyselySql} from
 declare global {
   interface DB{};
   declare const kysely: Kysely<DB>;
+  declare const db: Kysely<DB>;
   declare let result: Compilable<any>;
   type Generated<T> = kyselyGenerated<T>;
   declare const sql = kyselySql;
