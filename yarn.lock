@@ -189,10 +189,10 @@ is-core-module@^2.9.0:
   dependencies:
     has "^1.0.3"
 
-kysely@^0.23.0:
-  version "0.23.0"
-  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.23.0.tgz#934ce8b212eb61888d3a22012a812cd311e1e0b4"
-  integrity sha512-CQNt6kmUU4yQKm7Lselo2AwDKDwrkYvUD2a0nwvltnOmXzLj3AkhAA5Z4tsHuGcvKJ6E02b6MmGwnzr+MmE7HA==
+kysely@^0.23.3:
+  version "0.23.3"
+  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.23.3.tgz#ca6f01c54709f3e692c8a59cfdc646133d0ce9ec"
+  integrity sha512-spRhosWRLkI0Ox8PRBdstskdRfvoLPsJ5GEpDA/PPrX6NwuiygdsFxHBrMkdU3CX+VxLhj4Wn5P7rFAwaf7JuA==
 
 monaco-editor@^0.34.1:
   version "0.34.1"
