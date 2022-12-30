@@ -49,11 +49,17 @@ const onTsChange = (v: string) => {
     onChangeState(config.dialect, v);
     setValue(v);
   };
-  const d = load();
-  if (d) {
-    config.dialect = d.dialect;
-    onTsChange(d.ts);
-    setValue(d.ts);
+  try {
+    const d = load();
+
+    if (d) {
+      config.dialect = d.dialect;
+      onTsChange(d.ts);
+      setValue(d.ts);
+    }
+  } catch (e) {
+    console.log(e);
+    setErrorText(`Error: failed to parse url. It seems to be broken.\n       ${e}`);
   }
   onLoadingFinish();
 })();
