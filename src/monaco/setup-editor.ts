@@ -20,6 +20,14 @@ function addExtraLib(content: string, path: string) {
 }
 
 function createEditor(root: string, value: string, onChange: (v: string) => void) {
+  monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
+    module: monaco.languages.typescript.ModuleKind.ESNext,
+    moduleResolution: monaco.languages.typescript.ModuleResolutionKind.NodeJs,
+    target: monaco.languages.typescript.ScriptTarget.ESNext,
+    strict: true,
+    noImplicitAny: true,
+    strictNullChecks: true,
+  });
   codeEditor = monaco.editor.create(document.getElementById(root)!, {
     language: "typescript",
     minimap: { enabled: false },
