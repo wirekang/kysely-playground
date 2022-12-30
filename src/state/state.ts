@@ -65,7 +65,12 @@ export async function makeShareUrl(state: State) {
 async function stateToId(state: State) {
   const r = await fetch("https://kysely-playground-default-rtdb.firebaseio.com/state.json", {
     method: "POST",
-    body: JSON.stringify(state),
+    body: JSON.stringify({
+      ...state,
+      created_at: {
+        ".sv": "timestamp",
+      },
+    }),
   });
   const res = await r.json();
   return res.name;
