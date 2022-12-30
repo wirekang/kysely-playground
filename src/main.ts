@@ -64,7 +64,8 @@ const onTsChange = (v: string) => {
       const url = await makeShareUrl(state);
       setShareUrlText(url);
     } catch (e) {
-      console.error(e);
+      setShareUrlHelperText(`${e}`);
+      setShareUrlText();
       setErrorText(`Failed to make share url.\n      ${e}`);
     }
   };
@@ -77,7 +78,6 @@ const onTsChange = (v: string) => {
       setValue(d.ts);
     }
   } catch (e) {
-    console.error(e);
     setErrorText(` Failed to parse url. It seems to be broken.\n       ${e}`);
   }
   onLoadingFinish();
