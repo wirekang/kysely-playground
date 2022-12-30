@@ -17,4 +17,5 @@ export declare const QueryNode: Readonly<{
     cloneWithOrWhere<T_1 extends FilterableQueryNode>(node: T_1, operation: OperationNode): T_1;
     cloneWithJoin<T_2 extends FilterableQueryNode>(node: T_2, join: JoinNode): T_2;
     cloneWithReturning<T_3 extends MutatingQueryNode>(node: T_3, selections: ReadonlyArray<SelectionNode>): T_3;
+    cloneWithoutWhere<T_4 extends FilterableQueryNode>(node: T_4): T_4;
 }>;

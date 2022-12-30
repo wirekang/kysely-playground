@@ -7,7 +7,7 @@ import { HavingInterface } from '../query-builder/having-interface.js';
 import { OperationNode } from '../operation-node/operation-node.js';
 import { Expression } from '../expression/expression.js';
 export declare type OperandValueExpression<DB, TB extends keyof DB, RE> = ValueExpression<DB, TB, ExtractTypeFromReferenceExpression<DB, TB, RE>>;
-export declare type OperandValueExpressionOrList<DB, TB extends keyof DB, RE> = ValueExpressionOrList<DB, TB, ExtractTypeFromReferenceExpression<DB, TB, RE>>;
+export declare type OperandValueExpressionOrList<DB, TB extends keyof DB, RE> = ValueExpressionOrList<DB, TB, ExtractTypeFromReferenceExpression<DB, TB, RE> | null>;
 export declare type WhereGrouper<DB, TB extends keyof DB> = (qb: WhereInterface<DB, TB>) => WhereInterface<DB, TB>;
 export declare type HavingGrouper<DB, TB extends keyof DB> = (qb: HavingInterface<DB, TB>) => HavingInterface<DB, TB>;
 export declare type ComparisonOperatorExpression = ComparisonOperator | Expression<any>;

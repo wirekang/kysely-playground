@@ -16,9 +16,11 @@
 ./kysely/query-builder/insert-result.d.ts
 ./kysely/query-builder/returning-interface.d.ts
 ./kysely/schema/create-index-builder.d.ts
+./kysely/schema/alter-table-executor.d.ts
 ./kysely/schema/schema.d.ts
 ./kysely/schema/drop-index-builder.d.ts
 ./kysely/schema/create-view-builder.d.ts
+./kysely/schema/alter-table-drop-constraint-builder.d.ts
 ./kysely/schema/drop-schema-builder.d.ts
 ./kysely/schema/alter-table-builder.d.ts
 ./kysely/schema/drop-view-builder.d.ts
@@ -29,6 +31,7 @@
 ./kysely/schema/create-schema-builder.d.ts
 ./kysely/schema/drop-type-builder.d.ts
 ./kysely/schema/alter-column-builder.d.ts
+./kysely/schema/alter-table-add-foreign-key-constraint-builder.d.ts
 ./kysely/schema/column-definition-builder.d.ts
 ./kysely/operation-node/and-node.d.ts
 ./kysely/operation-node/having-node.d.ts
@@ -151,6 +154,7 @@
 ./kysely/util/assert.d.ts
 ./kysely/util/deferred.d.ts
 ./kysely/util/compilable.d.ts
+./kysely/util/type-error.d.ts
 ./kysely/util/require-all-props.d.ts
 ./kysely/util/log-once.d.ts
 ./kysely/util/random-string.d.ts

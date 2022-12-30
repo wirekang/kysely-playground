@@ -21,5 +21,5 @@ export declare class DropIndexBuilder implements OperationNodeSource, Compilable
 export interface DropIndexBuilderProps {
     readonly queryId: QueryId;
     readonly executor: QueryExecutor;
-    readonly dropIndexNode: DropIndexNode;
+    readonly node: DropIndexNode;
 }

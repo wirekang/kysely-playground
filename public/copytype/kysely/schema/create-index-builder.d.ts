@@ -56,5 +56,5 @@ export declare class CreateIndexBuilder implements OperationNodeSource, Compilab
 export interface CreateIndexBuilderProps {
     readonly queryId: QueryId;
     readonly executor: QueryExecutor;
-    readonly createIndexNode: CreateIndexNode;
+    readonly node: CreateIndexNode;
 }

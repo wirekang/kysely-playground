@@ -172,7 +172,7 @@ export { ValueExpression, ValueExpressionOrList, } from './parser/value-parser.j
 export { TableExpression, TableExpressionOrList, } from './parser/table-parser.js';
 export { JoinReferenceExpression, JoinCallbackExpression, } from './parser/join-parser.js';
 export { InsertObject } from './parser/insert-values-parser.js';
-export { MutationObject } from './parser/update-set-parser.js';
+export { UpdateObject } from './parser/update-set-parser.js';
 export { OrderByExpression, OrderByDirectionExpression, } from './parser/order-by-parser.js';
 export { ComparisonOperatorExpression, OperandValueExpression, OperandValueExpressionOrList, } from './parser/binary-operation-parser.js';
 export { ExistsExpression } from './parser/unary-operation-parser.js';

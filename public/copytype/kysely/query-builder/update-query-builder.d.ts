@@ -7,7 +7,7 @@ import { ReturningRow } from '../parser/returning-parser.js';
 import { ReferenceExpression } from '../parser/reference-parser.js';
 import { MergePartial, Nullable, SingleResultType } from '../util/type-utils.js';
 import { UpdateQueryNode } from '../operation-node/update-query-node.js';
-import { MutationObject } from '../parser/update-set-parser.js';
+import { UpdateObject } from '../parser/update-set-parser.js';
 import { Compilable } from '../util/compilable.js';
 import { QueryExecutor } from '../query-executor/query-executor.js';
 import { QueryId } from '../util/query-id.js';
@@ -21,6 +21,7 @@ import { Explainable, ExplainFormat } from '../util/explainable.js';
 import { AliasedExpression, Expression } from '../expression/expression.js';
 import { ComparisonOperatorExpression, OperandValueExpressionOrList, WhereGrouper } from '../parser/binary-operation-parser.js';
 import { ExistsExpression } from '../parser/unary-operation-parser.js';
+import { KyselyTypeError } from '../util/type-error.js';
 export declare class UpdateQueryBuilder<DB, UT extends keyof DB, TB extends keyof DB, O> implements WhereInterface<DB, TB>, ReturningInterface<DB, TB, O>, OperationNodeSource, Compilable<O>, Explainable {
     #private;
     constructor(props: UpdateQueryBuilderProps);
@@ -409,6 +410,25 @@ export declare class UpdateQueryBuilder<DB, UT extends keyof DB, TB extends keyo
      */
     orWhereNotExists(arg: ExistsExpression<DB, TB>): UpdateQueryBuilder<DB, UT, TB, O>;
     /**
+     * Clears all where clauses from the query.
+     *
+     * ### Examples
+     *
+     * ```ts
+     * db.selectFrom('person')
+     *   .selectAll()
+     *   .where('id','=',42)
+     *   .clearWhere()
+     * ```
+     *
+     * The generated SQL(PostgreSQL):
+     *
+     * ```sql
+     * select * from "person"
+     * ```
+     */
+    clearWhere(): UpdateQueryBuilder<DB, UT, TB, O>;
+    /**
      * Adds a from clause to the update query.
      *
      * This is supported only on some databases like PostgreSQL.
@@ -650,7 +670,7 @@ export declare class UpdateQueryBuilder<DB, UT extends keyof DB, TB extends keyo
      * where "id" = $4
      * ```
      */
-    set(row: MutationObject<DB, TB, UT>): UpdateQueryBuilder<DB, UT, TB, O>;
+    set(row: UpdateObject<DB, TB, UT>): UpdateQueryBuilder<DB, UT, TB, O>;
     /**
      * Allows you to return data from modified rows.
      *
@@ -725,7 +745,7 @@ export declare class UpdateQueryBuilder<DB, UT extends keyof DB, TB extends keyo
      *
      * ### Examples
      *
-     * The next example uses a helper funtion `log` to log a query:
+     * The next example uses a helper function `log` to log a query:
      *
      * ```ts
      * function log<T extends Compilable>(qb: T): T {
@@ -784,6 +804,50 @@ export declare class UpdateQueryBuilder<DB, UT extends keyof DB, TB extends keyo
      * don't support your use case.
      */
     castTo<T>(): UpdateQueryBuilder<DB, UT, TB, T>;
+    /**
+     * Asserts that query's output row type equals the given type `T`.
+     *
+     * This method can be used to simplify excessively complex types to make typescript happy
+     * and much faster.
+     *
+     * Kysely uses complex type magic to achieve its type safety. This complexity is sometimes too much
+     * for typescript and you get errors like this:
+     *
+     * ```
+     * error TS2589: Type instantiation is excessively deep and possibly infinite.
+     * ```
+     *
+     * In these case you can often use this method to help typescript a little bit. When you use this
+     * method to assert the output type of a query, Kysely can drop the complex output type that
+     * consists of multiple nested helper types and replace it with the simple asserted type.
+     *
+     * Using this method doesn't reduce type safety at all. You have to pass in a type that is
+     * structurally equal to the current type.
+     *
+     * ### Examples
+     *
+     * ```ts
+     * const result = await db
+     *   .with('updated_person', (qb) => qb
+     *     .updateTable('person')
+     *     .set(person)
+     *     .where('id', '=', person.id)
+     *     .returning('first_name')
+     *     .assertType<{ first_name: string }>()
+     *   )
+     *   .with('updated_pet', (qb) => qb
+     *     .updateTable('pet')
+     *     .set(pet)
+     *     .where('owner_id', '=', person.id)
+     *     .returning(['name as pet_name', 'species'])
+     *     .assertType<{ pet_name: string, species: Species }>()
+     *   )
+     *   .selectFrom(['updated_person', 'updated_pet'])
+     *   .selectAll()
+     *   .executeTakeFirstOrThrow()
+     * ```
+     */
+    assertType<T extends O>(): O extends T ? UpdateQueryBuilder<DB, UT, TB, T> : KyselyTypeError<`assertType() call failed: The type passed in is not equal to the output type of the query.`>;
     /**
      * Returns a copy of this UpdateQueryBuilder instance with the given plugin installed.
      */

@@ -4,7 +4,7 @@ import { OperationNodeSource } from '../operation-node/operation-node-source.js'
 import { ComparisonOperatorExpression, OperandValueExpressionOrList, WhereGrouper } from '../parser/binary-operation-parser.js';
 import { ExpressionOrFactory } from '../parser/expression-parser.js';
 import { ReferenceExpression } from '../parser/reference-parser.js';
-import { MutationObject } from '../parser/update-set-parser.js';
+import { UpdateObject } from '../parser/update-set-parser.js';
 import { AnyColumn } from '../util/type-utils.js';
 import { WhereInterface } from './where-interface.js';
 export declare class OnConflictBuilder<DB, TB extends keyof DB> implements WhereInterface<DB, TB> {
@@ -340,6 +340,25 @@ export declare class OnConflictBuilder<DB, TB extends keyof DB> implements Where
      */
     orWhereNotExists(arg: ExpressionOrFactory<DB, TB, any>): OnConflictBuilder<DB, TB>;
     /**
+     * Clears all where clauses from the query.
+     *
+     * ### Examples
+     *
+     * ```ts
+     * db.selectFrom('person')
+     *   .selectAll()
+     *   .where('id','=',42)
+     *   .clearWhere()
+     * ```
+     *
+     * The generated SQL(PostgreSQL):
+     *
+     * ```sql
+     * select * from "person"
+     * ```
+     */
+    clearWhere(): OnConflictBuilder<DB, TB>;
+    /**
      * Adds the "do nothing" conflict action.
      *
      * ### Examples
@@ -387,7 +406,7 @@ export declare class OnConflictBuilder<DB, TB extends keyof DB> implements Where
      * do update set "first_name" = $3
      * ```
      */
-    doUpdateSet(updates: MutationObject<OnConflictDatabase<DB, TB>, OnConflictTables<TB>, OnConflictTables<TB>>): OnConflictUpdateBuilder<OnConflictDatabase<DB, TB>, OnConflictTables<TB>>;
+    doUpdateSet(updates: UpdateObject<OnConflictDatabase<DB, TB>, OnConflictTables<TB>, OnConflictTables<TB>>): OnConflictUpdateBuilder<OnConflictDatabase<DB, TB>, OnConflictTables<TB>>;
 }
 export interface OnConflictBuilderProps {
     readonly onConflictNode: OnConflictNode;
@@ -703,5 +722,24 @@ export declare class OnConflictUpdateBuilder<DB, TB extends keyof DB> implements
      * See {@link WhereInterface.orWhereNotExists} for more info.
      */
     orWhereNotExists(arg: ExpressionOrFactory<DB, TB, any>): OnConflictUpdateBuilder<DB, TB>;
+    /**
+     * Clears all where clauses from the query.
+     *
+     * ### Examples
+     *
+     * ```ts
+     * db.selectFrom('person')
+     *   .selectAll()
+     *   .where('id','=',42)
+     *   .clearWhere()
+     * ```
+     *
+     * The generated SQL(PostgreSQL):
+     *
+     * ```sql
+     * select * from "person"
+     * ```
+     */
+    clearWhere(): OnConflictUpdateBuilder<DB, TB>;
     toOperationNode(): OnConflictNode;
 }

@@ -16,5 +16,5 @@ export declare class DropSchemaBuilder implements OperationNodeSource, Compilabl
 export interface DropSchemaBuilderProps {
     readonly queryId: QueryId;
     readonly executor: QueryExecutor;
-    readonly dropSchemaNode: DropSchemaNode;
+    readonly node: DropSchemaNode;
 }

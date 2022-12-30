@@ -243,7 +243,7 @@ export declare class CreateTableBuilder<TB extends string, C extends string = ne
 export interface CreateTableBuilderProps {
     readonly queryId: QueryId;
     readonly executor: QueryExecutor;
-    readonly createTableNode: CreateTableNode;
+    readonly node: CreateTableNode;
 }
 export declare type ColumnBuilderCallback = (builder: ColumnDefinitionBuilder) => ColumnDefinitionBuilder;
 export declare type ForeignKeyConstraintBuilderCallback = (builder: ForeignKeyConstraintBuilder) => ForeignKeyConstraintBuilder;

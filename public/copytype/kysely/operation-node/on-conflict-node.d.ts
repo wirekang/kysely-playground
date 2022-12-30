@@ -25,4 +25,6 @@ export declare const OnConflictNode: Readonly<{
     cloneWithIndexOrWhere(node: OnConflictNode, operation: OperationNode): OnConflictNode;
     cloneWithUpdateWhere(node: OnConflictNode, operation: OperationNode): OnConflictNode;
     cloneWithUpdateOrWhere(node: OnConflictNode, operation: OperationNode): OnConflictNode;
+    cloneWithoutIndexWhere(node: OnConflictNode): OnConflictNode;
+    cloneWithoutUpdateWhere(node: OnConflictNode): OnConflictNode;
 }>;

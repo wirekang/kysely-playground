@@ -24,5 +24,5 @@ export declare class CreateTypeBuilder implements OperationNodeSource, Compilabl
 export interface CreateTypeBuilderProps {
     readonly queryId: QueryId;
     readonly executor: QueryExecutor;
-    readonly createTypeNode: CreateTypeNode;
+    readonly node: CreateTypeNode;
 }

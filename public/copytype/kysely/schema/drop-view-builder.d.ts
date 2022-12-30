@@ -17,5 +17,5 @@ export declare class DropViewBuilder implements OperationNodeSource, Compilable 
 export interface DropViewBuilderProps {
     readonly queryId: QueryId;
     readonly executor: QueryExecutor;
-    readonly dropViewNode: DropViewNode;
+    readonly node: DropViewNode;
 }

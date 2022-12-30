@@ -15,5 +15,5 @@ export declare class CreateSchemaBuilder implements OperationNodeSource, Compila
 export interface CreateSchemaBuilderProps {
     readonly queryId: QueryId;
     readonly executor: QueryExecutor;
-    readonly createSchemaNode: CreateSchemaNode;
+    readonly node: CreateSchemaNode;
 }

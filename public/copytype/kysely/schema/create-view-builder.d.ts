@@ -39,5 +39,5 @@ export declare class CreateViewBuilder implements OperationNodeSource, Compilabl
 export interface CreateViewBuilderProps {
     readonly queryId: QueryId;
     readonly executor: QueryExecutor;
-    readonly createViewNode: CreateViewNode;
+    readonly node: CreateViewNode;
 }

@@ -50,4 +50,8 @@ export declare const SelectQueryNode: Readonly<{
     cloneWithOrHaving(selectNode: SelectQueryNode, operation: OperationNode): SelectQueryNode;
     cloneWithSetOperation(selectNode: SelectQueryNode, setOperation: SetOperationNode): SelectQueryNode;
     cloneWithExplain(selectNode: SelectQueryNode, explain: ExplainNode): SelectQueryNode;
+    cloneWithoutSelections(select: SelectQueryNode): SelectQueryNode;
+    cloneWithoutLimit(select: SelectQueryNode): SelectQueryNode;
+    cloneWithoutOffset(select: SelectQueryNode): SelectQueryNode;
+    cloneWithoutOrderBy(select: SelectQueryNode): SelectQueryNode;
 }>;

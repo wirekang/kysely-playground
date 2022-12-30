@@ -19,6 +19,7 @@ import { Explainable, ExplainFormat } from '../util/explainable.js';
 import { AliasedExpression, Expression } from '../expression/expression.js';
 import { ComparisonOperatorExpression, HavingGrouper, OperandValueExpressionOrList, WhereGrouper } from '../parser/binary-operation-parser.js';
 import { ExistsExpression } from '../parser/unary-operation-parser.js';
+import { KyselyTypeError } from '../util/type-error.js';
 export declare class SelectQueryBuilder<DB, TB extends keyof DB, O> implements WhereInterface<DB, TB>, HavingInterface<DB, TB>, Expression<O>, Compilable<O>, Explainable {
     #private;
     constructor(props: SelectQueryBuilderProps);
@@ -1292,6 +1293,102 @@ export declare class SelectQueryBuilder<DB, TB extends keyof DB, O> implements W
      */
     exceptAll(expression: Expression<O>): SelectQueryBuilder<DB, TB, O>;
     /**
+     * Clears all select clauses from the query.
+     *
+     * ### Examples
+     *
+     * ```ts
+     * db.selectFrom('person')
+     *   .select(['id', 'first_name'])
+     *   .clearSelect()
+     *   .select(['id','gender'])
+     * ```
+     *
+     * The generated SQL(PostgreSQL):
+     *
+     * ```sql
+     * select "id", "gender" from "person"
+     * ```
+     */
+    clearSelect(): SelectQueryBuilder<DB, TB, {}>;
+    /**
+     * Clears all where clauses from the query.
+     *
+     * ### Examples
+     *
+     * ```ts
+     * db.selectFrom('person')
+     *   .selectAll()
+     *   .where('id','=',42)
+     *   .clearWhere()
+     * ```
+     *
+     * The generated SQL(PostgreSQL):
+     *
+     * ```sql
+     * select * from "person"
+     * ```
+     */
+    clearWhere(): SelectQueryBuilder<DB, TB, O>;
+    /**
+     * Clears limit clause from the query.
+     *
+     * ### Examples
+     *
+     * ```ts
+     * db.selectFrom('person')
+     *   .selectAll()
+     *   .limit(10)
+     *   .clearLimit()
+     * ```
+     *
+     * The generated SQL(PostgreSQL):
+     *
+     * ```sql
+     * select * from "person"
+     * ```
+     */
+    clearLimit(): SelectQueryBuilder<DB, TB, O>;
+    /**
+     * Clears offset clause from the query.
+     *
+     * ### Examples
+     *
+     * ```ts
+     * db.selectFrom('person')
+     *   .selectAll()
+     *   .limit(10)
+     *   .offset(20)
+     *   .clearOffset()
+     * ```
+     *
+     * The generated SQL(PostgreSQL):
+     *
+     * ```sql
+     * select * from "person" limit 10
+     * ```
+     */
+    clearOffset(): SelectQueryBuilder<DB, TB, O>;
+    /**
+     * Clears all `order by` clauses from the query.
+     *
+     * ### Examples
+     *
+     * ```ts
+     * db.selectFrom('person')
+     *   .selectAll()
+     *   .orderBy('id')
+     *   .clearOrderBy()
+     * ```
+     *
+     * The generated SQL(PostgreSQL):
+     *
+     * ```sql
+     * select * from "person"
+     * ```
+     */
+    clearOrderBy(): SelectQueryBuilder<DB, TB, O>;
+    /**
      * Simply calls the given function passing `this` as the only argument.
      *
      * If you want to conditionally call a method on `this`, see
@@ -1299,7 +1396,7 @@ export declare class SelectQueryBuilder<DB, TB extends keyof DB, O> implements W
      *
      * ### Examples
      *
-     * The next example uses a helper funtion `log` to log a query:
+     * The next example uses a helper function `log` to log a query:
      *
      * ```ts
      * function log<T extends Compilable>(qb: T): T {
@@ -1392,6 +1489,46 @@ export declare class SelectQueryBuilder<DB, TB extends keyof DB, O> implements W
      * don't support your use case.
      */
     castTo<T>(): SelectQueryBuilder<DB, TB, T>;
+    /**
+     * Asserts that query's output row type equals the given type `T`.
+     *
+     * This method can be used to simplify excessively complex types to make typescript happy
+     * and much faster.
+     *
+     * Kysely uses complex type magic to achieve its type safety. This complexity is sometimes too much
+     * for typescript and you get errors like this:
+     *
+     * ```
+     * error TS2589: Type instantiation is excessively deep and possibly infinite.
+     * ```
+     *
+     * In these case you can often use this method to help typescript a little bit. When you use this
+     * method to assert the output type of a query, Kysely can drop the complex output type that
+     * consists of multiple nested helper types and replace it with the simple asserted type.
+     *
+     * Using this method doesn't reduce type safety at all. You have to pass in a type that is
+     * structurally equal to the current type.
+     *
+     * ### Examples
+     *
+     * ```ts
+     * const result = await db
+     *   .with('first_and_last', (qb) => qb
+     *     .selectFrom('person')
+     *     .select(['first_name', 'last_name'])
+     *     .assertType<{ first_name: string, last_name: string }>()
+     *   )
+     *   .with('age', (qb) => qb
+     *     .selectFrom('person')
+     *     .select('age')
+     *     .assertType<{ age: number }>()
+     *   )
+     *   .selectFrom(['first_and_last', 'age'])
+     *   .selectAll()
+     *   .executeTakeFirstOrThrow()
+     * ```
+     */
+    assertType<T extends O>(): O extends T ? SelectQueryBuilder<DB, TB, T> : KyselyTypeError<`assertType() call failed: The type passed in is not equal to the output type of the query.`>;
     /**
      * Returns a copy of this SelectQueryBuilder instance with the given plugin installed.
      */

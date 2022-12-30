@@ -16,5 +16,5 @@ export declare class DropTableBuilder implements OperationNodeSource, Compilable
 export interface DropTableBuilderProps {
     readonly queryId: QueryId;
     readonly executor: QueryExecutor;
-    readonly dropTableNode: DropTableNode;
+    readonly node: DropTableNode;
 }

@@ -1,15 +1,16 @@
 import { AlterTableNode } from '../operation-node/alter-table-node.js';
 import { OperationNodeSource } from '../operation-node/operation-node-source.js';
-import { OnModifyForeignAction } from '../operation-node/references-node.js';
 import { CompiledQuery } from '../query-compiler/compiled-query.js';
 import { Compilable } from '../util/compilable.js';
 import { ColumnDefinitionBuilderCallback } from './column-definition-builder.js';
 import { QueryId } from '../util/query-id.js';
 import { QueryExecutor } from '../query-executor/query-executor.js';
 import { DataTypeExpression } from '../parser/data-type-parser.js';
-import { ForeignKeyConstraintBuilder, ForeignKeyConstraintBuilderInterface } from './foreign-key-constraint-builder.js';
 import { Expression } from '../expression/expression.js';
 import { AlterColumnBuilderCallback } from './alter-column-builder.js';
+import { AlterTableExecutor } from './alter-table-executor.js';
+import { AlterTableAddForeignKeyConstraintBuilder } from './alter-table-add-foreign-key-constraint-builder.js';
+import { AlterTableDropConstraintBuilder } from './alter-table-drop-constraint-builder.js';
 /**
  * This builder can be used to create a `alter table` query.
  */
@@ -57,17 +58,8 @@ export declare class AlterTableBuilder implements ColumnAlteringInterface {
 }
 export interface AlterTableBuilderProps {
     readonly queryId: QueryId;
-    readonly node: AlterTableNode;
     readonly executor: QueryExecutor;
-}
-export declare class AlterTableExecutor implements OperationNodeSource, Compilable {
-    #private;
-    constructor(props: AlterTableExecutorProps);
-    toOperationNode(): AlterTableNode;
-    compile(): CompiledQuery;
-    execute(): Promise<void>;
-}
-export interface AlterTableExecutorProps extends AlterTableBuilderProps {
+    readonly node: AlterTableNode;
 }
 export interface ColumnAlteringInterface {
     alterColumn(column: string, alteration: AlterColumnBuilderCallback): ColumnAlteringInterface;
@@ -105,28 +97,4 @@ export declare class AlterTableColumnAlteringBuilder implements ColumnAlteringIn
     execute(): Promise<void>;
 }
 export interface AlterTableColumnAlteringBuilderProps extends AlterTableBuilderProps {
-}
-export declare class AlterTableAddForeignKeyConstraintBuilder implements ForeignKeyConstraintBuilderInterface<AlterTableAddForeignKeyConstraintBuilder>, OperationNodeSource, Compilable {
-    #private;
-    constructor(props: AlterTableAddForeignKeyConstraintBuilderProps);
-    onDelete(onDelete: OnModifyForeignAction): AlterTableAddForeignKeyConstraintBuilder;
-    onUpdate(onUpdate: OnModifyForeignAction): AlterTableAddForeignKeyConstraintBuilder;
-    toOperationNode(): AlterTableNode;
-    compile(): CompiledQuery;
-    execute(): Promise<void>;
-}
-export interface AlterTableAddForeignKeyConstraintBuilderProps extends AlterTableBuilderProps {
-    readonly constraintBuilder: ForeignKeyConstraintBuilder;
-}
-export declare class AlterTableDropConstraintBuilder implements OperationNodeSource, Compilable {
-    #private;
-    constructor(props: AlterTableDropConstraintBuilderProps);
-    ifExists(): AlterTableDropConstraintBuilder;
-    cascade(): AlterTableDropConstraintBuilder;
-    restrict(): AlterTableDropConstraintBuilder;
-    toOperationNode(): AlterTableNode;
-    compile(): CompiledQuery;
-    execute(): Promise<void>;
-}
-export interface AlterTableDropConstraintBuilderProps extends AlterTableBuilderProps {
 }
