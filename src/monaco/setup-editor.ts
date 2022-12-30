@@ -35,7 +35,6 @@ function createEditor(root: string, value: string, onChange: (v: string) => void
   });
   codeEditor.getModel()?.onDidChangeContent(() => {
     const value = codeEditor.getModel()?.getValue();
-    console.log("onDidChangeContent", value);
     if (!value) {
       return;
     }
@@ -45,7 +44,6 @@ function createEditor(root: string, value: string, onChange: (v: string) => void
 
 export function prettify() {
   const value = codeEditor.getValue();
-  console.log("prettify", value);
   setValue(
     format(value, {
       parser: "typescript",

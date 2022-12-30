@@ -9,8 +9,8 @@
   <body>
     <div id="loading"></div>
     <div id="header">
-      Kysely:
-      <span id="kysely-version"></span>
+      <button id="share">SHARE</button>
+      <button id="prettify">Prettify</button>
       <div class="vl">|</div>
       Dialect:
       <select id="dialect">
@@ -19,19 +19,25 @@
         <option value="sqlite">sqlite</option>
       </select>
       <div class="vl">|</div>
-      <button id="prettify">Prettify</button>
-      <div class="vl">|</div>
       Example:
       <select id="example"></select>
+      <div class="vl">|</div>
+      Kysely
+      <span id="kysely-version"></span>
       <div class="vl">|</div>
       <a target="_blank" href="https://github.com/wirekang/kysely-playground">Github</a>
     </div>
     <div id="main-container">
       <div id="input-container"></div>
+
       <div id="output-container">
         <pre id="sql"></pre>
         <pre id="error"></pre>
       </div>
+    </div>
+    <div id="share-popup" class="hide">
+      <input type="text" id="share-url" class="hide" readonly />
+      <div id="share-url-helper"></div>
     </div>
     <script type="module" src="/src/main.ts"></script>
   </body>

@@ -61,7 +61,7 @@ body {
 
 div.vl {
   display: inline-block;
-  font-size: 18px;
+  opacity: 0.2;
 }
 
 #loading {
@@ -73,4 +73,33 @@ option,
 button {
   background: #333;
   color: white;
+}
+
+#share {
+  padding: 0 20px;
+}
+
+#share-popup {
+  position: absolute;
+  top: 30px;
+  left: 12px;
+  width: 500px;
+  height: 200px;
+  background: #222;
+  color: white;
+  border: 1px solid #666;
+  padding: 12px;
+}
+
+#share-popup button {
+  width: 100px;
+}
+
+.hide {
+  display: none;
+}
+
+#share-url {
+  color: black;
+  width: 100%;
 }

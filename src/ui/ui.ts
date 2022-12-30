@@ -11,6 +11,7 @@ import { prettify } from "../monaco/setup-editor";
 export const events: {
   onChangeDialect?: (v: SQLDialect) => void;
   onChangeExample?: (ts: string) => void;
+  onShare?: () => void;
 } = {};
 
 const e = <T extends HTMLElement>(id: string): T => {
@@ -33,6 +34,10 @@ const elements = {
   error: e("error"),
   loading: e("loading"),
   prettify: e("prettify"),
+  share: e("share"),
+  sharePopup: e("share-popup"),
+  shareUrl: e<HTMLInputElement>("share-url"),
+  shareUrlHelper: e("share-url-helper"),
 };
 
 export function setSqlText(sql: string, dialect: SQLDialect) {
@@ -107,3 +112,31 @@ export function onLoadingFinish() {
 elements.prettify.addEventListener("click", () => {
   prettify();
 });
+
+elements.share.addEventListener("click", () => {
+  elements.sharePopup.classList.remove("hide");
+  events.onShare && events.onShare();
+});
+elements.sharePopup.addEventListener("mouseleave", () => {
+  elements.sharePopup.classList.add("hide");
+});
+
+export function setShareUrlHelperText(v: string) {
+  elements.shareUrlHelper.textContent = v;
+}
+
+export function setShareUrlText(url?: string) {
+  if (!url) {
+    elements.shareUrl.classList.add("hide");
+    elements.shareUrl.value = "";
+    return;
+  }
+  elements.shareUrl.classList.remove("hide");
+  elements.shareUrlHelper.classList.remove("hide");
+  elements.shareUrl.value = url;
+  elements.shareUrl.focus();
+  elements.shareUrl.setSelectionRange(0, 100000);
+  navigator?.clipboard?.writeText(url).then(() => {
+    setShareUrlHelperText("Copied.");
+  });
+}
