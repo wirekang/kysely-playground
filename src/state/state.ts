@@ -73,6 +73,9 @@ async function stateToId(state: State) {
     }),
   });
   const res = await r.json();
+  if (r.status !== 200) {
+    throw new Error(res.error || JSON.stringify(res, null, 2));
+  }
   return res.name;
 }
 
