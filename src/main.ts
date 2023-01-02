@@ -1,84 +1,156 @@
-import "./style.css";
-import { setup as setupWorker } from "./monaco/setup-worker";
-import {
-  events as uiEvents,
-  onLoadingFinish,
-  setErrorText,
-  setShareUrlHelperText,
-  setShareUrlText,
-  setSqlText,
-} from "./ui/ui";
-import { getValue, setup as setupEditor, setValue } from "./monaco/setup-editor";
-import { getCopytypeTypes } from "./copytype/copytype";
+import { Controller } from "./controller";
+import { EXAMPLES, SQL_DIALECTS } from "./constatnts/state";
+import { TypescriptEditor } from "./typescript-editor";
+import { State } from "./state";
+import { SqlCompiler } from "./sql-compilers/sql-compiler";
+import { MysqlCompiler } from "./sql-compilers/mysql-compiler";
+import { PostgresCompiler } from "./sql-compilers/postgres-compiler";
+import { SqliteCompiler } from "./sql-compilers/sqlite-compiler";
+import { TypescriptFormatter } from "./typescript-formatter";
+import { SqlFormatter } from "./sql-formatters/sql-formatter";
+import { MysqlFormatter } from "./sql-formatters/mysql-formatter";
+import { PostgresFormatter } from "./sql-formatters/postgres-formatter";
+import { SqliteFormatter } from "./sql-formatters/sqlite-formatter";
+import { Store } from "./store";
+import { StoreProviderString } from "./constatnts/store";
+import { KyselyVersionManager } from "./kysely-version-manager";
 import { KYSELY_GLOBAL_TYPE } from "./copytype/constants";
-import { format } from "./sql/format";
-import { compile } from "./sql/compile";
-import { config } from "./config/config";
-import { load, makeShareUrl } from "./state/state";
-
-setupWorker();
-const onTsChange = (v: string) => {
-  try {
-    const sql = format(compile(v, { dialect: config.dialect }), {
-      dialect: config.dialect,
-      keywordCase: config.formatOptions.keywordCase,
-    });
-
-    setSqlText(sql, config.dialect);
-    setErrorText();
-  } catch (e: any) {
-    setErrorText(`${e}`);
-  }
-};
 
 (async () => {
-  await setupEditor({
-    extraTypes: [
-      ...(await getCopytypeTypes()),
+  let sqlCompiler: SqlCompiler = 0 as any;
+  let sqlFormatter: SqlFormatter = 0 as any;
+  const tsFormatter = new TypescriptFormatter();
+  const state = new State();
+  const store = new Store();
+  const versionManager = new KyselyVersionManager();
+  const controller = newController();
+  controller.startLoading();
+  controller.setError();
+  controller.hideSharePopup();
+  controller.hideCompiling();
+  const recreateSqlCompiler = () => {
+    let c: SqlCompiler;
+    switch (state.dialect) {
+      case "postgres":
+        c = new PostgresCompiler();
+        break;
+      case "sqlite":
+        c = new SqliteCompiler();
+        break;
+      default:
+        c = new MysqlCompiler();
+    }
+    c.kyselyModule = KyselyVersionManager.toModuleString(state.kyselyVersion);
+    sqlCompiler = c;
+  };
+  const recreateSqlFormatter = () => {
+    switch (state.dialect) {
+      case "postgres":
+        sqlFormatter = new PostgresFormatter();
+        break;
+      case "sqlite":
+        sqlFormatter = new SqliteFormatter();
+        break;
+      default:
+        sqlFormatter = new MysqlFormatter();
+    }
+  };
+  const compile = async () => {
+    controller.showCompiling();
+    try {
+      const result = await sqlCompiler.compile(state.ts);
+      const sql = await sqlFormatter.format(result, state.sqlFormatOptions);
+      controller.setSqlText(sql, state.dialect);
+      controller.setError();
+    } catch (e) {
+      controller.setError(e);
+    }
+    controller.hideCompiling();
+  };
+  const editor = new TypescriptEditor("input-container");
+  editor.onValueChange = async (ts) => {
+    state.ts = ts;
+    await compile();
+  };
+  controller.onClickShareButton = async () => {
+    controller.showSharePopup();
+    controller.setSharePopupLinkText();
+    controller.setSharePopupHelperText("Loading...");
+    const url = await store.save(
+      { kyselyVersion: state.kyselyVersion, dialect: state.dialect, ts: state.ts },
+      StoreProviderString.B64
+    );
+    controller.setSharePopupLinkText(url);
+    navigator?.clipboard?.writeText(url).then(() => {
+      controller.setSharePopupHelperText("Copied.");
+    });
+  };
+  controller.onClickMakeShortUrlButton = async () => {
+    controller.setSharePopupLinkText();
+    controller.setSharePopupHelperText("Loading...");
+    const url = await store.save(
+      { kyselyVersion: state.kyselyVersion, dialect: state.dialect, ts: state.ts },
+      StoreProviderString.Firebase
+    );
+    controller.setSharePopupLinkText(url);
+    navigator?.clipboard?.writeText(url).then(() => {
+      controller.setSharePopupHelperText("Copied.");
+    });
+  };
+  controller.onClickPrettifyButton = async () => {
+    const result = await tsFormatter.format(state.ts, state.typescriptFormatOptions);
+    editor.value = result;
+  };
+  controller.onChangeKyselyVersion = (v) => {
+    state.kyselyVersion = v;
+    compile();
+  };
+  controller.onChangeSqlDialect = (v) => {
+    state.dialect = v;
+    recreateSqlCompiler();
+    recreateSqlFormatter();
+    compile();
+  };
+  controller.onChangeExampleName = (v) => {
+    const example = EXAMPLES[v];
+    if (!example) {
+      return;
+    }
+    editor.value = example;
+  };
+  versionManager.onChangeTypeContent = (t) => {
+    editor.setExtraLibs([
+      { content: t, filePath: "file:///node_modules/@types/kysely.d.ts" },
       {
         content: KYSELY_GLOBAL_TYPE,
         filePath: "file:///kysely-global.ts",
       },
-    ],
-    onChange: (ts) => {
-      onTsChange(ts);
-    },
-  });
-  uiEvents.onChangeDialect = (v) => {
-    config.dialect = v;
-    const ts = getValue();
-    onTsChange(ts);
+    ]);
   };
-  uiEvents.onChangeExample = (v) => {
-    onTsChange(v);
-    setValue(v);
-  };
-  uiEvents.onShare = async () => {
-    setShareUrlHelperText("Loading...");
-    setShareUrlText();
-    const state = {
-      dialect: config.dialect,
-      ts: getValue(),
-    };
-    try {
-      const url = await makeShareUrl(state);
-      setShareUrlText(url);
-    } catch (e) {
-      setShareUrlHelperText(`${e}`);
-      setShareUrlText();
-      setErrorText(`Failed to make share url.\n      ${e}`);
-    }
-  };
+  await versionManager.setVersion(KyselyVersionManager.LATEST);
+  recreateSqlCompiler();
+  recreateSqlFormatter();
   try {
-    const d = await load();
-
-    if (d) {
-      config.dialect = d.dialect;
-      onTsChange(d.ts);
-      setValue(d.ts);
+    const init = await store.load();
+    if (init) {
+      console.log(init);
+      state.dialect = init.dialect;
+      const kv = init.kyselyVersion ?? KyselyVersionManager.LATEST;
+      state.kyselyVersion = kv;
+      controller.setSqlDialect(init.dialect);
+      controller.setKyselyVersion(kv);
+      recreateSqlCompiler();
+      recreateSqlFormatter();
+      editor.value = init.ts;
     }
   } catch (e) {
-    setErrorText(` Failed to parse url. It seems to be broken.\n       ${e}`);
+    controller.setError(e);
   }
-  onLoadingFinish();
+  controller.finishLoading();
 })();
+
+function newController() {
+  const exampleNames = [" --- SELECT EXAMPLE --- ", ...Object.keys(EXAMPLES)];
+  const kyselyVersions = KyselyVersionManager.VERSIONS;
+  return new Controller(SQL_DIALECTS, exampleNames, kyselyVersions);
+}

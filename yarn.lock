@@ -2,6 +2,27 @@
 # yarn lockfile v1
 
 
+"@babel/code-frame@^7.18.6":
+  version "7.18.6"
+  resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.18.6.tgz#3b25d38c89600baa2dcc219edfa88a74eb2c427a"
+  integrity sha512-TDCmlK5eOvH+eH7cdAFlNXeVJqWIQ7gW9tY1GJIpUtFb6CmjVyq2VM3u71bOyR8CRihcCgMUYoDNyLXao3+70Q==
+  dependencies:
+    "@babel/highlight" "^7.18.6"
+
+"@babel/helper-validator-identifier@^7.18.6":
+  version "7.19.1"
+  resolved "https://registry.yarnpkg.com/@babel/helper-validator-identifier/-/helper-validator-identifier-7.19.1.tgz#7eea834cf32901ffdc1a7ee555e2f9c27e249ca2"
+  integrity sha512-awrNfaMtnHUr653GgGEs++LlAvW6w+DcPrOliSMXWCKo597CwL5Acf/wWdNkf/tfEQE3mjkeD1YOVZOUV/od1w==
+
+"@babel/highlight@^7.18.6":
+  version "7.18.6"
+  resolved "https://registry.yarnpkg.com/@babel/highlight/-/highlight-7.18.6.tgz#81158601e93e2563795adcbfbdf5d64be3f2ecdf"
+  integrity sha512-u7stbOuYjaPezCuLj29hNW1v64M2Md2qupEKP1fHc7WdOA3DgLh37suiSrZYY7haUB7iBeQZ9P1uiRF359do3g==
+  dependencies:
+    "@babel/helper-validator-identifier" "^7.18.6"
+    chalk "^2.0.0"
+    js-tokens "^4.0.0"
+
 "@esbuild/android-arm64@0.16.11":
   version "0.16.11"
   resolved "https://registry.yarnpkg.com/@esbuild/android-arm64/-/android-arm64-0.16.11.tgz#7b007db31b30ae1c5f84e1e0e95a0bfa492cc4c6"
@@ -122,10 +143,38 @@
   resolved "https://registry.yarnpkg.com/@types/prismjs/-/prismjs-1.26.0.tgz#a1c3809b0ad61c62cac6d4e0c56d610c910b7654"
   integrity sha512-ZTaqn/qSqUuAq1YwvOFQfVW1AR/oQJlLSZVustdjwI+GZ8kr0MSHBj0tsXPW1EqHubx50gtBEjbPGsdZwQwCjQ==
 
+ansi-styles@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-3.2.1.tgz#41fbb20243e50b12be0f04b8dedbf07520ce841d"
+  integrity sha512-VT0ZI6kZRdTh8YyJw3SMbYm/u+NqfsAxEpWO0Pf9sq8/e94WxxOpPKx9FR1FlyCtOVDNOQ+8ntlqFxiRc+r5qA==
+  dependencies:
+    color-convert "^1.9.0"
+
 argparse@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/argparse/-/argparse-2.0.1.tgz#246f50f3ca78a3240f6c997e8a9bd1eac49e4b38"
   integrity sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==
+
+chalk@^2.0.0:
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/chalk/-/chalk-2.4.2.tgz#cd42541677a54333cf541a49108c1432b44c9424"
+  integrity sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==
+  dependencies:
+    ansi-styles "^3.2.1"
+    escape-string-regexp "^1.0.5"
+    supports-color "^5.3.0"
+
+color-convert@^1.9.0:
+  version "1.9.3"
+  resolved "https://registry.yarnpkg.com/color-convert/-/color-convert-1.9.3.tgz#bb71850690e1f136567de629d2d5471deda4c1e8"
+  integrity sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==
+  dependencies:
+    color-name "1.1.3"
+
+color-name@1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.3.tgz#a7d0558bd89c42f795dd42328f740831ca53bc25"
+  integrity sha512-72fSenhMw2HZMTVHeCA9KCmpEIbzWiQsjN+BHcBbS9vr1mtt+vJjPdksIBNUmKAW8TFUDPJK5SUU3QhE9NEXDw==
 
 commander@^2.19.0:
   version "2.20.3"
@@ -165,6 +214,11 @@ esbuild@^0.16.3:
     "@esbuild/win32-ia32" "0.16.11"
     "@esbuild/win32-x64" "0.16.11"
 
+escape-string-regexp@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
+  integrity sha512-vbRorB5FUQWvla16U8R/qgaFIya2qGzwDrNmCZuYKrbdSUMG6I1ZCGQRefkRVhuOkIGVne7BQ35DSfo1qvJqFg==
+
 fsevents@~2.3.2:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.2.tgz#8a526f78b8fdf4623b709e0b975c52c24c02fd1a"
@@ -174,6 +228,11 @@ function-bind@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/function-bind/-/function-bind-1.1.1.tgz#a56899d3ea3c9bab874bb9773b7c5ede92f4895d"
   integrity sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==
+
+has-flag@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/has-flag/-/has-flag-3.0.0.tgz#b5d454dc2199ae225699f3467e5a07f3b955bafd"
+  integrity sha512-sKJf1+ceQBr4SMkvQnBDNDtf4TXpVhVGateu0t918bl30FnbE2m4vNLX+VWe/dpjlb+HugGYzW7uQXH98HPEYw==
 
 has@^1.0.3:
   version "1.0.3"
@@ -189,10 +248,67 @@ is-core-module@^2.9.0:
   dependencies:
     has "^1.0.3"
 
-kysely@^0.23.3:
+js-tokens@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
+  integrity sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==
+
+"kysely_0_21_2@npm:kysely@0.21.2":
+  version "0.21.2"
+  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.21.2.tgz#2b39bf9a25c4916753b009cdf269b61b0a39cd3a"
+  integrity sha512-EWkZlITMehwhGDn/7sqACkHnSaaAls9tQ/5cx+cXgmfscIuYz3BdV5FfdwVpLDlZCtaQk1erg3+eZpqgW2hNTw==
+
+"kysely_0_21_3@npm:kysely@0.21.3":
+  version "0.21.3"
+  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.21.3.tgz#f2d6ecaed2cb4c099d34a4ebdf3d6d6604986133"
+  integrity sha512-frAPICQjRn8Q9k8NpkuOXpwcSNhheHY7YWU28LMiNPugI4mKEc60fobnVk3OMXsgr4ZXOwCNYz616PUYMgYFog==
+
+"kysely_0_21_4@npm:kysely@0.21.4":
+  version "0.21.4"
+  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.21.4.tgz#40a555054c9dbdcc117e91b6a6b4bec27480de77"
+  integrity sha512-EIy6n1tmhGq/wSsglqimoyuMFBGioNWLwVTWDD4pKAn0uhOy/6iXKNu7SVbrWS1tsEZ1kY5u817jVtNpP6yF5Q==
+
+"kysely_0_21_5@npm:kysely@0.21.5":
+  version "0.21.5"
+  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.21.5.tgz#5278da8aa940a234bc98312a82e8bab8c5f04892"
+  integrity sha512-a/j57I2pJzdzk5HJ4Tf6PHQTf0+V0gkg/tK178OpCcxZ1kbzzhRpycVqnPTm8WRqf1w7iCPc/IrCBFkOwSwwRw==
+
+"kysely_0_21_6@npm:kysely@0.21.6":
+  version "0.21.6"
+  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.21.6.tgz#5cb22b8f60e2bd730c9823fb2e7b9c7884f2de4d"
+  integrity sha512-DNecGKzzYtx2OumPJ8inrVFsSfq1lNHLFZDJvXMQxqbrTFElqq70VLR3DiK0P9fw4pB+xXTYvLiLurWiYqgk3w==
+
+"kysely_0_22_0@npm:kysely@0.22.0":
+  version "0.22.0"
+  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.22.0.tgz#8aac53942da3cadc604d7d154a746d983fe8f7b9"
+  integrity sha512-ZE3qWtnqLOalodzfK5QUEcm7AEulhxsPNuKaGFsC3XiqO92vMLm+mAHk/NnbSIOtC4RmGm0nsv700i8KDp1gfQ==
+
+"kysely_0_23_0@npm:kysely@0.23.0":
+  version "0.23.0"
+  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.23.0.tgz#934ce8b212eb61888d3a22012a812cd311e1e0b4"
+  integrity sha512-CQNt6kmUU4yQKm7Lselo2AwDKDwrkYvUD2a0nwvltnOmXzLj3AkhAA5Z4tsHuGcvKJ6E02b6MmGwnzr+MmE7HA==
+
+"kysely_0_23_1@npm:kysely@0.23.1":
+  version "0.23.1"
+  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.23.1.tgz#e915dcc19dc29d9dec8a8f736fdc57a9c9ef7a2b"
+  integrity sha512-ZuBZuDJggGPcr8Th1zU9+d2f4EJHhY60URnRWBpi3OBdeOTAGzOooL+SPcD1A2Yu8z2hhJLzEQvpuUcz8x1lUA==
+
+"kysely_0_23_2@npm:kysely@0.23.2":
+  version "0.23.2"
+  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.23.2.tgz#3897a59e2935c117ccecd8a2b52ba0074a7adf5f"
+  integrity sha512-Q6wESUbiBZtWgwiaaU3YHj4nqnP2BJ51nCRAjcqiyAyK7giNOy8kuBVEJ0O4szsKXi7/puV1JLDyJUsrtXmbMA==
+
+"kysely_0_23_3@npm:kysely@0.23.3", "kysely_for_type@npm:kysely":
   version "0.23.3"
   resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.23.3.tgz#ca6f01c54709f3e692c8a59cfdc646133d0ce9ec"
   integrity sha512-spRhosWRLkI0Ox8PRBdstskdRfvoLPsJ5GEpDA/PPrX6NwuiygdsFxHBrMkdU3CX+VxLhj4Wn5P7rFAwaf7JuA==
+
+magic-string@^0.26.7:
+  version "0.26.7"
+  resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.26.7.tgz#caf7daf61b34e9982f8228c4527474dac8981d6f"
+  integrity sha512-hX9XH3ziStPoPhJxLq1syWuZMxbDvGNbVchfrdCtanC7D13888bMFow61x8axrx+GfHLtVeAx2kxL7tTGRl+Ow==
+  dependencies:
+    sourcemap-codec "^1.4.8"
 
 monaco-editor@^0.34.1:
   version "0.34.1"
@@ -275,10 +391,26 @@ ret@~0.1.10:
   resolved "https://registry.yarnpkg.com/ret/-/ret-0.1.15.tgz#b8a4825d5bdb1fc3f6f53c2bc33f81388681c7bc"
   integrity sha512-TTlYpa+OL+vMMNG24xSlQGEJ3B/RzEfUlLct7b5G/ytav+wPrplCpVMFuwzXbkecJrb6IYo1iFb0S9v37754mg==
 
+rollup-plugin-dts@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-dts/-/rollup-plugin-dts-5.1.0.tgz#c9aa1805d18dda82d710aed5dff09d724b3e0a0f"
+  integrity sha512-R+4cVEhu9LfAlR1hqp1D67nO5hsiYFSsbVa2Uj/xchN6WxN4Ct9VjuEP1mw7f4dKJR5rj+OtjUz5cVINX51eFA==
+  dependencies:
+    magic-string "^0.26.7"
+  optionalDependencies:
+    "@babel/code-frame" "^7.18.6"
+
 rollup@^3.7.0:
   version "3.8.1"
   resolved "https://registry.yarnpkg.com/rollup/-/rollup-3.8.1.tgz#d4af8aca7c60d5b8c0281be79ea2fab6b41d458f"
   integrity sha512-4yh9eMW7byOroYcN8DlF9P/2jCpu6txVIHjEqquQVSx7DI0RgyCCN3tjrcy4ra6yVtV336aLBB3v2AarYAxePQ==
+  optionalDependencies:
+    fsevents "~2.3.2"
+
+rollup@^3.9.0:
+  version "3.9.0"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-3.9.0.tgz#0ff7ab7cd71ce3a6ab140c5cf661f2b35eb6aab8"
+  integrity sha512-nGGylpmblyjTpF4lEUPgmOw6OVxRvnI6Iuuh6Lz4O/X66cVOX1XJSsqP1YamxQ+mPuFE7qJxLFDSCk8rNv5dDw==
   optionalDependencies:
     fsevents "~2.3.2"
 
@@ -287,6 +419,11 @@ source-map-js@^1.0.2:
   resolved "https://registry.yarnpkg.com/source-map-js/-/source-map-js-1.0.2.tgz#adbc361d9c62df380125e7f161f71c826f1e490c"
   integrity sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==
 
+sourcemap-codec@^1.4.8:
+  version "1.4.8"
+  resolved "https://registry.yarnpkg.com/sourcemap-codec/-/sourcemap-codec-1.4.8.tgz#ea804bd94857402e6992d05a38ef1ae35a9ab4c4"
+  integrity sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==
+
 sql-formatter@^12.0.4:
   version "12.0.4"
   resolved "https://registry.yarnpkg.com/sql-formatter/-/sql-formatter-12.0.4.tgz#1847eaac7b269ffefbd21d211a00cf002e8cfaee"
@@ -294,6 +431,13 @@ sql-formatter@^12.0.4:
   dependencies:
     argparse "^2.0.1"
     nearley "^2.20.1"
+
+supports-color@^5.3.0:
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-5.5.0.tgz#e2e69a44ac8772f78a1ec0b35b689df6530efc8f"
+  integrity sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow==
+  dependencies:
+    has-flag "^3.0.0"
 
 supports-preserve-symlinks-flag@^1.0.0:
   version "1.0.0"
