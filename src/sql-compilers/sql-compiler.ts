@@ -2,7 +2,7 @@ import type { Compilable, CompiledQuery, Sql } from "kysely_for_type";
 import { Kysely } from "kysely_for_type";
 import { transpile } from "typescript";
 import { WrongResultException } from "../exceptions/wrong-result-exception";
-import { MODULE_MAP } from "../gen/kysely-modules";
+import { IMPORT_MAP } from "../gen/kysely-modules";
 
 export abstract class SqlCompiler {
   public kyselyModule!: string;
@@ -13,13 +13,14 @@ export abstract class SqlCompiler {
   }
 
   async compile(ts: string): Promise<CompiledQuery<any>> {
-    const m = (MODULE_MAP as any)[this.kyselyModule];
-    if (!m) {
+    const importF = IMPORT_MAP[this.kyselyModule as keyof typeof IMPORT_MAP];
+    if (!importF) {
       throw new Error(`Wrong ${this.kyselyModule}`);
     }
-    const sql = m["sql"];
-    const dialectConstructor = m[this.#dialectConstructorName];
-    const kyselyConstructor = m["Kysely"];
+    const m = await importF();
+    const sql = m["sql"] as any;
+    const dialectConstructor = m[this.#dialectConstructorName as "MysqlDialect"] as any;
+    const kyselyConstructor = m["Kysely"] as any;
     const instance = new kyselyConstructor({ dialect: new dialectConstructor({}) });
     const { result } = doEval({ ts, instance, sql });
     if (!result || typeof result?.compile !== "function") {

@@ -19,6 +19,12 @@
     "vite": "^4.0.0"
   },
   "dependencies": {
+    "kysely_0_21_2": "npm:kysely@0.21.2",
+    "kysely_0_21_3": "npm:kysely@0.21.3",
+    "kysely_0_21_4": "npm:kysely@0.21.4",
+    "kysely_0_21_5": "npm:kysely@0.21.5",
+    "kysely_0_21_6": "npm:kysely@0.21.6",
+    "kysely_0_22_0": "npm:kysely@0.22.0",
     "kysely_0_23_0": "npm:kysely@0.23.0",
     "kysely_0_23_1": "npm:kysely@0.23.1",
     "kysely_0_23_2": "npm:kysely@0.23.2",

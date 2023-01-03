@@ -253,6 +253,36 @@ js-tokens@^4.0.0:
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
   integrity sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==
 
+"kysely_0_21_2@npm:kysely@0.21.2":
+  version "0.21.2"
+  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.21.2.tgz#2b39bf9a25c4916753b009cdf269b61b0a39cd3a"
+  integrity sha512-EWkZlITMehwhGDn/7sqACkHnSaaAls9tQ/5cx+cXgmfscIuYz3BdV5FfdwVpLDlZCtaQk1erg3+eZpqgW2hNTw==
+
+"kysely_0_21_3@npm:kysely@0.21.3":
+  version "0.21.3"
+  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.21.3.tgz#f2d6ecaed2cb4c099d34a4ebdf3d6d6604986133"
+  integrity sha512-frAPICQjRn8Q9k8NpkuOXpwcSNhheHY7YWU28LMiNPugI4mKEc60fobnVk3OMXsgr4ZXOwCNYz616PUYMgYFog==
+
+"kysely_0_21_4@npm:kysely@0.21.4":
+  version "0.21.4"
+  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.21.4.tgz#40a555054c9dbdcc117e91b6a6b4bec27480de77"
+  integrity sha512-EIy6n1tmhGq/wSsglqimoyuMFBGioNWLwVTWDD4pKAn0uhOy/6iXKNu7SVbrWS1tsEZ1kY5u817jVtNpP6yF5Q==
+
+"kysely_0_21_5@npm:kysely@0.21.5":
+  version "0.21.5"
+  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.21.5.tgz#5278da8aa940a234bc98312a82e8bab8c5f04892"
+  integrity sha512-a/j57I2pJzdzk5HJ4Tf6PHQTf0+V0gkg/tK178OpCcxZ1kbzzhRpycVqnPTm8WRqf1w7iCPc/IrCBFkOwSwwRw==
+
+"kysely_0_21_6@npm:kysely@0.21.6":
+  version "0.21.6"
+  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.21.6.tgz#5cb22b8f60e2bd730c9823fb2e7b9c7884f2de4d"
+  integrity sha512-DNecGKzzYtx2OumPJ8inrVFsSfq1lNHLFZDJvXMQxqbrTFElqq70VLR3DiK0P9fw4pB+xXTYvLiLurWiYqgk3w==
+
+"kysely_0_22_0@npm:kysely@0.22.0":
+  version "0.22.0"
+  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.22.0.tgz#8aac53942da3cadc604d7d154a746d983fe8f7b9"
+  integrity sha512-ZE3qWtnqLOalodzfK5QUEcm7AEulhxsPNuKaGFsC3XiqO92vMLm+mAHk/NnbSIOtC4RmGm0nsv700i8KDp1gfQ==
+
 "kysely_0_23_0@npm:kysely@0.23.0":
   version "0.23.0"
   resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.23.0.tgz#934ce8b212eb61888d3a22012a812cd311e1e0b4"
