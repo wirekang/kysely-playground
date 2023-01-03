@@ -101,9 +101,11 @@ import { KYSELY_GLOBAL_TYPE } from "./copytype/constants";
     const result = await tsFormatter.format(state.ts, state.typescriptFormatOptions);
     editor.value = result;
   };
-  controller.onChangeKyselyVersion = (v) => {
+  controller.onChangeKyselyVersion = async (v) => {
     state.kyselyVersion = v;
-    compile();
+    await versionManager.setVersion(v);
+    recreateSqlCompiler();
+    await compile();
   };
   controller.onChangeSqlDialect = (v) => {
     state.dialect = v;
@@ -120,7 +122,7 @@ import { KYSELY_GLOBAL_TYPE } from "./copytype/constants";
   };
   versionManager.onChangeTypeContent = (t) => {
     editor.setExtraLibs([
-      { content: t, filePath: "file:///node_modules/@types/kysely.d.ts" },
+      { content: t, filePath: "file:///node_modules/@types/kysely/index.d.ts" },
       {
         content: KYSELY_GLOBAL_TYPE,
         filePath: "file:///kysely-global.ts",

@@ -1,7 +1,7 @@
 import KYSELY_VERSIONS from "./gen/kysely-versions.json";
 
 export class KyselyVersionManager {
-  public static LATEST = KYSELY_VERSIONS[KYSELY_VERSIONS.length - 1];
+  public static LATEST = KYSELY_VERSIONS[0];
   public static VERSIONS = KYSELY_VERSIONS;
 
   public onChangeTypeContent?: (v: string) => void;
