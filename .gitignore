@@ -24,3 +24,5 @@ dist-ssr
 *.sw?
 
 .idea/
+
+stats.html
