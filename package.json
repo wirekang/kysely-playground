@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@types/node": "^18.11.18",
     "@types/prettier": "^2.7.2",
     "@types/prismjs": "^1.26.0",
     "kysely_for_type": "npm:kysely",
