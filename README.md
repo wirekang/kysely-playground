@@ -1,8 +1,10 @@
 # [Kysely Playground](https://wirekang.github.io/kysely-playground)
 
+Playground for [Kysely](https://github.com/koskimas/kysely). You can test how kysely builds sql query, with full-typescript supports, in a various version.
+
 ## Guide
 
-There are some pre-defined global variables/types. You can not import another variable or type for now(If you do, type hinting will break). If you want another type or variables to include, please issue it.
+There are some pre-defined global variables/types. You can not import another variable or type for now. If you want another type or variables to include, please issue it.
 
 * ```interface DB{}```
 
