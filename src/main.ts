@@ -14,7 +14,7 @@ import { SqliteFormatter } from "./sql-formatters/sqlite-formatter";
 import { Store } from "./store";
 import { StoreProviderString } from "./constatnts/store";
 import { KyselyVersionManager } from "./kysely-version-manager";
-import { KYSELY_GLOBAL_TYPE } from "./copytype/constants";
+import { KYSELY_GLOBAL_TYPE } from "./constatnts/editor";
 
 (async () => {
   let sqlCompiler: SqlCompiler = 0 as any;

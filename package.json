@@ -31,6 +31,8 @@
     "kysely_0_23_1": "npm:kysely@0.23.1",
     "kysely_0_23_2": "npm:kysely@0.23.2",
     "kysely_0_23_3": "npm:kysely@0.23.3",
+    "kysely_0_23_4": "npm:kysely@0.23.4",
+    "kysely_0_23_5": "npm:kysely@0.23.5",
     "monaco-editor": "^0.34.1",
     "prettier": "^2.8.1",
     "prismjs": "^1.29.0",
