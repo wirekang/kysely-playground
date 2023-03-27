@@ -14,7 +14,7 @@ export class State {
       keywordCase: "upper",
     };
     this.typescriptFormatOptions = { printWidth: 80, semi: false, singleQuote: true };
-    this.kyselyVersion = "0.23.3";
+    this.kyselyVersion = "0.23.5";
     this.ts = "";
   }
 }
