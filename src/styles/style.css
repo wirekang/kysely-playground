@@ -23,11 +23,18 @@ body {
 }
 
 body {
-  padding: 4px;
 }
 
 #header {
-  padding: 0 8px 8px;
+  margin: 0;
+  width: 100%;
+  padding: 2px;
+  background: #141414;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 #main-container {
@@ -44,7 +51,7 @@ body {
 
 #output-container {
   flex: 1;
-  background: #141414;
+  background: #1e1e1e;
   overflow: auto;
   padding-left: 8px;
 }
@@ -66,9 +73,11 @@ body {
 
 div.vl {
   display: none;
+  opacity: 0.5;
+  margin: 0 4px;
 }
 
-#kysely-version-helper {
+.header-helper {
   display: none;
 }
 
@@ -84,10 +93,6 @@ option,
 button {
   background: #333;
   color: white;
-}
-
-#share {
-  padding: 0 20px;
 }
 
 #share-popup {
@@ -115,6 +120,22 @@ button {
   width: 100%;
 }
 
+#header > button {
+  width: 100px;
+  height: 30px;
+  margin: 4px;
+}
+
+#header > select {
+  margin: 4px;
+  height: 30px;
+  min-width: 100px;
+}
+
+#github {
+  display: inline-block;
+}
+
 @media screen and (min-width: 800px) {
   #main-container {
     flex-direction: row;
@@ -127,14 +148,22 @@ button {
 
   div.vl {
     display: inline-block;
-    opacity: 0.4;
   }
 
-  #kysely-version-helper {
+  .header-helper {
     display: inline;
   }
 
   #share-popup {
     width: 500px;
+  }
+
+  #header > button {
+    width: 88px;
+    height: 25px;
+  }
+
+  #header > select {
+    height: 25px;
   }
 }

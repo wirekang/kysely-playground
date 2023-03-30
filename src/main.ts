@@ -157,7 +157,7 @@ import { KYSELY_GLOBAL_TYPE } from "./constatnts/editor";
 })();
 
 function newController() {
-  const exampleNames = [" --- SELECT EXAMPLE --- ", ...Object.keys(EXAMPLES)];
+  const exampleNames = ["--select example--", ...Object.keys(EXAMPLES)];
   const kyselyVersions = KyselyVersionManager.VERSIONS;
   return new Controller(SQL_DIALECTS, exampleNames, kyselyVersions);
 }
