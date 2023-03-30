@@ -1,6 +1,3 @@
-import "./styles/style.css";
-import "./styles/prism-theme.css";
-import "./styles/prism-pgsql";
 import "prismjs/components/prism-sql";
 import "prismjs/components/prism-typescript";
 import { SqlDialect } from "./typings/state";
@@ -132,20 +129,22 @@ export class Controller {
     this.#e.errorBody.classList.add("hidden");
     if (v instanceof HtmlRenderableException) {
       this.#e.errorBody.classList.remove("hidden");
-      this.#e.errorTitle.textContent = `${v.name}\n${v.message}`;
+      this.#e.errorTitle.textContent = `${v.name}: ${v.message}`;
       this.#e.errorBody.innerHTML = v.render();
       return;
     }
     this.#e.errorTitle.textContent = v;
   }
 
-  public startLoading() {
+  public showLoading() {
+    this.#isLoading = true;
+    this.#e.loading.classList.remove("hidden");
     this.#loadingCb();
   }
 
   public finishLoading() {
     this.#isLoading = false;
-    this.#e.loading.style.display = "none";
+    this.#e.loading.classList.add("hidden");
   }
 
   #loadingCb() {

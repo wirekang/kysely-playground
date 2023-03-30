@@ -27,26 +27,26 @@ body {
 }
 
 #header {
-  height: 40px;
-  padding: 0 8px;
+  padding: 0 8px 8px;
 }
 
 #main-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 100%;
   height: 100%;
 }
 
 #input-container {
   flex: 1;
+  height: 50%;
 }
 
 #output-container {
   flex: 1;
-  margin-left: 12px;
-  background: #1e1e1e;
+  background: #141414;
   overflow: auto;
+  padding: 8px;
 }
 
 #error {
@@ -57,19 +57,26 @@ body {
 
 #error-title {
   margin: 0;
+  word-break: break-all;
 }
 
 #error-body {
-  margin: 8px;
+  margin-top: 8px;
 }
 
 div.vl {
-  display: inline-block;
-  opacity: 0.2;
+  display: none;
+}
+
+#kysely-version-helper {
+  display: none;
 }
 
 #loading {
-  font-size: 40px;
+  position: absolute;
+  font-size: 30px;
+  left: 0;
+  bottom: 0;
 }
 
 select,
@@ -87,7 +94,7 @@ button {
   position: absolute;
   top: 30px;
   left: 12px;
-  width: 500px;
+  width: 90%;
   height: 100px;
   background: #222;
   color: white;
@@ -106,4 +113,28 @@ button {
 #share-popup-url {
   color: black;
   width: 100%;
+}
+
+@media screen and (min-width: 1000px) {
+  #main-container {
+    flex-direction: row;
+  }
+
+  #input-container {
+    height: 100%;
+    width: 50%;
+  }
+
+  div.vl {
+    display: inline-block;
+    opacity: 0.4;
+  }
+
+  #kysely-version-helper {
+    display: inline;
+  }
+
+  #share-popup {
+    width: 700px;
+  }
 }

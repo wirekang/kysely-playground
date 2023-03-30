@@ -52,6 +52,7 @@ export class TypescriptEditor {
       },
       quickSuggestionsDelay: 1,
       scrollBeyondLastLine: false,
+      automaticLayout: true,
     });
     this.#editor.getModel()!.onDidChangeContent(() => {
       this.onValueChange && this.onValueChange(this.value);

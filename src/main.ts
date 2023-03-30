@@ -1,3 +1,7 @@
+import "./styles/style.css";
+import "./styles/prism-theme.css";
+import "./styles/prism-pgsql";
+
 import { Controller } from "./controller";
 import { EXAMPLES, SQL_DIALECTS } from "./constatnts/state";
 import { TypescriptEditor } from "./typescript-editor";
@@ -24,10 +28,9 @@ import { KYSELY_GLOBAL_TYPE } from "./constatnts/editor";
   const store = new Store();
   const versionManager = new KyselyVersionManager();
   const controller = newController();
-  controller.startLoading();
+  controller.showLoading();
   controller.setError();
   controller.hideSharePopup();
-  controller.hideCompiling();
   const recreateSqlCompiler = () => {
     let c: SqlCompiler;
     switch (state.dialect) {
@@ -102,9 +105,11 @@ import { KYSELY_GLOBAL_TYPE } from "./constatnts/editor";
     editor.value = result;
   };
   controller.onChangeKyselyVersion = async (v) => {
+    controller.showLoading();
     state.kyselyVersion = v;
     await versionManager.setVersion(v);
     recreateSqlCompiler();
+    controller.finishLoading();
     await compile();
   };
   controller.onChangeSqlDialect = (v) => {
@@ -118,7 +123,7 @@ import { KYSELY_GLOBAL_TYPE } from "./constatnts/editor";
     if (!example) {
       return;
     }
-    editor.value = example;
+    editor.value = example.trim();
   };
   versionManager.onChangeTypeContent = (t) => {
     editor.setExtraLibs([

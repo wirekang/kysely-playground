@@ -7,33 +7,34 @@
     <title>Kysely Playground</title>
   </head>
   <body>
-    <div id="loading"></div>
     <div id="header">
       <button id="share">SHARE</button>
       <button id="prettify">Prettify</button>
       <div class="vl">|</div>
-      Kysely:
+      <span id="kysely-version-helper"> Kysely:</span>
       <select id="kysely-version"></select>
       <div class="vl">|</div>
       <select id="sql-dialect"></select>
       <div class="vl">|</div>
       <select id="example"></select>
       <div class="vl">|</div>
-      <a target="_blank" href="https://github.com/wirekang/kysely-playground">Github</a>
+      <button>
+        <a target="_blank" href="https://github.com/wirekang/kysely-playground">Github</a>
+      </button>
     </div>
     <div id="main-container">
       <div id="input-container"></div>
-
+      <div id="loading"></div>
       <div id="output-container">
-        <div id="compiling">Compiling...</div>
+        <div id="compiling" class="hidden">Compiling...</div>
         <pre id="sql"></pre>
         <div id="error">
-          <pre id="error-title"></pre>
-          <pre id="error-body"></pre>
+          <div id="error-title"></div>
+          <div id="error-body"></div>
         </div>
       </div>
     </div>
-    <div id="share-popup">
+    <div id="share-popup" class="hidden">
       <button id="share-popup-close">X</button>
       <button id="share-popup-short">Short URL</button>
       <br />
