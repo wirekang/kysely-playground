@@ -115,7 +115,7 @@ button {
   width: 100%;
 }
 
-@media screen and (min-width: 1000px) {
+@media screen and (min-width: 800px) {
   #main-container {
     flex-direction: row;
   }
@@ -135,6 +135,6 @@ button {
   }
 
   #share-popup {
-    width: 700px;
+    width: 500px;
   }
 }
