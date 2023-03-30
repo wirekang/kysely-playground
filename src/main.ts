@@ -140,15 +140,14 @@ import { KYSELY_GLOBAL_TYPE } from "./constatnts/editor";
   try {
     const init = await store.load();
     if (init) {
-      console.log(init);
-      state.dialect = init.dialect;
+      state.dialect = init.dialect ?? "mysql";
       const kv = init.kyselyVersion ?? KyselyVersionManager.LATEST;
       state.kyselyVersion = kv;
-      controller.setSqlDialect(init.dialect);
+      controller.setSqlDialect(state.dialect);
       controller.setKyselyVersion(kv);
       recreateSqlCompiler();
       recreateSqlFormatter();
-      editor.value = init.ts;
+      editor.value = init.ts ?? "";
     }
   } catch (e) {
     controller.setError(e);

@@ -1,8 +1,8 @@
 import { SqlDialect } from "./state";
 
 export type StoreItem = {
-  dialect: SqlDialect;
-  ts: string;
+  dialect?: SqlDialect;
+  ts?: string;
   kyselyVersion?: string;
 };
 
