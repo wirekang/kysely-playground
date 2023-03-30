@@ -393,6 +393,16 @@ js-tokens@^4.0.0:
   resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.24.0.tgz#9ca935e81a926774eee9daea6a824503cc2fb577"
   integrity sha512-FhiqVasbbZQ+9x2pt95i+6Ofv74pB3Z9/0VAVn4S0geTohHQnLNVDnOVLtOz9eBv6x03QZAhOd7dr+lNRarBUg==
 
+"kysely_0_24_1@npm:kysely@0.24.1":
+  version "0.24.1"
+  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.24.1.tgz#c0397fe074ad318773b51854eeebf8f6b8d16408"
+  integrity sha512-8js/qMaGSG0M1TC+qmTi0DjVV0sSzRYEt4Ff1YMNbHfHEd6VMcCUTfcGoFgHwOE4sK1kopYZ71B67c4FaQnw/w==
+
+"kysely_0_24_2@npm:kysely@0.24.2":
+  version "0.24.2"
+  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.24.2.tgz#caf3be037939bd20449c0b7840e932f074b4d12c"
+  integrity sha512-+7eaTJNUYm2yRq1x+lEOZc+78TO35dTZ9b0dh49+Z9CTt2byMSbMiOKpwPlOyCAaHD4kILkAYWYZNywFlmBwRA==
+
 magic-string@^0.26.7:
   version "0.26.7"
   resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.26.7.tgz#caf7daf61b34e9982f8228c4527474dac8981d6f"
