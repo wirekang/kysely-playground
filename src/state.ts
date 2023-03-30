@@ -1,5 +1,6 @@
 import { SqlDialect } from "./typings/state";
 import { SqlFormatOptions, TypescriptFormatOptions } from "./typings/formatter";
+import { KyselyVersionManager } from "./kysely-version-manager";
 
 export class State {
   public dialect: SqlDialect;
@@ -14,7 +15,7 @@ export class State {
       keywordCase: "upper",
     };
     this.typescriptFormatOptions = { printWidth: 80, semi: false, singleQuote: true };
-    this.kyselyVersion = "0.24.0";
+    this.kyselyVersion = KyselyVersionManager.LATEST;
     this.ts = "";
   }
 }
