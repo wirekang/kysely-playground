@@ -136,7 +136,7 @@ button {
   display: inline-block;
 }
 
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 700px) {
   #main-container {
     flex-direction: row;
   }
