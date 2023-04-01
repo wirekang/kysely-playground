@@ -3,7 +3,7 @@ import "./styles/prism-theme.css";
 import "./styles/prism-pgsql";
 
 import { Controller } from "./controller";
-import { EXAMPLES, SQL_DIALECTS } from "./constatnts/state";
+import { EXAMPLES, SQL_DIALECTS } from "./constants/state";
 import { TypescriptEditor } from "./typescript-editor";
 import { State } from "./state";
 import { SqlCompiler } from "./sql-compilers/sql-compiler";
@@ -16,9 +16,9 @@ import { MysqlFormatter } from "./sql-formatters/mysql-formatter";
 import { PostgresFormatter } from "./sql-formatters/postgres-formatter";
 import { SqliteFormatter } from "./sql-formatters/sqlite-formatter";
 import { Store } from "./store";
-import { StoreProviderString } from "./constatnts/store";
+import { StoreProviderString } from "./constants/store";
 import { KyselyVersionManager } from "./kysely-version-manager";
-import { KYSELY_GLOBAL_TYPE } from "./constatnts/editor";
+import { KYSELY_GLOBAL_TYPE } from "./constants/editor";
 
 (async () => {
   let sqlCompiler: SqlCompiler = 0 as any;

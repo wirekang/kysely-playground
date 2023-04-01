@@ -1,6 +1,6 @@
 import type { StoreItem, StoreProvider } from "./typings/store";
 import { WrongUrlException } from "./exceptions/wrong-url-exception";
-import { StoreProviderString } from "./constatnts/store";
+import { StoreProviderString } from "./constants/store";
 import { FirebaseStore } from "./store-providers/firebase-store";
 import { B64Store } from "./store-providers/b64-store";
 
