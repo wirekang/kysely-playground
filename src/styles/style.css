@@ -53,11 +53,11 @@ body {
   flex: 1;
   background: #181818;
   overflow: auto;
-  padding-top: 4px;
-  padding-left: 8px;
 }
 
 #sql {
+  padding-top: 4px;
+  padding-left: 8px;
   margin: 0;
 }
 
@@ -78,7 +78,6 @@ body {
 }
 
 div.vl {
-  display: none;
   opacity: 0.5;
   margin: 0 4px;
 }
@@ -142,7 +141,37 @@ button {
   display: inline-block;
 }
 
-@media screen and (min-width: 650px) {
+#sql-parameters {
+  display: flex;
+  flex-direction: column;
+  padding-left: 8px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  margin-top: 8px;
+}
+
+#sql-parameters::before {
+  content: "parameters:";
+  margin-bottom: 4px;
+  font-size: 0.7rem;
+  opacity: 0.6;
+}
+
+#sql-parameters .param {
+  display: flex;
+  flex-direction: row;
+}
+
+#sql-parameters .key {
+  width: 20px;
+  opacity: 0.5;
+  user-select: none;
+}
+
+#sql-parameters .value {
+}
+
+@media screen and (min-width: 800px) {
   #header-button {
     display: none;
   }
@@ -150,9 +179,7 @@ button {
   #header {
     display: flex !important;
   }
-}
 
-@media screen and (min-width: 800px) {
   #main-container {
     flex-direction: row;
   }
@@ -170,18 +197,5 @@ button {
 @media screen and (min-width: 940px) {
   .header-helper {
     display: inline;
-  }
-
-  #header > button {
-    width: 88px;
-    height: 25px;
-  }
-
-  #header > select {
-    height: 25px;
-  }
-
-  div.vl {
-    display: inline-block;
   }
 }

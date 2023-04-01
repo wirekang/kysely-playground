@@ -16,6 +16,7 @@ export class Controller {
     outputContainer: e("output-container"),
     compiling: e("compiling"),
     sql: e("sql"),
+    sqlParameters: e("sql-parameters"),
     error: e("error"),
     errorTitle: e("error-title"),
     errorBody: e("error-body"),
@@ -99,6 +100,31 @@ export class Controller {
   public setSqlText(v: string, dialect: SqlDialect) {
     const lang = dialectToPrismLanguage(dialect);
     this.#e.sql.innerHTML = highlight(v, languages[lang], lang);
+  }
+
+  public setSqlParameters(v: any[]) {
+    this.#e.sqlParameters.innerHTML = "";
+    if (!v || v.length === 0) {
+      this.#e.sqlParameters.classList.add("hidden");
+      return;
+    }
+
+    this.#e.sqlParameters.classList.remove("hidden");
+    v.forEach((v, i) => {
+      const key = document.createElement("div");
+      key.classList.add("key");
+      key.innerText = `${i + 1}`;
+
+      const value = document.createElement("div");
+      value.classList.add("value");
+      const formatted = typeof v === "string" ? `'${v}'` : v;
+      value.innerText = formatted;
+
+      const div = document.createElement("div");
+      div.classList.add("param");
+      div.append(key, value);
+      this.#e.sqlParameters.append(div);
+    });
   }
 
   public showSharePopup() {

@@ -11,14 +11,8 @@
     <div id="header" class="hidden">
       <button id="share">Share</button>
       <button id="prettify">Prettify</button>
-      <div class="vl">|</div>
-      <span class="header-helper"> Kysely:</span>
       <select id="kysely-version"></select>
-      <div class="vl">|</div>
-      <span class="header-helper"> Dialect:</span>
       <select id="sql-dialect"></select>
-      <div class="vl">|</div>
-      <span class="header-helper"> Example:</span>
       <select id="example"></select>
       <div class="vl">|</div>
       <div id="github">
@@ -31,6 +25,7 @@
       <div id="output-container">
         <div id="compiling" class="hidden">Compiling...</div>
         <pre id="sql"></pre>
+        <div id="sql-parameters" class="hidden"></div>
         <div id="error" class="hidden">
           <div id="error-title"></div>
           <div id="error-body"></div>

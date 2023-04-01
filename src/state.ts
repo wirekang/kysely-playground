@@ -13,6 +13,7 @@ export class State {
     this.dialect = "mysql";
     this.sqlFormatOptions = {
       keywordCase: "upper",
+      injectParameters: false,
     };
     this.typescriptFormatOptions = { printWidth: 70, semi: false, singleQuote: true };
     this.kyselyVersion = KyselyVersionManager.LATEST;

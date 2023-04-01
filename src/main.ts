@@ -64,6 +64,11 @@ import { KYSELY_GLOBAL_TYPE } from "./constants/editor";
       const result = await sqlCompiler.compile(state.ts);
       const sql = await sqlFormatter.format(result, state.sqlFormatOptions);
       controller.setSqlText(sql, state.dialect);
+      if (state.sqlFormatOptions.injectParameters) {
+        controller.setSqlParameters([]);
+      } else {
+        controller.setSqlParameters(result.parameters as any);
+      }
       controller.setError();
     } catch (e) {
       controller.setError(e);

@@ -15,9 +15,12 @@ export abstract class SqlFormatter {
     },
     options: SqlFormatOptions
   ) {
+    const params = options.injectParameters
+      ? this.parseParams(v.parameters.map((v) => this.escapeParam(v)))
+      : undefined;
     return formatDialect(v.sql, {
       dialect: this.#dialect,
-      params: this.parseParams(v.parameters.map((v) => this.escapeParam(v))),
+      params,
       keywordCase: options.keywordCase,
     });
   }
