@@ -1,23 +1,5 @@
 import { SqlDialect } from "../typings/state";
 
-export const DEFAULT_TS = `
-interface DB {
-  user: UserTable
-}
-
-interface UserTable {
-  id: Generated<string>
-  name: string | null
-  created_at: Generated<Date>
-}
-
-result = kysely
-  .selectFrom("user")
-  .selectAll()
-  .where("name", "=", "foo")
-  .orderBy("created_at", "desc")
-`.trim();
-
 export const EXAMPLES: Record<string, string> = {
   "disable type hinting": `
 interface DB {
@@ -29,7 +11,7 @@ result = kysely
   .select(["first_name", "last_name"])
   .where("id", ">", 234)
 `,
-  "DB schema": `
+  schema: `
 interface DB {
   user: UserTable
 }
@@ -46,7 +28,7 @@ result = kysely
   .selectAll()
   .orderBy("created_at")
 `,
-  statement: `
+  statements: `
 interface DB {
   [x: string]: any
 }
