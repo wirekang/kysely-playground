@@ -51,14 +51,20 @@ body {
 
 #output-container {
   flex: 1;
-  background: #1e1e1e;
+  background: #181818;
   overflow: auto;
-  padding-left: 8px;
+  padding-left: 4px;
+  padding-top: 4px;
+}
+
+#sql {
+  margin: 0;
 }
 
 #error {
   color: white;
   border: 1px solid red;
+  margin-top: 4px;
   padding: 4px;
 }
 

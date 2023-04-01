@@ -50,6 +50,8 @@ export class TypescriptEditor {
         comments: false,
         other: false,
       },
+      lineNumbers: "off",
+      folding: false,
       quickSuggestionsDelay: 1,
       scrollBeyondLastLine: false,
       automaticLayout: true,
