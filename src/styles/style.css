@@ -53,8 +53,8 @@ body {
   flex: 1;
   background: #181818;
   overflow: auto;
-  padding-left: 4px;
   padding-top: 4px;
+  padding-left: 8px;
 }
 
 #sql {
@@ -118,7 +118,7 @@ button {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 #share-popup-url {
@@ -142,7 +142,17 @@ button {
   display: inline-block;
 }
 
-@media screen and (min-width: 700px) {
+@media screen and (min-width: 650px) {
+  #header-button {
+    display: none;
+  }
+
+  #header {
+    display: flex !important;
+  }
+}
+
+@media screen and (min-width: 800px) {
   #main-container {
     flex-direction: row;
   }
@@ -152,16 +162,14 @@ button {
     width: 50%;
   }
 
-  div.vl {
-    display: inline-block;
-  }
-
-  .header-helper {
-    display: inline;
-  }
-
   #share-popup {
     width: 500px;
+  }
+}
+
+@media screen and (min-width: 940px) {
+  .header-helper {
+    display: inline;
   }
 
   #header > button {
@@ -171,5 +179,9 @@ button {
 
   #header > select {
     height: 25px;
+  }
+
+  div.vl {
+    display: inline-block;
   }
 }

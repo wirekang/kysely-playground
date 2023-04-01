@@ -14,7 +14,7 @@ export class State {
     this.sqlFormatOptions = {
       keywordCase: "upper",
     };
-    this.typescriptFormatOptions = { printWidth: 80, semi: false, singleQuote: true };
+    this.typescriptFormatOptions = { printWidth: 70, semi: false, singleQuote: true };
     this.kyselyVersion = KyselyVersionManager.LATEST;
     this.ts = "";
   }

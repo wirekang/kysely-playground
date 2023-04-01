@@ -7,6 +7,7 @@ import { HtmlRenderableException } from "./exceptions/html-renderable-exception"
 export class Controller {
   #e = {
     header: e("header"),
+    headerButton: e("header-button"),
     sqlDialect: e<HTMLSelectElement>("sql-dialect"),
     example: e<HTMLSelectElement>("example"),
     kyselyVersion: e<HTMLSelectElement>("kysely-version"),
@@ -81,6 +82,9 @@ export class Controller {
     });
     this.#e.sharePopupShort.addEventListener("click", () => {
       this.onClickMakeShortUrlButton && this.onClickMakeShortUrlButton();
+    });
+    this.#e.headerButton.addEventListener("click", () => {
+      this.#e.header.classList.toggle("hidden");
     });
   }
 
