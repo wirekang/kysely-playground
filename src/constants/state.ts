@@ -97,4 +97,4 @@ result = db
   `,
 };
 
-export const SQL_DIALECTS: SqlDialect[] = ["mysql", "postgres", "sqlite"];
+export const SQL_DIALECTS: SqlDialect[] = ["postgres", "mysql", "sqlite"];

@@ -10,7 +10,7 @@ export class State {
   public ts: string;
 
   constructor() {
-    this.dialect = "mysql";
+    this.dialect = "postgres";
     this.sqlFormatOptions = {
       keywordCase: "upper",
       injectParameters: false,
