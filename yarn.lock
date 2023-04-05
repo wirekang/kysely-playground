@@ -558,10 +558,10 @@ sourcemap-codec@^1.4.8:
   resolved "https://registry.yarnpkg.com/sourcemap-codec/-/sourcemap-codec-1.4.8.tgz#ea804bd94857402e6992d05a38ef1ae35a9ab4c4"
   integrity sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==
 
-sql-formatter@^12.0.4:
-  version "12.0.4"
-  resolved "https://registry.yarnpkg.com/sql-formatter/-/sql-formatter-12.0.4.tgz#1847eaac7b269ffefbd21d211a00cf002e8cfaee"
-  integrity sha512-uyaLYIYe+e8tIpMiWCf2drSVWUQ6Ln8RC5L96ELVPHX4e3jNvvAz7nKSZKSan0rMyHpimc+D8HaiMQ94eFriEQ==
+sql-formatter@12.2.0:
+  version "12.2.0"
+  resolved "https://registry.yarnpkg.com/sql-formatter/-/sql-formatter-12.2.0.tgz#57a86a6ba37e586d85a518d1816d671eca5b7474"
+  integrity sha512-wNsPUdOD6nnN9RUgHlNprQtm+iLW5LTOy/T0/2DDr2UeWSP8mvlQHrx6TY+IG1nfu5Kipq9GaOtS9SVq8s0Vig==
   dependencies:
     argparse "^2.0.1"
     nearley "^2.20.1"
