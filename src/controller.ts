@@ -28,6 +28,7 @@ export class Controller {
     sharePopupShort: e("share-popup-short"),
     sharePopupUrl: e<HTMLInputElement>("share-popup-url"),
     sharePopupHelper: e("share-popup-helper"),
+    schema: e<HTMLInputElement>("schema"),
   };
 
   #isLoading = true;
@@ -39,6 +40,7 @@ export class Controller {
   public onChangeKyselyVersion?: (v: string) => void;
   public onChangeSqlDialect?: (v: SqlDialect) => void;
   public onChangeExampleName?: (v: string) => void;
+  public onChangeSchema?: (v: boolean) => void;
 
   constructor(
     public sqlDialects: SqlDialect[],
@@ -86,6 +88,9 @@ export class Controller {
     });
     this.#e.headerButton.addEventListener("click", () => {
       this.#e.header.classList.toggle("hidden");
+    });
+    this.#e.schema.addEventListener("click", () => {
+      this.onChangeSchema && this.onChangeSchema(this.#e.schema.checked);
     });
   }
 
@@ -201,6 +206,10 @@ export class Controller {
 
   public hideCompiling() {
     this.#e.compiling.classList.add("hidden");
+  }
+
+  public setSchema(v: boolean) {
+    this.#e.schema.checked = v;
   }
 }
 

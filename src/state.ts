@@ -8,6 +8,7 @@ export class State {
   public typescriptFormatOptions: TypescriptFormatOptions;
   public kyselyVersion: string;
   public ts: string;
+  public enableSchema: boolean;
 
   constructor() {
     this.dialect = "postgres";
@@ -18,5 +19,6 @@ export class State {
     this.typescriptFormatOptions = { printWidth: 70, semi: false, singleQuote: true };
     this.kyselyVersion = KyselyVersionManager.LATEST;
     this.ts = "";
+    this.enableSchema = true;
   }
 }

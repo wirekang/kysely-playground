@@ -4,6 +4,7 @@ export type StoreItem = {
   dialect?: SqlDialect;
   ts?: string;
   kyselyVersion?: string;
+  enableSchema?: boolean;
 };
 
 export interface StoreProvider {

@@ -3,7 +3,6 @@ import "./styles/prism-theme.css";
 import "./styles/prism-pgsql";
 
 import { Controller } from "./controller";
-import { EXAMPLES, SQL_DIALECTS } from "./constants/state";
 import { TypescriptEditor } from "./typescript-editor";
 import { State } from "./state";
 import { SqlCompiler } from "./sql-compilers/sql-compiler";
@@ -16,9 +15,11 @@ import { MysqlFormatter } from "./sql-formatters/mysql-formatter";
 import { PostgresFormatter } from "./sql-formatters/postgres-formatter";
 import { SqliteFormatter } from "./sql-formatters/sqlite-formatter";
 import { Store } from "./store";
-import { StoreProviderString } from "./constants/store";
+import { StoreProviderString } from "./store-providers/store-provider-string";
 import { KyselyVersionManager } from "./kysely-version-manager";
-import { KYSELY_GLOBAL_TYPE } from "./constants/editor";
+import { TypeConstants } from "./type-constants";
+import { StoreItem } from "./typings/store";
+import { EXAMPLES } from "./examples";
 
 (async () => {
   let sqlCompiler: SqlCompiler = 0 as any;
@@ -84,10 +85,7 @@ import { KYSELY_GLOBAL_TYPE } from "./constants/editor";
     controller.showSharePopup();
     controller.setSharePopupLinkText();
     controller.setSharePopupHelperText("Loading...");
-    const url = await store.save(
-      { kyselyVersion: state.kyselyVersion, dialect: state.dialect, ts: state.ts },
-      StoreProviderString.B64
-    );
+    const url = await store.save(stateToStoreItem(state), StoreProviderString.B64);
     controller.setSharePopupLinkText(url);
     navigator?.clipboard?.writeText(url).then(() => {
       controller.setSharePopupHelperText("Copied.");
@@ -96,10 +94,7 @@ import { KYSELY_GLOBAL_TYPE } from "./constants/editor";
   controller.onClickMakeShortUrlButton = async () => {
     controller.setSharePopupLinkText();
     controller.setSharePopupHelperText("Loading...");
-    const url = await store.save(
-      { kyselyVersion: state.kyselyVersion, dialect: state.dialect, ts: state.ts },
-      StoreProviderString.Firebase
-    );
+    const url = await store.save(stateToStoreItem(state), StoreProviderString.Firebase);
     controller.setSharePopupLinkText(url);
     navigator?.clipboard?.writeText(url).then(() => {
       controller.setSharePopupHelperText("Copied.");
@@ -123,19 +118,35 @@ import { KYSELY_GLOBAL_TYPE } from "./constants/editor";
     recreateSqlFormatter();
     compile();
   };
-  controller.onChangeExampleName = (v) => {
-    const example = EXAMPLES[v];
+  controller.onChangeExampleName = async (v) => {
+    const example = EXAMPLES.find((e) => e.name === v);
     if (!example) {
       return;
     }
-    editor.value = example.trim();
+    state.dialect = example.dialect ?? "postgres";
+    state.enableSchema = example.enableSchema ?? true;
+    controller.setSchema(state.enableSchema);
+    state.ts = example.ts.trim();
+    editor.value = state.ts;
+    await versionManager.setVersion(state.kyselyVersion);
+    recreateSqlCompiler();
+    recreateSqlFormatter();
+    await compile();
+  };
+  controller.onChangeSchema = async (v) => {
+    state.enableSchema = v;
+    await versionManager.setVersion(state.kyselyVersion);
+    recreateSqlCompiler();
+    recreateSqlFormatter();
+    await compile();
   };
   versionManager.onChangeTypeContent = (t) => {
+    const globalContent = state.enableSchema ? TypeConstants.GLOBAL : TypeConstants.GLOBAL_ANY_DB;
     editor.setExtraLibs([
-      { content: t, filePath: "file:///node_modules/@types/kysely/index.d.ts" },
+      { content: t, filePath: "file:///node_modules/kysely/index.d.ts" },
       {
-        content: KYSELY_GLOBAL_TYPE,
-        filePath: "file:///kysely-global.ts",
+        content: globalContent,
+        filePath: "file:///global.d.ts",
       },
     ]);
   };
@@ -148,8 +159,11 @@ import { KYSELY_GLOBAL_TYPE } from "./constants/editor";
       state.dialect = init.dialect ?? "mysql";
       const kv = init.kyselyVersion ?? KyselyVersionManager.LATEST;
       state.kyselyVersion = kv;
+      state.enableSchema = init.enableSchema ?? true;
       controller.setSqlDialect(state.dialect);
       controller.setKyselyVersion(kv);
+      controller.setSchema(state.enableSchema);
+      await versionManager.setVersion(state.kyselyVersion);
       recreateSqlCompiler();
       recreateSqlFormatter();
       editor.value = init.ts ?? "";
@@ -161,7 +175,16 @@ import { KYSELY_GLOBAL_TYPE } from "./constants/editor";
 })();
 
 function newController() {
-  const exampleNames = ["--select example--", ...Object.keys(EXAMPLES)];
+  const exampleNames = ["--select example--", ...EXAMPLES.map((v) => v.name)];
   const kyselyVersions = KyselyVersionManager.VERSIONS;
-  return new Controller(SQL_DIALECTS, exampleNames, kyselyVersions);
+  return new Controller(["postgres", "mysql", "sqlite"], exampleNames, kyselyVersions);
+}
+
+function stateToStoreItem(state: State): StoreItem {
+  return {
+    enableSchema: state.enableSchema,
+    dialect: state.dialect,
+    kyselyVersion: state.kyselyVersion,
+    ts: state.ts,
+  };
 }

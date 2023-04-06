@@ -1,5 +1,5 @@
 import type { StoreItem, StoreProvider } from "../typings/store";
-import { FIREBASE_URL } from "../constants/store";
+import { FIREBASE_URL } from "./store-provider-string";
 
 export class FirebaseStore implements StoreProvider {
   async load(id: string): Promise<StoreItem> {
