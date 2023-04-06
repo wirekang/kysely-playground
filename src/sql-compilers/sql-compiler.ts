@@ -1,6 +1,6 @@
 import type { Compilable, CompiledQuery, Sql } from "kysely_for_type";
 import { Kysely } from "kysely_for_type";
-import { transpile } from "typescript";
+import { ModuleKind, transpile } from "typescript";
 import { WrongResultException } from "../exceptions/wrong-result-exception";
 import { IMPORT_MAP } from "../gen/kysely-modules";
 
@@ -23,6 +23,7 @@ export abstract class SqlCompiler {
     const kyselyConstructor = m["Kysely"] as any;
     const instance = new kyselyConstructor({ dialect: new dialectConstructor({}) });
     const { result } = doEval({ ts, instance, sql });
+
     if (!result || typeof result?.compile !== "function") {
       throw new WrongResultException();
     }
@@ -38,9 +39,15 @@ function doEval(longArgumentNameToPreventConflicts: {
   const sql = longArgumentNameToPreventConflicts.sql;
   const kysely = longArgumentNameToPreventConflicts.instance;
   const db = kysely;
-  let result: Compilable<any> | null = null as any;
-  const exports = {};
-  eval(transpile(longArgumentNameToPreventConflicts.ts));
+  let result = null as Compilable<any> | null;
+  eval(tsToJs(longArgumentNameToPreventConflicts.ts));
   // prevent minification
-  return { kysely, db, result, sql, exports };
+  return { kysely, db, result, sql };
+}
+
+function tsToJs(ts: string): string {
+  let js = transpile(ts, { module: ModuleKind.ES2020 });
+  js = js.replace(/^\s*export {};?$/m, "");
+  js = js.replace(/^\s*import .+ from .+$/m, "");
+  return js;
 }
