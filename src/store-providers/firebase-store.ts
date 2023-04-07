@@ -1,5 +1,6 @@
 import type { StoreItem, StoreProvider } from "../typings/store";
 import { FIREBASE_URL } from "./store-provider-string";
+import { KyselyVersionManager } from "../kysely-version-manager";
 
 export class FirebaseStore implements StoreProvider {
   async load(id: string): Promise<StoreItem> {
@@ -8,14 +9,11 @@ export class FirebaseStore implements StoreProvider {
     if (res === null) {
       throw new Error("wrong id");
     }
-    if (!res.dialect || typeof res.ts !== "string") {
-      console.error(res);
-      throw new Error("wrong result");
-    }
     return {
-      dialect: res.dialect,
-      ts: res.ts,
-      kyselyVersion: res.kysely_version,
+      dialect: res.dialect ?? "postgres",
+      ts: res.ts ?? "",
+      kyselyVersion: res.kysely_version ?? KyselyVersionManager.LATEST,
+      enableSchema: res.enable_schema ?? true,
     };
   }
 
@@ -26,6 +24,7 @@ export class FirebaseStore implements StoreProvider {
         ts: v.ts,
         dialect: v.dialect,
         kysely_version: v.kyselyVersion,
+        enable_schema: v.enableSchema,
         created_at: {
           ".sv": "timestamp",
         },
