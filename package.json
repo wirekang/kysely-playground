@@ -36,7 +36,7 @@
     "kysely_0_24_0": "npm:kysely@0.24.0",
     "kysely_0_24_1": "npm:kysely@0.24.1",
     "kysely_0_24_2": "npm:kysely@0.24.2",
-    "monaco-editor": "^0.34.1",
+    "monaco-editor": "^0.37.1",
     "prettier": "^2.8.1",
     "prismjs": "^1.29.0",
     "sql-formatter": "12.2.0"
