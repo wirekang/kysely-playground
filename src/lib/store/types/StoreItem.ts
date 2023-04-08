@@ -1,3 +1,3 @@
-import type { State } from "src/lib/state/types/State"
+import type { SharedState } from "src/lib/state/types/SharedState"
 
-export type StoreItem = Partial<State>
+export type StoreItem = Partial<SharedState>
