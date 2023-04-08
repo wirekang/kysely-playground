@@ -62,7 +62,7 @@ export class TypescriptEditor {
       if (!change) {
         return;
       }
-      const shouldSuggest = change.startsWith("'") || change.startsWith('"');
+      const shouldSuggest = ["'", '"', "`"].findIndex((v) => change.startsWith(v)) !== -1;
       if (shouldSuggest) {
         setTimeout(() => {
           this.#editor.trigger(null, "editor.action.triggerSuggest", null);
