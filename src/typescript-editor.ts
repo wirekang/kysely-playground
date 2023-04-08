@@ -46,18 +46,28 @@ export class TypescriptEditor {
       model: monaco.editor.createModel("", "typescript", monaco.Uri.parse("file:///main.ts")),
       theme: "vs-dark",
       quickSuggestions: {
-        strings: true,
+        strings: false,
         comments: false,
-        other: false,
+        other: true,
       },
+      quickSuggestionsDelay: 1,
       lineNumbers: "off",
       folding: false,
-      quickSuggestionsDelay: 1,
       scrollBeyondLastLine: false,
       automaticLayout: true,
     });
-    this.#editor.getModel()!.onDidChangeContent(() => {
+    this.#editor.getModel()!.onDidChangeContent((e) => {
       this.onValueChange && this.onValueChange(this.value);
+      const change = e.changes[0]?.text;
+      if (!change) {
+        return;
+      }
+      const shouldSuggest = change.startsWith("'") || change.startsWith('"');
+      if (shouldSuggest) {
+        setTimeout(() => {
+          this.#editor.trigger(null, "editor.action.triggerSuggest", null);
+        }, 100);
+      }
     });
   }
 
