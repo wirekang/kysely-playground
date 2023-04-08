@@ -4,43 +4,10 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kysely Playground</title>
+    <title>Vite + React + TS</title>
   </head>
   <body>
-    <button id="header-button">...</button>
-    <div id="header" class="hidden">
-      <button id="share">Share</button>
-      <button id="prettify">Prettify</button>
-      <select id="kysely-version"></select>
-      <select id="sql-dialect"></select>
-
-      <select id="example"></select>
-      <label>schema<input id="schema" type="checkbox" /></label>
-      <div class="vl">|</div>
-      <div id="github">
-        <a target="_blank" href="https://github.com/wirekang/kysely-playground">Github</a>
-      </div>
-    </div>
-    <div id="main-container">
-      <div id="input-container"></div>
-      <div id="loading"></div>
-      <div id="output-container">
-        <div id="compiling" class="hidden">Compiling...</div>
-        <pre id="sql"></pre>
-        <div id="sql-parameters" class="hidden"></div>
-        <div id="error" class="hidden">
-          <div id="error-title"></div>
-          <div id="error-body"></div>
-        </div>
-      </div>
-    </div>
-    <div id="share-popup" class="hidden">
-      <button id="share-popup-close">X</button>
-      <button id="share-popup-short">Short URL</button>
-      <br />
-      <input type="text" id="share-popup-url" readonly />
-      <div id="share-popup-helper"></div>
-    </div>
-    <script type="module" src="/src/main.ts"></script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
