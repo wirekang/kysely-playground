@@ -1,4 +1,4 @@
-import type { SharedState } from "src/lib/state/types/SharedState"
+import type { ShareableState } from "src/lib/state/types/ShareableState"
 import type { StoreProvider } from "src/lib/store/types/StoreProvider"
 import { StoreProviderId } from "src/lib/store/types/StoreProviderId"
 
@@ -7,7 +7,7 @@ export class LegacyFirebaseStoreProvider implements StoreProvider {
 
   public readonly id = StoreProviderId.LegacyFirebase
 
-  public async load(value: string): Promise<Partial<SharedState>> {
+  public async load(value: string): Promise<Partial<ShareableState>> {
     const response = await fetch(`${LegacyFirebaseStoreProvider.RTDB_STATE_URL}/${value}.json`)
     const obj = await response.json()
 

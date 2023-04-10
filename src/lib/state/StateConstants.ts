@@ -1,8 +1,8 @@
-import type { SharedState } from "src/lib/state/types/SharedState"
+import type { ShareableState } from "src/lib/state/types/ShareableState"
 import { SqlDialect } from "src/lib/sql/types/SqlDialect"
 
 export class StateConstants {
-  public static readonly DEFAULT_SHARED_STATE: SharedState = {
+  public static readonly DEFAULT_SHAREABLE_STATE: ShareableState = {
     dialect: SqlDialect.Postgres,
     kyselyVersion: "",
     ts: "",

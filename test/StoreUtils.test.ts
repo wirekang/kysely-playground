@@ -4,15 +4,17 @@ import { StateConstants } from "src/lib/state/StateConstants"
 import { StoreProviderId } from "src/lib/store/types/StoreProviderId"
 
 test("makeState", () => {
-  expect(StoreUtils.makeSharedState({})).toStrictEqual(StateConstants.DEFAULT_SHARED_STATE)
-  expect(StoreUtils.makeSharedState({ dialect: "asdf" as any })).toStrictEqual(StateConstants.DEFAULT_SHARED_STATE)
+  expect(StoreUtils.makeShareableState({})).toStrictEqual(StateConstants.DEFAULT_SHAREABLE_STATE)
+  expect(StoreUtils.makeShareableState({ dialect: "asdf" as any })).toStrictEqual(
+    StateConstants.DEFAULT_SHAREABLE_STATE
+  )
   expect(
-    StoreUtils.makeSharedState({
+    StoreUtils.makeShareableState({
       wrongValueAsKey: "",
     } as any)
-  ).toStrictEqual(StateConstants.DEFAULT_SHARED_STATE)
+  ).toStrictEqual(StateConstants.DEFAULT_SHAREABLE_STATE)
   expect(
-    StoreUtils.makeSharedState({
+    StoreUtils.makeShareableState({
       kyselyVersion: "0.42.1",
       dialect: "sqlite",
       ts: "\n\n\nQqqqqqqqqqqq\r\nj안녕하세요.\t",

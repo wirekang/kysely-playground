@@ -1,11 +1,11 @@
 import { expect, test } from "vitest"
 import { StoreManager } from "src/lib/store/StoreManager"
 import { StoreProviderId } from "src/lib/store/types/StoreProviderId"
-import { SharedState } from "src/lib/state/types/SharedState"
+import { ShareableState } from "src/lib/state/types/ShareableState"
 
 const storeManager = new StoreManager()
 
-type LoadSamples = { state: SharedState; value: string }[]
+type LoadSamples = { state: ShareableState; value: string }[]
 const BASE64_LOAD: LoadSamples = [
   {
     value:
@@ -98,7 +98,7 @@ function testLoads(providerId: StoreProviderId, loads: LoadSamples) {
   }
 }
 
-const BIDIRECTIONAL: SharedState[] = [
+const BIDIRECTIONAL: ShareableState[] = [
   {
     dialect: "sqlite",
     kyselyVersion: "0.23.0",

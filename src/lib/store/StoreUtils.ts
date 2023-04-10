@@ -1,15 +1,17 @@
 import { StoreItem } from "src/lib/store/types/StoreItem"
-import { SharedState } from "src/lib/state/types/SharedState"
+import { ShareableState } from "src/lib/state/types/ShareableState"
 import { StateConstants } from "src/lib/state/StateConstants"
 import { LogUtils } from "src/lib/log/LogUtils"
 import { StoreProviderId } from "src/lib/store/types/StoreProviderId"
 import { StoreProvider } from "src/lib/store/types/StoreProvider"
 import { StoreConstants } from "src/lib/store/StoreConstants"
 import { SqlDialect } from "src/lib/sql/types/SqlDialect"
+import { EnumUtils } from "../EnumUtils"
 
 export class StoreUtils {
-  public static makeSharedState(storeItem: StoreItem): SharedState {
-    const state = { ...StateConstants.DEFAULT_SHARED_STATE }
+  public static makeShareableState(storeItem: StoreItem): ShareableState {
+    const state = { ...StateConstants.DEFAULT_SHAREABLE_STATE }
+    const sqlDialects = EnumUtils.values(SqlDialect)
     Object.keys(storeItem).forEach((key) => {
       if ((state as any)[key] === undefined) {
         LogUtils.warn("unexpected key:", key)
@@ -19,9 +21,9 @@ export class StoreUtils {
       // @ts-ignore
       state[key] = storeItem[key]
     })
-    if ((SqlDialect as any)[state.dialect] === undefined) {
+    if (!sqlDialects.includes(state.dialect)) {
       LogUtils.warn("unexpected dialect:", state.dialect)
-      state.dialect = StateConstants.DEFAULT_SHARED_STATE.dialect
+      state.dialect = StateConstants.DEFAULT_SHAREABLE_STATE.dialect
     }
     return state
   }
