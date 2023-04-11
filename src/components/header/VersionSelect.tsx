@@ -1,24 +1,29 @@
-import styles from "./header.module.css"
 import { KyselyConstants } from "src/lib/kysely/KyselyConstants"
 import { useRecoilState } from "recoil"
-import { kyselyVersionState } from "src/atoms/kyselyVersionState"
+import { shareableStateState } from "src/lib/state/atoms/shareableStateState"
+import { HeaderSelect } from "src/components/header/HeaderSelect"
+import { HeaderOption } from "src/components/header/HeaderOption"
 
 export function VersionSelect(): JSX.Element {
-  const [version, setVersion] = useRecoilState(kyselyVersionState)
+  const [shareableState, setShareableState] = useRecoilState(shareableStateState)
+
+  const setVersion = (kyselyVersion: string) => {
+    setShareableState((v) => ({ ...v, kyselyVersion }))
+  }
 
   return (
-    <select
-      className={styles.versions}
-      value={version}
+    <HeaderSelect
+      title="kysely"
+      value={shareableState.kyselyVersion}
       onChange={(e) => {
         setVersion(e.target.value)
       }}
     >
       {KyselyConstants.VERSIONS.map((version) => (
-        <option key={version} value={version}>
+        <HeaderOption key={version} value={version}>
           {version}
-        </option>
+        </HeaderOption>
       ))}
-    </select>
+    </HeaderSelect>
   )
 }

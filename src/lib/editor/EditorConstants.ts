@@ -17,9 +17,9 @@ export class EditorConstants {
     quickSuggestionsDelay: 10,
     lineNumbers: "off",
     folding: false,
-    automaticLayout: true,
     fontFamily: "Jetbrains Mono",
     padding: { top: 2, bottom: 4 },
+    automaticLayout: true,
   }
 
   public static readonly TYPESCRIPT_EDITOR_OPTIONS: editor.IStandaloneEditorConstructionOptions = {

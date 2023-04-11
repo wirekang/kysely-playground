@@ -1,23 +1,22 @@
-import styles from "./App.module.css"
 import { MonacoProvider } from "src/lib/editor/contexts/MonacoContext"
 import { Header } from "src/components/header/Header"
-import { TypescriptEditor } from "src/components/editor/TypescriptEditor"
-import { SqlEditor } from "src/components/editor/SqlEditor"
-import classNames from "classnames"
+import { EditorContainer } from "src/components/editor/EditorContainer"
 
 function App() {
   return (
-    <div className={styles.app}>
-      <MonacoProvider fallback={<div>LOADING...</div>}>
-        <Header />
-        <div className={styles.wrapper}>
-          <div className={classNames(styles.editorWrapper, styles.tsWrapper)}>
-            <TypescriptEditor />
-          </div>
-          <div className={classNames(styles.editorWrapper, styles.sqlWrapper)}>
-            <SqlEditor />
-          </div>
-        </div>
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "stretch",
+        justifyContent: "flex-start",
+      }}
+    >
+      <Header />
+      <MonacoProvider>
+        <EditorContainer />
       </MonacoProvider>
     </div>
   )

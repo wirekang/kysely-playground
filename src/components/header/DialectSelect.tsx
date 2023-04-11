@@ -1,22 +1,28 @@
-import styles from "src/components/header/header.module.css"
 import { SqlDialect } from "src/lib/sql/types/SqlDialect"
 import { useRecoilState } from "recoil"
-import { dialectState } from "src/atoms/dialectState"
+import { shareableStateState } from "src/lib/state/atoms/shareableStateState"
+import { EnumUtils } from "src/lib/EnumUtils"
+import { HeaderSelect } from "src/components/header/HeaderSelect"
+import { HeaderOption } from "src/components/header/HeaderOption"
 
 export function DialectSelect(): JSX.Element {
-  const [dialect, setDialect] = useRecoilState(dialectState)
+  const [shareableState, setShareableState] = useRecoilState(shareableStateState)
+
+  const setDialect = (dialect: SqlDialect) => {
+    setShareableState((v) => ({ ...v, dialect }))
+  }
+
   return (
-    <select
-      className={styles.dialects}
-      value={dialect}
+    <HeaderSelect
+      title="dialect"
+      value={shareableState.dialect}
       onChange={(e) => {
         setDialect(e.target.value as any)
       }}
     >
-      {Object.keys(SqlDialect).map((key) => (
-        // @ts-ignore
-        <option key={SqlDialect[key]}>{SqlDialect[key]}</option>
+      {EnumUtils.values(SqlDialect).map((sqlDialect) => (
+        <HeaderOption key={sqlDialect}>{sqlDialect}</HeaderOption>
       ))}
-    </select>
+    </HeaderSelect>
   )
 }

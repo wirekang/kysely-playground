@@ -1,33 +1,33 @@
-import { createContext, ReactNode, useEffect, useState } from "react"
-import { MonacoLoader } from "src/lib/editor/MonacoLoader"
-import { DebugUtils } from "src/lib/DebugUtils"
-import { EnvConstants } from "src/lib/env/EnvConstants"
+import { createContext, ReactNode, useContext, useEffect, useState } from "react"
+import { EditorUtils } from "src/lib/editor/EditorUtils"
+import type * as monaco from "monaco-editor"
+import { useRecoilState } from "recoil"
+import { loadingState } from "src/lib/loading/atoms/loadingState"
 
-const MonacoContext = createContext(null)
+const MonacoContext = createContext<typeof monaco>(null as any)
 
 interface Props {
-  fallback: ReactNode
   children: ReactNode
 }
 
-export function MonacoProvider({ children, fallback }: Props): JSX.Element {
-  const [ok, setOk] = useState(false)
+export function MonacoProvider(props: Props): JSX.Element {
+  const [value, setValue] = useState<typeof monaco | null>(null)
+  const [, setLoading] = useRecoilState(loadingState)
 
   useEffect(() => {
-    MonacoLoader.load()
-      .then(async () => {
-        if (EnvConstants.PROD) {
-          return
-        }
-        return DebugUtils.sleep(222)
-      })
-      .then(() => {
-        setOk(true)
-      })
+    setLoading((v) => ({ ...v, monaco: true }))
+    EditorUtils.loadMonaco().then((r) => {
+      setValue(r)
+      setLoading((v) => ({ ...v, monaco: false }))
+    })
   }, [])
 
-  if (!ok) {
-    return <>{fallback}</>
+  if (!value) {
+    return <></>
   }
-  return <MonacoContext.Provider value={null}>{children}</MonacoContext.Provider>
+  return <MonacoContext.Provider value={value}>{props.children}</MonacoContext.Provider>
+}
+
+export function useMonaco() {
+  return useContext(MonacoContext)
 }

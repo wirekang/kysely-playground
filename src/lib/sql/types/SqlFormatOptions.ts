@@ -1,4 +1,4 @@
-export type SqlFormatOption = {
+export type SqlFormatOptions = {
   lowerKeywords: boolean
   inlineParameters: boolean
 }

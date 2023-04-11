@@ -1,4 +1,4 @@
-export type TypescriptFormatOption = {
+export type TypescriptFormatOptions = {
   semi: boolean
   printWidth: number
   singleQuote: boolean

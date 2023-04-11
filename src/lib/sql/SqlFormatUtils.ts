@@ -1,4 +1,4 @@
-import type { SqlFormatOption } from "src/lib/sql/types/SqlFormatOption"
+import type { SqlFormatOptions } from "src/lib/sql/types/SqlFormatOptions"
 import { format } from "sql-formatter"
 import { SqlDialect } from "src/lib/sql/types/SqlDialect"
 
@@ -8,7 +8,7 @@ export class SqlFormatUtils {
     [SqlDialect.Mysql]: "mysql",
     [SqlDialect.Sqlite]: "sqlite",
   }
-  public static format(sql: string, parameters: any[], dialect: SqlDialect, option: SqlFormatOption): string {
+  public static format(sql: string, parameters: any[], dialect: SqlDialect, option: SqlFormatOptions): string {
     const params = option.inlineParameters
       ? SqlFormatUtils.getParams(parameters.map(SqlFormatUtils.escape), dialect)
       : undefined

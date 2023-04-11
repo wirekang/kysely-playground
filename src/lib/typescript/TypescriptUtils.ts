@@ -1,9 +1,9 @@
-import { format } from "prettier"
-import typescriptParser from "prettier/parser-typescript"
-import { TypescriptFormatOption } from "src/lib/typescript/types/TypescriptFormatOption"
+import { TypescriptFormatOptions } from "src/lib/typescript/types/TypescriptFormatOptions"
 
 export class TypescriptUtils {
-  public static async format(ts: string, option: TypescriptFormatOption): Promise<string> {
+  public static async format(ts: string, option: TypescriptFormatOptions): Promise<string> {
+    const { format } = await import("prettier")
+    const typescriptParser = await import("prettier/parser-typescript")
     return format(ts, {
       parser: "typescript",
       plugins: [typescriptParser],
