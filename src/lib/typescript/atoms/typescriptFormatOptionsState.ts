@@ -5,7 +5,7 @@ export const typescriptFormatOptionsState = atom<TypescriptFormatOptions>({
   key: "typescriptFormatOptions",
   default: {
     semi: false,
-    printWidth: 100,
+    printWidth: 80,
     singleQuote: false,
   },
 })

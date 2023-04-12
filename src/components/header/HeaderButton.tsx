@@ -1,14 +1,11 @@
-import { CSSProperties, ReactNode } from "react"
+import { ButtonHTMLAttributes } from "react"
 
-interface Props {
-  style?: CSSProperties
-  children?: ReactNode
-  onClick: () => void
-}
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export function HeaderButton(props: Props): JSX.Element {
   return (
     <button
+      {...props}
       style={{
         ...props.style,
         border: "1px solid #555",
@@ -18,10 +15,9 @@ export function HeaderButton(props: Props): JSX.Element {
         paddingRight: 8,
         margin: 4,
         backgroundColor: "#303030",
+        opacity: props.disabled ? 0.5 : 1,
       }}
       onClick={props.onClick}
-    >
-      {props.children}
-    </button>
+    />
   )
 }

@@ -1,4 +1,5 @@
 import { TypescriptFormatOptions } from "src/lib/typescript/types/TypescriptFormatOptions"
+import { ModuleKind, transpile } from "typescript"
 
 export class TypescriptUtils {
   public static async format(ts: string, option: TypescriptFormatOptions): Promise<string> {
@@ -12,5 +13,12 @@ export class TypescriptUtils {
       printWidth: option.printWidth,
       singleQuote: option.singleQuote,
     })
+  }
+
+  public static toJs(ts: string): string {
+    return transpile(ts, { module: ModuleKind.ES2020 })
+      .replace(/^\s*export {};?$/m, "")
+      .replace(/^\s*import .+ from .+$/m, "")
+      .replace(/\s+await\s+/, " ")
   }
 }

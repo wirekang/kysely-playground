@@ -1,6 +1,7 @@
 import { MonacoProvider } from "src/lib/editor/contexts/MonacoContext"
 import { Header } from "src/components/header/Header"
 import { EditorContainer } from "src/components/editor/EditorContainer"
+import { Footer } from "src/components/footer/Footer"
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <MonacoProvider>
         <EditorContainer />
       </MonacoProvider>
+      <Footer />
     </div>
   )
 }

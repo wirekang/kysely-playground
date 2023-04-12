@@ -1,10 +1,12 @@
 import { KyselyConstants } from "src/lib/kysely/KyselyConstants"
-import { useRecoilState } from "recoil"
+import { useRecoilState, useRecoilValue } from "recoil"
 import { shareableStateState } from "src/lib/state/atoms/shareableStateState"
 import { HeaderSelect } from "src/components/header/HeaderSelect"
 import { HeaderOption } from "src/components/header/HeaderOption"
+import { loadingState } from "src/lib/loading/atoms/loadingState"
 
 export function VersionSelect(): JSX.Element {
+  const { kysely: loading } = useRecoilValue(loadingState)
   const [shareableState, setShareableState] = useRecoilState(shareableStateState)
 
   const setVersion = (kyselyVersion: string) => {
@@ -18,6 +20,7 @@ export function VersionSelect(): JSX.Element {
       onChange={(e) => {
         setVersion(e.target.value)
       }}
+      disabled={loading}
     >
       {KyselyConstants.VERSIONS.map((version) => (
         <HeaderOption key={version} value={version}>

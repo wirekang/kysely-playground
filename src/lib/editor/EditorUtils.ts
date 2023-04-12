@@ -2,6 +2,7 @@ import { loader } from "@monaco-editor/react"
 import * as monaco from "monaco-editor"
 import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker"
 import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker"
+import { EditorConstants } from "src/lib/editor/EditorConstants"
 
 export class EditorUtils {
   public static async loadMonaco(): Promise<typeof monaco> {
@@ -15,5 +16,9 @@ export class EditorUtils {
     }
     loader.config({ monaco })
     return loader.init()
+  }
+
+  public static dispatchSetTs(ts: string) {
+    window.dispatchEvent(new CustomEvent(EditorConstants.EVENT_SET_TS, { detail: ts }))
   }
 }

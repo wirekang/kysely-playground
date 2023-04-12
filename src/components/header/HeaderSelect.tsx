@@ -25,6 +25,7 @@ export function HeaderSelect(props: Props): JSX.Element {
           padding: 4,
           paddingRight: 24,
           backgroundColor: "#303030",
+          opacity: props.disabled ? 0.5 : 1,
         }}
       />
       <div
@@ -44,6 +45,7 @@ export function HeaderSelect(props: Props): JSX.Element {
           position: "absolute",
           right: 10,
           top: 10,
+          opacity: props.disabled ? 0.5 : 1,
         }}
       >
         ▼

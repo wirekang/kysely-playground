@@ -12,11 +12,17 @@ export class SqlFormatUtils {
     const params = option.inlineParameters
       ? SqlFormatUtils.getParams(parameters.map(SqlFormatUtils.escape), dialect)
       : undefined
-    return format(sql, {
-      language: SqlFormatUtils.dialectLanguageMap[dialect],
-      keywordCase: option.lowerKeywords ? "lower" : "upper",
-      params,
-    })
+    return (
+      format(sql, {
+        language: SqlFormatUtils.dialectLanguageMap[dialect],
+        keywordCase: option.lowerKeywords ? "lower" : "upper",
+        params,
+      }) + this.formatParameters(parameters)
+    )
+  }
+
+  private static formatParameters(parameters: any[]): string {
+    return "\n\n-- Parameters\n" + parameters.map((v, i) => `-- $${i + 1}: ${v}`).join("\n")
   }
 
   private static getParams(parameters: any[], dialect: SqlDialect): any {

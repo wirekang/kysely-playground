@@ -6,8 +6,7 @@ export const loadingState = atom<Loading>({
   default: {
     monaco: true,
     kysely: true,
-    compile: true,
-    prettier: true,
-    share: true,
+    prettier: false,
+    share: false,
   },
 })
