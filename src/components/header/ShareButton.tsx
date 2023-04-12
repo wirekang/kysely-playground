@@ -1,5 +1,16 @@
 import { HeaderButton } from "src/components/header/HeaderButton"
+import { useRecoilState } from "recoil"
+import { showSharePopupState } from "src/lib/ui/atoms/showSharePopupState"
 
 export function ShareButton(): JSX.Element {
-  return <HeaderButton>Share</HeaderButton>
+  const [, setShow] = useRecoilState(showSharePopupState)
+  return (
+    <HeaderButton
+      onClick={() => {
+        setShow(true)
+      }}
+    >
+      Share
+    </HeaderButton>
+  )
 }

@@ -8,5 +8,6 @@ export const loadingState = atom<Loading>({
     kysely: true,
     prettier: false,
     share: false,
+    typescriptModel: true,
   },
 })

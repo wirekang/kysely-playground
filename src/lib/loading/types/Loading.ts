@@ -3,4 +3,5 @@ export type Loading = {
   monaco: boolean
   kysely: boolean
   share: boolean
+  typescriptModel: boolean
 }

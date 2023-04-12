@@ -16,5 +16,8 @@ export function useSetTypescriptCompilerOptions() {
       noImplicitAny: true,
       strictNullChecks: true,
     })
+    monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
+      diagnosticCodesToIgnore: [1375],
+    })
   }, [monaco])
 }

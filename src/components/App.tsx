@@ -2,6 +2,7 @@ import { MonacoProvider } from "src/lib/editor/contexts/MonacoContext"
 import { Header } from "src/components/header/Header"
 import { EditorContainer } from "src/components/editor/EditorContainer"
 import { Footer } from "src/components/footer/Footer"
+import { StoreManagerProvider } from "src/lib/store/context/StoreManagerContext"
 
 function App() {
   return (
@@ -17,7 +18,9 @@ function App() {
     >
       <Header />
       <MonacoProvider>
-        <EditorContainer />
+        <StoreManagerProvider>
+          <EditorContainer />
+        </StoreManagerProvider>
       </MonacoProvider>
       <Footer />
     </div>
