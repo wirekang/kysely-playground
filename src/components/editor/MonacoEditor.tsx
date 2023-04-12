@@ -1,6 +1,6 @@
 import { Editor, OnMount } from "@monaco-editor/react"
-import { CSSProperties, useEffect, useRef, useState } from "react"
-import { editor, IRange, Range } from "monaco-editor"
+import { CSSProperties, useEffect, useState } from "react"
+import { editor } from "monaco-editor"
 import { useIsCompact } from "src/lib/ui/hooks/useIsCompact"
 
 interface Props {

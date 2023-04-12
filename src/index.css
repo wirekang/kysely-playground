@@ -1,5 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap");
+
 * {
-  font-family: Courier, Consolas, monospace;
+  font-family: "JetBrains Mono", Courier, Consolas, monospace;
 }
 
 :root {

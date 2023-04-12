@@ -30,6 +30,7 @@ export function SharePopup(): JSX.Element {
     let storeProviderId =
       shareKind === ShareKind.Short ? StoreProviderId.MsgPackFirestore : StoreProviderId.MsgPackBase64
 
+    setUrl("")
     setLoading((v) => ({ ...v, share: true }))
     storeManager
       .save(storeProviderId, shareableState)
@@ -38,6 +39,7 @@ export function SharePopup(): JSX.Element {
         if (shareKind === ShareKind.Markdown) {
           url = `[Playground Link](${url})`
         }
+        setShareKind(shareKind)
         setUrl(url)
         return navigator?.clipboard?.writeText(url)
       })
@@ -87,11 +89,10 @@ export function SharePopup(): JSX.Element {
         style={{
           position: "absolute",
           zIndex: 100,
-          width: "80%",
+          width: "90%",
           maxWidth: 500,
           top: 8,
           left: 8,
-          height: 100,
           backgroundColor: "#333",
           borderRadius: 8,
           border: "1px solid #777",
@@ -109,6 +110,7 @@ export function SharePopup(): JSX.Element {
           {EnumUtils.values(ShareKind).map((kind) => (
             <HeaderButton
               key={kind}
+              style={{ fontSize: "14px" }}
               onClick={() => {
                 setShareKind(kind)
               }}
@@ -120,7 +122,7 @@ export function SharePopup(): JSX.Element {
         </div>
         <input
           ref={urlRef}
-          style={{ width: "100%", border: "1px solid #777", fontSize: "10px" }}
+          style={{ width: "100%", border: "1px solid #777", fontSize: "10px", marginTop: 4, marginBottom: 4 }}
           type="text"
           readOnly
           value={url}
