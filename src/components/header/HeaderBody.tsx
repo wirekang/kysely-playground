@@ -8,6 +8,7 @@ import { PrettifyButton } from "src/components/header/PrettifyButton"
 import { DialectSelect } from "src/components/header/DialectSelect"
 import { VersionSelect } from "src/components/header/VersionSelect"
 import { GithubLinkWrapper } from "src/components/header/GithubLinkWrapper"
+import { ExampleSelect } from "src/components/header/ExampleSelect"
 
 export function HeaderBody(): JSX.Element {
   const compact = useIsCompact()
@@ -21,6 +22,7 @@ export function HeaderBody(): JSX.Element {
       <PrettifyButton />
       <DialectSelect />
       <VersionSelect />
+      <ExampleSelect />
       <ExpandHeaderButton />
       <GithubLinkWrapper />
     </HeaderBodyContainer>

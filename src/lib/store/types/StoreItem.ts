@@ -1,3 +1,13 @@
-import type { ShareableState } from "src/lib/state/types/ShareableState"
+export type StoreItem = {
+  // typescript schema
+  s?: string
 
-export type StoreItem = Partial<ShareableState>
+  // typescript query
+  q?: string
+
+  // sql dialect
+  d?: string
+
+  // kysely version
+  v?: string
+}

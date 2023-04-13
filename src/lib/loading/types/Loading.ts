@@ -1,7 +1,8 @@
 export type Loading = {
-  prettier: boolean
-  monaco: boolean
-  kysely: boolean
-  share: boolean
-  typescriptModel: boolean
+  prettier: boolean | string
+  monaco: boolean | string
+  kyselyModule: boolean | string
+  kyselyType: boolean | string
+  compile: boolean | string
+  share: boolean | string
 }

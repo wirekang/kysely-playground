@@ -1,5 +1,5 @@
 export type TypescriptFormatOptions = {
   semi: boolean
-  printWidth: number
+  wide: boolean
   singleQuote: boolean
 }

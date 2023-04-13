@@ -1,5 +1,5 @@
 export class TypescriptConstants {
-  public static readonly GLOBAL_TYPE_CONTENT = `
+  public static readonly PLAYGROUND_GLOBAL_TYPE_CONTENT = `
   import {Kysely, sql as kyselySql} from 'kysely';
   
   declare global {

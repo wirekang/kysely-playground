@@ -1312,6 +1312,56 @@ jsonc-parser@^3.2.0:
   resolved "https://registry.yarnpkg.com/jsonc-parser/-/jsonc-parser-3.2.0.tgz#31ff3f4c2b9793f89c67212627c51c6394f88e76"
   integrity sha512-gfFQZrcTc8CnKXp6Y4/CBT3fTc0OVuDofpre4aEeEpSBPV5X5v4+Vmx+8snU7RLPrNHPKSgLxGo9YuQzz20o+w==
 
+"kysely_0_19_12@npm:kysely@0.19.12":
+  version "0.19.12"
+  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.19.12.tgz#90122c0f1f6f9130320f4e29c7235f9cc26a2b0a"
+  integrity sha512-1Td7J9o5nPywsyofr0C7jIT5HCan5OknxbmGl43n6QrrfW/4UTi+Majq5RYxAjuKjNmexFWsMpizHPcspX3SoA==
+
+"kysely_0_20_0@npm:kysely@0.20.0":
+  version "0.20.0"
+  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.20.0.tgz#33b58024a5a4692231c2878b740b8abf1ff91617"
+  integrity sha512-qtt8zHpzj3wXb+j9VVvQj72Hsl4pF5N+rnFOEsTvGEK08K4iizQLTY6agiwlGhghzCzOuP71Y94Kbh+ylQV7bQ==
+
+"kysely_0_20_1@npm:kysely@0.20.1":
+  version "0.20.1"
+  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.20.1.tgz#f5cf0e8631a4942f36026e057c622451ab15ae8a"
+  integrity sha512-YEPzr1ZdyQumuvKLG1NY9g4ijfSUmYmmzeJ+ZQ/tINCfovn9TcuZS8PU9PzDE/sDJm6dGY9CYpYI+98zDrOLqQ==
+
+"kysely_0_21_0@npm:kysely@0.21.0":
+  version "0.21.0"
+  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.21.0.tgz#03e216db80377b915116257ff50c501ef447ee44"
+  integrity sha512-epebe5UYHZrUqPQ2kcTUy6HMDowJnf/zoYVBm7UJbGwBcg7pQaRvPKbpOGuJVHSkWUrySfoFktINKgk7I0IA9Q==
+
+"kysely_0_21_1@npm:kysely@0.21.1":
+  version "0.21.1"
+  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.21.1.tgz#4ac67965c42ea8b0e0bab0aaec2d676d48d3981c"
+  integrity sha512-egHchXKycy9SSVd9+XaZzAUdsztNBG+s4oRExLcb1HEw/wfIDxK+SPaWpqY/cSq5rcCKcjCeXZankgX1o+mkcw==
+
+"kysely_0_21_2@npm:kysely@0.21.2":
+  version "0.21.2"
+  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.21.2.tgz#2b39bf9a25c4916753b009cdf269b61b0a39cd3a"
+  integrity sha512-EWkZlITMehwhGDn/7sqACkHnSaaAls9tQ/5cx+cXgmfscIuYz3BdV5FfdwVpLDlZCtaQk1erg3+eZpqgW2hNTw==
+
+"kysely_0_21_3@npm:kysely@0.21.3":
+  version "0.21.3"
+  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.21.3.tgz#f2d6ecaed2cb4c099d34a4ebdf3d6d6604986133"
+  integrity sha512-frAPICQjRn8Q9k8NpkuOXpwcSNhheHY7YWU28LMiNPugI4mKEc60fobnVk3OMXsgr4ZXOwCNYz616PUYMgYFog==
+
+"kysely_0_21_4@npm:kysely@0.21.4":
+  version "0.21.4"
+  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.21.4.tgz#40a555054c9dbdcc117e91b6a6b4bec27480de77"
+  integrity sha512-EIy6n1tmhGq/wSsglqimoyuMFBGioNWLwVTWDD4pKAn0uhOy/6iXKNu7SVbrWS1tsEZ1kY5u817jVtNpP6yF5Q==
+
+"kysely_0_21_5@npm:kysely@0.21.5":
+  version "0.21.5"
+  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.21.5.tgz#5278da8aa940a234bc98312a82e8bab8c5f04892"
+  integrity sha512-a/j57I2pJzdzk5HJ4Tf6PHQTf0+V0gkg/tK178OpCcxZ1kbzzhRpycVqnPTm8WRqf1w7iCPc/IrCBFkOwSwwRw==
+
+"kysely_0_21_6@npm:kysely@0.21.6":
+  version "0.21.6"
+  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.21.6.tgz#5cb22b8f60e2bd730c9823fb2e7b9c7884f2de4d"
+  integrity sha512-DNecGKzzYtx2OumPJ8inrVFsSfq1lNHLFZDJvXMQxqbrTFElqq70VLR3DiK0P9fw4pB+xXTYvLiLurWiYqgk3w==
+
 "kysely_0_22_0@npm:kysely@0.22.0":
   version "0.22.0"
   resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.22.0.tgz#8aac53942da3cadc604d7d154a746d983fe8f7b9"
@@ -1840,10 +1890,10 @@ type-detect@^4.0.0, type-detect@^4.0.5:
   resolved "https://registry.yarnpkg.com/type-detect/-/type-detect-4.0.8.tgz#7646fb5f18871cfbb7749e69bd39a6388eb7450c"
   integrity sha512-0fr/mIH1dlO+x7TlcMy+bIDqKPsw/70tVyeHW787goQjhmqaZe10uwLujubK9q9Lg6Fiho1KUKDYz0Z7k7g5/g==
 
-typescript@^4.9.3:
-  version "4.9.5"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.9.5.tgz#095979f9bcc0d09da324d58d03ce8f8374cbe65a"
-  integrity sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==
+typescript@4.9.4:
+  version "4.9.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.9.4.tgz#a2a3d2756c079abda241d75f149df9d561091e78"
+  integrity sha512-Uz+dTXYzxXXbsFpM86Wh3dKCxrQqUcVMxwU54orwlJjOpO3ao8L7j5lH+dWfTwgCwIuM9GQ2kvVotzYJMXTBZg==
 
 ufo@^1.1.1:
   version "1.1.1"

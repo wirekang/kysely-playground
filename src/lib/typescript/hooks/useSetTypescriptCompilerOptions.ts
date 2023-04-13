@@ -8,6 +8,7 @@ export function useSetTypescriptCompilerOptions() {
     if (!monaco) {
       return
     }
+
     monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
       module: monaco.languages.typescript.ModuleKind.ESNext,
       moduleResolution: monaco.languages.typescript.ModuleResolutionKind.NodeJs,

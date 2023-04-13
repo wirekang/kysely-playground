@@ -1,43 +1,21 @@
-import { Editor, OnMount } from "@monaco-editor/react"
-import { CSSProperties, useEffect, useState } from "react"
+import { Editor } from "@monaco-editor/react"
+import { CSSProperties } from "react"
 import { editor } from "monaco-editor"
 import { useIsCompact } from "src/lib/ui/hooks/useIsCompact"
+import { MonacoEditorEvents } from "src/lib/editor/types/MonacoEditorEvents"
+import { RecoilState } from "recoil"
+import { useSetMonacoEditorEvents } from "src/lib/editor/hooks/useSetMonacoEditorEvents"
 
 interface Props {
   options: editor.IStandaloneEditorConstructionOptions
   wrapperStyle?: CSSProperties
-  onChange?: (v: string) => void
-  value?: string
-  name?: string
-  onModel?: (v: editor.ITextModel) => void
+  eventsState: RecoilState<MonacoEditorEvents | null>
+  valueState: RecoilState<string>
 }
 
 export function MonacoEditor(props: Props): JSX.Element {
   const compact = useIsCompact()
-  const [model, setModel] = useState<editor.ITextModel | null>(null)
-
-  const handleOnMount: OnMount = (editor) => {
-    const model = editor.getModel()
-    if (!model) {
-      throw Error("model is null")
-    }
-    setModel(model)
-    props.onModel && props.onModel(model)
-  }
-
-  useEffect(() => {
-    if (model) {
-      model.onDidChangeContent((e) => {
-        props.onChange && props.onChange(model.getValue())
-      })
-    }
-  }, [model])
-
-  useEffect(() => {
-    if (props.value) {
-      model?.setValue(props.value)
-    }
-  }, [props.value])
+  const set = useSetMonacoEditorEvents(props.eventsState, props.valueState)
 
   return (
     <Editor
@@ -53,7 +31,7 @@ export function MonacoEditor(props: Props): JSX.Element {
       }}
       width="100%"
       height="100%"
-      onMount={handleOnMount}
+      onMount={set}
       options={props.options}
       theme="vs-dark"
     />

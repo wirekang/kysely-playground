@@ -4,10 +4,11 @@ import { Loading } from "src/lib/loading/types/Loading"
 export const loadingState = atom<Loading>({
   key: "loading",
   default: {
-    monaco: true,
-    kysely: true,
+    monaco: false,
+    kyselyModule: false,
+    kyselyType: false,
     prettier: false,
     share: false,
-    typescriptModel: true,
+    compile: false,
   },
 })

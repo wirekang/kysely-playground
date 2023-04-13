@@ -2,8 +2,8 @@ import { loader } from "@monaco-editor/react"
 import * as monaco from "monaco-editor"
 import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker"
 import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker"
+import { editor } from "monaco-editor"
 import { EditorConstants } from "src/lib/editor/EditorConstants"
-import { LogUtils } from "src/lib/log/LogUtils"
 
 export class EditorUtils {
   public static async loadMonaco(): Promise<typeof monaco> {
@@ -19,10 +19,12 @@ export class EditorUtils {
     return loader.init()
   }
 
-  public static dispatchSetTs(ts: string) {
-    setTimeout(() => {
-      LogUtils.info("Dispatch ts", ts)
-      window.dispatchEvent(new CustomEvent(EditorConstants.EVENT_SET_TS, { detail: ts }))
-    })
+  public static shouldTriggerSuggest(changes: editor.IModelContentChange[]): boolean {
+    const change = changes[0]?.text
+    if (!change) {
+      return false
+    }
+
+    return EditorConstants.TRIGGER_SUGGEST_CHARACTERS.findIndex((v) => change.startsWith(v)) !== -1
   }
 }

@@ -1,33 +1,14 @@
-import { StoreItem } from "src/lib/store/types/StoreItem"
-import { ShareableState } from "src/lib/state/types/ShareableState"
-import { StateConstants } from "src/lib/state/StateConstants"
-import { LogUtils } from "src/lib/log/LogUtils"
 import { StoreProviderId } from "src/lib/store/types/StoreProviderId"
 import { StoreProvider } from "src/lib/store/types/StoreProvider"
 import { StoreConstants } from "src/lib/store/StoreConstants"
+import { StoreItem } from "src/lib/store/types/StoreItem"
 import { SqlDialect } from "src/lib/sql/types/SqlDialect"
-import { EnumUtils } from "../EnumUtils"
+import { KyselyConstants } from "src/lib/kysely/KyselyConstants"
+import { EnumUtils } from "src/lib/EnumUtils"
+import { PlaygroundError } from "src/lib/error/PlaygroundError"
+import { LogUtils } from "src/lib/log/LogUtils"
 
 export class StoreUtils {
-  public static makeShareableState(storeItem: StoreItem): ShareableState {
-    const state = { ...StateConstants.DEFAULT_SHAREABLE_STATE }
-    const sqlDialects = EnumUtils.values(SqlDialect)
-    Object.keys(storeItem).forEach((key) => {
-      if ((state as any)[key] === undefined) {
-        LogUtils.warn("unexpected key:", key)
-        return
-      }
-
-      // @ts-ignore
-      state[key] = storeItem[key]
-    })
-    if (!sqlDialects.includes(state.dialect)) {
-      LogUtils.warn("unexpected dialect:", state.dialect)
-      state.dialect = StateConstants.DEFAULT_SHAREABLE_STATE.dialect
-    }
-    return state
-  }
-
   public static associateProviders(): Record<StoreProviderId, StoreProvider> {
     const rst: Record<StoreProviderId, StoreProvider> = {} as any
     StoreConstants.PROVIDERS.forEach((type) => {
@@ -39,5 +20,23 @@ export class StoreUtils {
       rst[id] = instance
     })
     return rst
+  }
+
+  public static getValidatedStoreItem(storeItem: StoreItem) {
+    const r = {
+      typescriptSchema: storeItem.s ?? "",
+      typescriptQuery: storeItem.q ?? "",
+      sqlDialect: (storeItem.d ?? SqlDialect.Postgres) as SqlDialect,
+      kyselyVersion: storeItem.v ?? KyselyConstants.LATEST_VERSION,
+    }
+    if (!EnumUtils.validate(SqlDialect, r.sqlDialect)) {
+      throw new PlaygroundError(`Invalid SqlDialect: ${r.sqlDialect}`)
+    }
+
+    if (!KyselyConstants.VERSIONS.includes(r.kyselyVersion)) {
+      LogUtils.warn("Invalid kyselyVersion:", r.kyselyVersion)
+      r.kyselyVersion = KyselyConstants.LATEST_VERSION
+    }
+    return r
   }
 }

@@ -82,7 +82,7 @@ const LEGACY_FIREBASE_LOAD: LoadSamples = [
   },
 ]
 
-test("load Base64", testLoads(StoreProviderId.Base64, BASE64_LOAD))
+test("load Base64", testLoads(StoreProviderId.LegacyBase64, BASE64_LOAD))
 test("load LegacyFirebase", testLoads(StoreProviderId.LegacyFirebase, LEGACY_FIREBASE_LOAD))
 
 function testLoads(providerId: StoreProviderId, loads: LoadSamples) {

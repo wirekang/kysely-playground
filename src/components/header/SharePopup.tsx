@@ -1,39 +1,51 @@
 import { useRecoilState, useRecoilValue } from "recoil"
 import { showSharePopupState } from "src/lib/ui/atoms/showSharePopupState"
-import { loadingState } from "src/lib/loading/atoms/loadingState"
-import { useContext, useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { StoreProviderId } from "src/lib/store/types/StoreProviderId"
-import { shareableStateState } from "src/lib/state/atoms/shareableStateState"
-import { StoreManagerContext } from "src/lib/store/context/StoreManagerContext"
 import { ShareUtils } from "src/lib/share/ShareUtils"
 import { LogUtils } from "src/lib/log/LogUtils"
 import { HeaderButton } from "src/components/header/HeaderButton"
 import { ShareKind } from "src/lib/share/types/ShareKind"
 import { ShareConstants } from "src/lib/share/ShareConstants"
 import { EnumUtils } from "src/lib/EnumUtils"
+import { useStoreManager } from "src/lib/store/context/StoreManagerContext"
+import { sqlDialectState } from "src/lib/sql/atoms/sqlDialectState"
+import { typescriptSchemaState } from "src/lib/typescript/atoms/typescriptSchemaState"
+import { typescriptQueryState } from "src/lib/typescript/atoms/typescriptQueryState"
+import { kyselyVersionState } from "src/lib/kysely/atoms/kyselyVersionState"
 
-// TODO: refactor
 export function SharePopup(): JSX.Element {
   const [shareKind, setShareKind] = useState(ShareKind.Markdown)
-  const shareableState = useRecoilValue(shareableStateState)
   const [show, setShow] = useRecoilState(showSharePopupState)
-  const [loading, setLoading] = useRecoilState(loadingState)
-  const storeManager = useContext(StoreManagerContext)
+  const storeManager = useStoreManager()
   const [url, setUrl] = useState("")
   const urlRef = useRef<HTMLInputElement>(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string>()
+  const sqlDialect = useRecoilValue(sqlDialectState)
+  const kyselyVersion = useRecoilValue(kyselyVersionState)
+  const typescriptSchema = useRecoilValue(typescriptSchemaState)
+  const typescriptQuery = useRecoilValue(typescriptQueryState)
+
   const handleClose = () => {
     setShow(false)
   }
 
   const save = (shareKind: ShareKind) => {
-    LogUtils.info("Share", shareableState)
-    let storeProviderId =
+    const storeProviderId =
       shareKind === ShareKind.Short ? StoreProviderId.MsgPackFirestore : StoreProviderId.MsgPackBase64
 
+    LogUtils.info("Share", shareKind, storeProviderId)
+
     setUrl("")
-    setLoading((v) => ({ ...v, share: true }))
+    setLoading(true)
     storeManager
-      .save(storeProviderId, shareableState)
+      .save(storeProviderId, {
+        d: sqlDialect,
+        v: kyselyVersion,
+        s: typescriptSchema,
+        q: typescriptQuery,
+      })
       .then((value) => {
         let url = ShareUtils.generateUrl({ value, storeProviderId })
         if (shareKind === ShareKind.Markdown) {
@@ -52,8 +64,11 @@ export function SharePopup(): JSX.Element {
         urlInput.select()
         urlInput.scrollTo({ left: 0, top: 0 })
       })
+      .catch((e: any) => {
+        setError(e.toString())
+      })
       .finally(() => {
-        setLoading((v) => ({ ...v, share: false }))
+        setLoading(false)
       })
   }
 
@@ -127,8 +142,9 @@ export function SharePopup(): JSX.Element {
           readOnly
           value={url}
         />
-        {loading.share && <div>loading...</div>}
-        {!loading.share && <div>copied!</div>}
+        {loading && <div>loading...</div>}
+        {!loading && !error && <div>copied!</div>}
+        {error && <div>error: {error}</div>}
       </div>
     </>
   )

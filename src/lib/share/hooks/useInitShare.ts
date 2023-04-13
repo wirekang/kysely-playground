@@ -1,39 +1,69 @@
-import { useContext, useEffect } from "react"
+import { useEffect, useState } from "react"
 import { ShareUtils } from "src/lib/share/ShareUtils"
 import { LogUtils } from "src/lib/log/LogUtils"
-import { StoreManagerContext } from "src/lib/store/context/StoreManagerContext"
-import { useRecoilState } from "recoil"
+import { useStoreManager } from "src/lib/store/context/StoreManagerContext"
+import { useRecoilState, useRecoilValue } from "recoil"
+import { typescriptSchemaState } from "src/lib/typescript/atoms/typescriptSchemaState"
+import { typescriptQueryState } from "src/lib/typescript/atoms/typescriptQueryState"
+import { sqlDialectState } from "src/lib/sql/atoms/sqlDialectState"
+import { kyselyVersionState } from "src/lib/kysely/atoms/kyselyVersionState"
 import { loadingState } from "src/lib/loading/atoms/loadingState"
-import { shareableStateState } from "src/lib/state/atoms/shareableStateState"
-import { EditorUtils } from "src/lib/editor/EditorUtils"
+import { typescriptSchemaEditorEventsState } from "src/lib/editor/atoms/typescriptSchemaEditorEventsState"
+import { typescriptQueryEditorEventsState } from "src/lib/editor/atoms/typescriptQueryEditorEventsState"
+import { StoreUtils } from "src/lib/store/StoreUtils"
 
 export function useInitShare() {
-  const storeManager = useContext(StoreManagerContext)
-  const [loading, setLoading] = useRecoilState(loadingState)
-  const [shareableState, setShareableState] = useRecoilState(shareableStateState)
+  const storeManager = useStoreManager()
+  const [, setTypescriptSchema] = useRecoilState(typescriptSchemaState)
+  const [, setTypescriptQuery] = useRecoilState(typescriptQueryState)
+  const [, setSqlDialect] = useRecoilState(sqlDialectState)
+  const [, setKyselyVersion] = useRecoilState(kyselyVersionState)
+  const [, setLoading] = useRecoilState(loadingState)
+  const typescriptSchemaEditorEvents = useRecoilValue(typescriptSchemaEditorEventsState)
+  const typescriptQueryEditorEvents = useRecoilValue(typescriptQueryEditorEventsState)
+  const [didInit, setDidInit] = useState(false)
 
   useEffect(() => {
-    if (loading.typescriptModel) {
+    if (didInit) {
       return
     }
 
+    if (!typescriptSchemaEditorEvents || !typescriptQueryEditorEvents) {
+      return
+    }
+
+    setDidInit(true)
     const item = ShareUtils.parseUrl()
     if (item === null) {
-      LogUtils.info("no share")
-      EditorUtils.dispatchSetTs(shareableState.ts)
+      LogUtils.info("No ShareItem")
       return
     }
 
     setLoading((v) => ({ ...v, share: true }))
     storeManager
       .load(item.storeProviderId, item.value)
-      .then((shareableState) => {
-        LogUtils.info("Load", shareableState)
-        setShareableState({ ...shareableState })
-        EditorUtils.dispatchSetTs(shareableState.ts)
+      .then((v) => {
+        LogUtils.info("Load", v)
+        const storeItem = StoreUtils.getValidatedStoreItem(v)
+        setSqlDialect(storeItem.sqlDialect)
+        setKyselyVersion(storeItem.kyselyVersion)
+        setTypescriptSchema(storeItem.typescriptSchema)
+        setTypescriptQuery(storeItem.typescriptQuery)
+        typescriptSchemaEditorEvents.setValue(storeItem.typescriptSchema)
+        typescriptQueryEditorEvents.setValue(storeItem.typescriptQuery)
       })
       .finally(() => {
         setLoading((v) => ({ ...v, share: false }))
       })
-  }, [loading.typescriptModel])
+  }, [
+    setTypescriptSchema,
+    setTypescriptQuery,
+    setSqlDialect,
+    setKyselyVersion,
+    setLoading,
+    typescriptSchemaEditorEvents,
+    typescriptQueryEditorEvents,
+    didInit,
+    setDidInit,
+  ])
 }

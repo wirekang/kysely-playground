@@ -8,7 +8,7 @@ JSON_OUT=$GEN_DIR/versions.json
 TYPES_OUT_DIR=$GEN_DIR/types
 MODULES_OUT=$GEN_DIR/kysely-modules.ts
 
-yarn info kysely versions --json | jq .data[-10:]  | jq 'reverse' > "$JSON_OUT" || exit 1
+yarn info kysely versions --json | jq .data[-20:]  | jq 'reverse' > "$JSON_OUT" || exit 1
 
 jq -r -c '.[]' $JSON_OUT | while read -r VERSION; do
   ALIAS=$(echo kysely_"$VERSION" | sed 's/\./_/g')

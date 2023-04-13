@@ -1,10 +1,9 @@
-import { createContext, ReactNode, useContext, useEffect, useState } from "react"
+import { createContext, ReactNode, useContext, useState } from "react"
 import { EditorUtils } from "src/lib/editor/EditorUtils"
 import type * as monaco from "monaco-editor"
-import { useRecoilState } from "recoil"
-import { loadingState } from "src/lib/loading/atoms/loadingState"
+import { useLoadingScopeEffect } from "src/lib/loading/hooks/useLoadingScopeEffect"
 
-const MonacoContext = createContext<typeof monaco>(null as any)
+const MonacoContext = createContext<typeof monaco | null>(null)
 
 interface Props {
   children: ReactNode
@@ -12,19 +11,16 @@ interface Props {
 
 export function MonacoProvider(props: Props): JSX.Element {
   const [value, setValue] = useState<typeof monaco | null>(null)
-  const [, setLoading] = useRecoilState(loadingState)
 
-  useEffect(() => {
-    setLoading((v) => ({ ...v, monaco: true }))
-    EditorUtils.loadMonaco().then((r) => {
-      setValue(r)
-      setLoading((v) => ({ ...v, monaco: false }))
-    })
-  }, [])
+  useLoadingScopeEffect(
+    "monaco",
+    async () => {
+      const monaco = await EditorUtils.loadMonaco()
+      setValue(monaco)
+    },
+    [setValue]
+  )
 
-  if (!value) {
-    return <></>
-  }
   return <MonacoContext.Provider value={value}>{props.children}</MonacoContext.Provider>
 }
 
