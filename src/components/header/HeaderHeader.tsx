@@ -1,6 +1,7 @@
 import { useIsCompact } from "src/lib/ui/hooks/useIsCompact"
 import { HeaderToggleButton } from "src/components/header/HeaderToggleButton"
 import { GithubLink } from "src/components/header/GithubLink"
+import { KyselyLink } from "src/components/header/KyselyLink"
 
 export function HeaderHeader(): JSX.Element {
   const compact = useIsCompact()
@@ -22,6 +23,7 @@ export function HeaderHeader(): JSX.Element {
           <HeaderToggleButton />
         </div>
         <div style={{ flex: 1, display: "flex", justifyContent: "center" }}>
+          <KyselyLink />
           <GithubLink />
         </div>
         <div style={{ flex: 1 }} />

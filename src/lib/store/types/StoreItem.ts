@@ -1,13 +1,26 @@
 export type StoreItem = {
-  // typescript schema
+  /**
+   * @description typescriptSchema
+   */
   s?: string
 
-  // typescript query
+  /**
+   * @description typescriptQuery
+   */
   q?: string
 
-  // sql dialect
+  /**
+   * @description sqlDialect {@link SqlDialect}
+   */
   d?: string
 
-  // kysely version
+  /**
+   * @description kyselyVersion
+   */
   v?: string
+
+  /**
+   * @description showTypescriptSchema
+   */
+  c?: boolean
 }

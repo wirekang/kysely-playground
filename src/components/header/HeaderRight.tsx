@@ -1,7 +1,8 @@
 import { GithubLink } from "src/components/header/GithubLink"
 import { useIsCompact } from "src/lib/ui/hooks/useIsCompact"
+import { KyselyLink } from "src/components/header/KyselyLink"
 
-export function GithubLinkWrapper(): JSX.Element {
+export function HeaderRight(): JSX.Element {
   const compact = useIsCompact()
   if (compact) {
     return <></>
@@ -17,6 +18,7 @@ export function GithubLinkWrapper(): JSX.Element {
         marginRight: 20,
       }}
     >
+      <KyselyLink />
       <GithubLink />
     </div>
   )

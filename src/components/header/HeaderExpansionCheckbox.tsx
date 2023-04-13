@@ -4,7 +4,7 @@ interface Props {
   changeState: (v: any) => any
 }
 
-export function HeaderCheckbox(props: Props): JSX.Element {
+export function HeaderExpansionCheckbox(props: Props): JSX.Element {
   const checked = props.state[props.id]
   const change = () => {
     props.changeState((v: any) => ({ ...v, [props.id]: !checked }))

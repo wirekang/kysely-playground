@@ -28,6 +28,7 @@ export class StoreUtils {
       typescriptQuery: storeItem.q ?? "",
       sqlDialect: (storeItem.d ?? SqlDialect.Postgres) as SqlDialect,
       kyselyVersion: storeItem.v ?? KyselyConstants.LATEST_VERSION,
+      showTypescriptSchema: !!storeItem.c,
     }
     if (!EnumUtils.validate(SqlDialect, r.sqlDialect)) {
       throw new PlaygroundError(`Invalid SqlDialect: ${r.sqlDialect}`)

@@ -38,6 +38,5 @@ option {
 }
 
 .monaco-editor {
-  max-width: 100%;
-  max-height: 100%;
+  position: absolute !important;
 }

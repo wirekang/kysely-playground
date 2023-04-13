@@ -13,6 +13,7 @@ import { sqlDialectState } from "src/lib/sql/atoms/sqlDialectState"
 import { typescriptSchemaState } from "src/lib/typescript/atoms/typescriptSchemaState"
 import { typescriptQueryState } from "src/lib/typescript/atoms/typescriptQueryState"
 import { kyselyVersionState } from "src/lib/kysely/atoms/kyselyVersionState"
+import { showTypescriptSchemaState } from "src/lib/ui/atoms/showTypescriptSchemaState"
 
 export function SharePopup(): JSX.Element {
   const [shareKind, setShareKind] = useState(ShareKind.Markdown)
@@ -26,6 +27,7 @@ export function SharePopup(): JSX.Element {
   const kyselyVersion = useRecoilValue(kyselyVersionState)
   const typescriptSchema = useRecoilValue(typescriptSchemaState)
   const typescriptQuery = useRecoilValue(typescriptQueryState)
+  const showTypescriptSchema = useRecoilValue(showTypescriptSchemaState)
 
   const handleClose = () => {
     setShow(false)
@@ -45,6 +47,7 @@ export function SharePopup(): JSX.Element {
         v: kyselyVersion,
         s: typescriptSchema,
         q: typescriptQuery,
+        c: showTypescriptSchema,
       })
       .then((value) => {
         let url = ShareUtils.generateUrl({ value, storeProviderId })

@@ -4,7 +4,7 @@ import { resolve } from "path"
 
 export default defineConfig({
   plugins: [react()],
-  base: "/kysely-playground",
+  base: "/kysely-playground-preview",
   build: {
     sourcemap: false,
     rollupOptions: {

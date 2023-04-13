@@ -11,6 +11,7 @@ import { loadingState } from "src/lib/loading/atoms/loadingState"
 import { typescriptSchemaEditorEventsState } from "src/lib/editor/atoms/typescriptSchemaEditorEventsState"
 import { typescriptQueryEditorEventsState } from "src/lib/editor/atoms/typescriptQueryEditorEventsState"
 import { StoreUtils } from "src/lib/store/StoreUtils"
+import { showTypescriptSchemaState } from "src/lib/ui/atoms/showTypescriptSchemaState"
 
 export function useInitShare() {
   const storeManager = useStoreManager()
@@ -18,6 +19,7 @@ export function useInitShare() {
   const [, setTypescriptQuery] = useRecoilState(typescriptQueryState)
   const [, setSqlDialect] = useRecoilState(sqlDialectState)
   const [, setKyselyVersion] = useRecoilState(kyselyVersionState)
+  const [, setShowTypescriptSchema] = useRecoilState(showTypescriptSchemaState)
   const [, setLoading] = useRecoilState(loadingState)
   const typescriptSchemaEditorEvents = useRecoilValue(typescriptSchemaEditorEventsState)
   const typescriptQueryEditorEvents = useRecoilValue(typescriptQueryEditorEventsState)
@@ -51,6 +53,7 @@ export function useInitShare() {
         setTypescriptQuery(storeItem.typescriptQuery)
         typescriptSchemaEditorEvents.setValue(storeItem.typescriptSchema)
         typescriptQueryEditorEvents.setValue(storeItem.typescriptQuery)
+        setShowTypescriptSchema(storeItem.showTypescriptSchema)
       })
       .finally(() => {
         setLoading((v) => ({ ...v, share: false }))
@@ -60,6 +63,7 @@ export function useInitShare() {
     setTypescriptQuery,
     setSqlDialect,
     setKyselyVersion,
+    setShowTypescriptSchema,
     setLoading,
     typescriptSchemaEditorEvents,
     typescriptQueryEditorEvents,

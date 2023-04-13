@@ -1,6 +1,6 @@
 import { useRecoilState, useRecoilValue } from "recoil"
 import { expandHeaderState } from "src/lib/ui/atoms/expandHeaderState"
-import { HeaderCheckbox } from "src/components/header/HeaderCheckbox"
+import { HeaderExpansionCheckbox } from "src/components/header/HeaderExpansionCheckbox"
 import { typescriptFormatOptionsState } from "src/lib/typescript/atoms/typescriptFormatOptionsState"
 import { sqlFormatOptionsState } from "src/lib/sql/atoms/sqlFormatOptionsState"
 
@@ -26,12 +26,16 @@ export function HeaderExpansion(): JSX.Element {
       }}
     >
       Typescript Format:
-      <HeaderCheckbox id="semi" state={typescriptFormatOptions} changeState={setTypescriptFormatOptions} />
-      <HeaderCheckbox id="singleQuote" state={typescriptFormatOptions} changeState={setTypescriptFormatOptions} />
+      <HeaderExpansionCheckbox id="semi" state={typescriptFormatOptions} changeState={setTypescriptFormatOptions} />
+      <HeaderExpansionCheckbox
+        id="singleQuote"
+        state={typescriptFormatOptions}
+        changeState={setTypescriptFormatOptions}
+      />
       <br />
       SQL Format:
-      <HeaderCheckbox id="lowerKeywords" state={sqlFormatOptions} changeState={setSqlFormatOptions} />
-      <HeaderCheckbox id="inlineParameters" state={sqlFormatOptions} changeState={setSqlFormatOptions} />
+      <HeaderExpansionCheckbox id="lowerKeywords" state={sqlFormatOptions} changeState={setSqlFormatOptions} />
+      <HeaderExpansionCheckbox id="inlineParameters" state={sqlFormatOptions} changeState={setSqlFormatOptions} />
     </div>
   )
 }

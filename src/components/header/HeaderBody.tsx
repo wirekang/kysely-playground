@@ -7,8 +7,8 @@ import { ShareButton } from "src/components/header/ShareButton"
 import { PrettifyButton } from "src/components/header/PrettifyButton"
 import { DialectSelect } from "src/components/header/DialectSelect"
 import { VersionSelect } from "src/components/header/VersionSelect"
-import { GithubLinkWrapper } from "src/components/header/GithubLinkWrapper"
-import { ExampleSelect } from "src/components/header/ExampleSelect"
+import { HeaderRight } from "src/components/header/HeaderRight"
+import { HeaderShowSchemaButton } from "src/components/header/HeaderShowSchemaButton"
 
 export function HeaderBody(): JSX.Element {
   const compact = useIsCompact()
@@ -20,11 +20,11 @@ export function HeaderBody(): JSX.Element {
     <HeaderBodyContainer>
       <ShareButton />
       <PrettifyButton />
+      <HeaderShowSchemaButton />
       <DialectSelect />
       <VersionSelect />
-      <ExampleSelect />
       <ExpandHeaderButton />
-      <GithubLinkWrapper />
+      <HeaderRight />
     </HeaderBodyContainer>
   )
 }

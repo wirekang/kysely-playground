@@ -1,7 +1,6 @@
 import { Editor } from "@monaco-editor/react"
 import { CSSProperties } from "react"
 import { editor } from "monaco-editor"
-import { useIsCompact } from "src/lib/ui/hooks/useIsCompact"
 import { MonacoEditorEvents } from "src/lib/editor/types/MonacoEditorEvents"
 import { RecoilState } from "recoil"
 import { useSetMonacoEditorEvents } from "src/lib/editor/hooks/useSetMonacoEditorEvents"
@@ -14,19 +13,20 @@ interface Props {
 }
 
 export function MonacoEditor(props: Props): JSX.Element {
-  const compact = useIsCompact()
   const set = useSetMonacoEditorEvents(props.eventsState, props.valueState)
 
   return (
     <Editor
       wrapperProps={{
         style: {
-          ...props.wrapperStyle,
           display: "flex",
+          ...props.wrapperStyle,
           position: "relative",
           textAlign: "initial",
-          width: compact ? "100%" : "50%",
-          height: compact ? "50%" : "100%",
+          width: "100%",
+          height: "100%",
+          border: "1px solid #333",
+          flex: 1,
         } as CSSProperties,
       }}
       width="100%"
