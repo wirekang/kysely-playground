@@ -24,7 +24,7 @@ Playground for [Kysely](https://github.com/kysely-org/kysely).
  The playground has 3 editor: `schema`, `query` and `sql`.  
 
  Schema editor is the leftmost editor(in wide-enough screen).  
-You can define `DB` interface to help checking types related database schema.  
+You can declare global scope interface `DB` to help checking types related database schema.  
 You can import `type`s from `kysely`. (e.g. `import { Generated } from "kysely"` )  
 
 You can hide the editor by clicking `Schema` checkbox on header of playground.  

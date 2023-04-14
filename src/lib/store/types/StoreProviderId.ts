@@ -3,4 +3,5 @@ export enum StoreProviderId {
   LegacyFirebase = "f",
   MsgPackBase64 = "b",
   MsgPackFirestore = "s",
+  RawJSON = "j",
 }
