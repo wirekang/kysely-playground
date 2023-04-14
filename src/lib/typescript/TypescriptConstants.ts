@@ -1,6 +1,6 @@
 export class TypescriptConstants {
   public static readonly PLAYGROUND_GLOBAL_TYPE_CONTENT = `
-  import {Kysely, sql as kyselySql} from 'kysely';
+  import {Kysely} from 'kysely';
   
   declare global {
     interface DB {}
@@ -46,6 +46,14 @@ export class TypescriptConstants {
     * use \`import { ColumnType } from "kysely"\` instead.
     */
     interface ColumnType<A,B=A,C=A> {}
+    
+    /**
+    *  \`THIS MESSAGE IS FROM PLAYGROUND.\`
+    *
+    * @deprecated
+    * use \`import { sql } from "kysely"\` instead.
+    */
+    const sql: any
   }
   `
 }
