@@ -16,6 +16,8 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: yarn test
       - run: yarn build:preview
+        with:
+          NODE_OPTIONS: "--max-old-space-size=8192"
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'

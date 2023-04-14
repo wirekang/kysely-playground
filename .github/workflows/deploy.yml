@@ -17,6 +17,8 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: yarn test
       - run: yarn build
+        with:
+          NODE_OPTIONS: "--max-old-space-size=8192"
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
