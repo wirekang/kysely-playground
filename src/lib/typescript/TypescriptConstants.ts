@@ -6,17 +6,23 @@ export class TypescriptConstants {
     interface DB {}
     
     /**
-    * PLAYGROUND: You can use \`db\` instead.
+    *  \`THIS MESSAGE IS FROM PLAYGROUND.\`
+    *
+    * Pre-defined Kysely instance.
+    * You can use \`db\` instead.
     */
     const kysely: Kysely<DB>
     
     /**
-    * PLAYGROUND: Alias for \`kysely\`.
+    *  \`THIS MESSAGE IS FROM PLAYGROUND.\`
+    *
+    * Alias for \`kysely\`.
     */
     const db: Kysely<DB>
     
     /**
-    * PLAYGROUND
+    *  \`THIS MESSAGE IS FROM PLAYGROUND.\`
+    *
     * @deprecated
     * use \`kysely.execute()\` instead.
     * \`\`\`ts
@@ -24,6 +30,22 @@ export class TypescriptConstants {
     * \`\`\`
     */
     let result:any
+    
+    /**
+    *  \`THIS MESSAGE IS FROM PLAYGROUND.\`
+    *
+    * @deprecated
+    * use \`import { Generated } from "kysely"\` instead.
+    */
+    interface Generated<T> {}
+    
+    /**
+    *  \`THIS MESSAGE IS FROM PLAYGROUND.\`
+    *
+    * @deprecated
+    * use \`import { ColumnType } from "kysely"\` instead.
+    */
+    interface ColumnType<A,B=A,C=A> {}
   }
   `
 }
