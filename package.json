@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "deploy-preview": "tsc && vite build --base / && firebase deploy --only hosting",
+    "build:preview": "tsc && vite build --base /",
     "test": "vitest"
   },
   "dependencies": {

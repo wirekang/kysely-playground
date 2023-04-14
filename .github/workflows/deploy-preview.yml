@@ -1,0 +1,24 @@
+name: Deploy Preview
+'on':
+  push:
+    branches: [ "preview" ]
+    paths-ignore:
+      - "README.md"
+  workflow_dispatch:
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: yarn install --frozen-lockfile
+      - run: yarn test
+      - run: yarn build:preview
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_KYSELY_PLAYGROUND }}'
+          channelId: live
+          projectId: kysely-playground
