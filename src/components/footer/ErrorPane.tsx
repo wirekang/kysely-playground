@@ -6,13 +6,7 @@ export function ErrorPane(): JSX.Element {
   const loading = useRecoilValue(loadingState)
 
   return (
-    <div
-      style={{
-        maxHeight: "100px",
-        overflow: "auto",
-        padding: 4,
-      }}
-    >
+    <div>
       {Object.keys(loading).map((id) => (
         <ErrorRow key={id} id={id as any} />
       ))}

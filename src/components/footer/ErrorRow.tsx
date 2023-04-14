@@ -9,12 +9,12 @@ interface Props {
 export function ErrorRow(props: Props): JSX.Element {
   const loading = useRecoilValue(loadingState)
   const value = loading[props.id]
-  if (value === false) {
+  if (typeof value === "boolean") {
     return <></>
   }
 
   return (
-    <div style={{ border: "1px solid red" }}>
+    <div style={{ border: "1px solid red", padding: 2 }}>
       {props.id}: {value}
     </div>
   )
