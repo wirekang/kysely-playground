@@ -15,6 +15,7 @@ import { typescriptQueryState } from "src/lib/typescript/atoms/typescriptQuerySt
 import { kyselyVersionState } from "src/lib/kysely/atoms/kyselyVersionState"
 import { showTypescriptSchemaState } from "src/lib/ui/atoms/showTypescriptSchemaState"
 
+// TODO: refactor: split into logic and ui
 export function SharePopup(): JSX.Element {
   const [shareKind, setShareKind] = useState(ShareKind.Markdown)
   const [show, setShow] = useRecoilState(showSharePopupState)
