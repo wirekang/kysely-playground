@@ -28,23 +28,14 @@ export function LoadingPane(): JSX.Element {
         flexDirection: "row",
         opacity: loadingCount,
         height: loadingCount === 0 ? 0 : "auto",
-        transition: "all 0.3s ease",
+        transition: "all 0.4s ease",
+        fontSize: "1.5rem",
       }}
     >
-      <div style={{ marginRight: 8 }}>Loading </div>
-      {Object.entries(loading).map(([k, v], i) => (
-        <div
-          key={k}
-          style={{
-            opacity: v === true ? 1 : 0,
-            width: v === true ? "auto" : 0,
-            marginRight: 4,
-          }}
-        >
-          {k},
-        </div>
-      ))}
-      {".".repeat(dotCount)}
+      <div>
+        Loading
+        {".".repeat(dotCount)}
+      </div>
     </div>
   )
 }
