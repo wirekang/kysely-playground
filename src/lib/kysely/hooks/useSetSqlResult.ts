@@ -27,7 +27,6 @@ export function useSetSqlResult() {
   useLoadingScopeEffect(
     "compile",
     async () => {
-      console.log(userTyping)
       if (!kyselyModule || !sqlEditorEvents || userTyping) {
         return
       }
