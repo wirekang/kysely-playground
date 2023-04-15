@@ -8,6 +8,7 @@ import { typescriptQueryState } from "src/lib/typescript/atoms/typescriptQuerySt
 import { sqlEditorEventsState } from "src/lib/editor/atoms/sqlEditorEventsState"
 import { SqlFormatUtils } from "src/lib/sql/SqlFormatUtils"
 import { sqlFormatOptionsState } from "src/lib/sql/atoms/sqlFormatOptionsState"
+import { userTypingState } from "src/lib/ui/atoms/userTypingState"
 
 export function useSetSqlResult() {
   const [, setSqlResult] = useRecoilState(sqlResultState)
@@ -16,6 +17,7 @@ export function useSetSqlResult() {
   const typescriptQuery = useRecoilValue(typescriptQueryState)
   const sqlEditorEvents = useRecoilValue(sqlEditorEventsState)
   const sqlFormatOptions = useRecoilValue(sqlFormatOptionsState)
+  const userTyping = useRecoilValue(userTypingState)
 
   const setSql = (v: string) => {
     setSqlResult(v)
@@ -25,7 +27,8 @@ export function useSetSqlResult() {
   useLoadingScopeEffect(
     "compile",
     async () => {
-      if (!kyselyModule || !sqlEditorEvents) {
+      console.log(userTyping)
+      if (!kyselyModule || !sqlEditorEvents || userTyping) {
         return
       }
       let didCallback = false
@@ -34,11 +37,13 @@ export function useSetSqlResult() {
         const sql = SqlFormatUtils.format(cq.sql, cq.parameters as any, sqlDialect, sqlFormatOptions)
         setSql(sql)
       })
-      if (!didCallback) {
-        setSql("-- Call kysely.execute() ")
-      }
+      setTimeout(() => {
+        if (!didCallback) {
+          setSql("-- Call kysely.execute() ")
+        }
+      })
     },
-    [setSqlResult, sqlDialect, kyselyModule, typescriptQuery, sqlFormatOptions, sqlEditorEvents],
+    [setSqlResult, sqlDialect, kyselyModule, typescriptQuery, sqlFormatOptions, sqlEditorEvents, userTyping],
     () => {
       setSql("-- Error")
     }
