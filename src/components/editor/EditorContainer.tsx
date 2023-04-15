@@ -5,17 +5,12 @@ import { SqlEditor } from "src/components/editor/SqlEditor"
 import { TypescriptEditorContainer } from "src/components/editor/TypescriptEditorContainer"
 import { useRecoilValue } from "recoil"
 import { loadingState } from "src/lib/loading/atoms/loadingState"
-import { useEffect, useState } from "react"
+import { useTimeout } from "src/lib/ui/hooks/useTimeout"
 
 export function EditorContainer(): JSX.Element {
   const compact = useIsCompact()
   const { share } = useRecoilValue(loadingState)
-  const [init, setInit] = useState(false)
-  useEffect(() => {
-    setTimeout(() => {
-      setInit(true)
-    }, 300)
-  }, [])
+  const timeout = useTimeout(300)
 
   return (
     <div
@@ -24,7 +19,7 @@ export function EditorContainer(): JSX.Element {
         flexDirection: compact ? "column" : "row",
         flexGrow: 1,
         overflow: "auto",
-        opacity: !init || share === true ? 0 : undefined,
+        opacity: !timeout || share === true ? 0 : undefined,
         transition: "opacity 0.3s",
       }}
     >
