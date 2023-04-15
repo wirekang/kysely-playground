@@ -17,18 +17,30 @@ export function useSetSqlResult() {
   const sqlEditorEvents = useRecoilValue(sqlEditorEventsState)
   const sqlFormatOptions = useRecoilValue(sqlFormatOptionsState)
 
+  const setSql = (v: string) => {
+    setSqlResult(v)
+    sqlEditorEvents?.setValue(v)
+  }
+
   useLoadingScopeEffect(
     "compile",
     async () => {
       if (!kyselyModule || !sqlEditorEvents) {
         return
       }
+      let didCallback = false
       await KyselyUtils.compile(kyselyModule, sqlDialect, typescriptQuery, (cq) => {
+        didCallback = true
         const sql = SqlFormatUtils.format(cq.sql, cq.parameters as any, sqlDialect, sqlFormatOptions)
-        setSqlResult(sql)
-        sqlEditorEvents.setValue(sql)
+        setSql(sql)
       })
+      if (!didCallback) {
+        setSql("-- Call kysely.execute() ")
+      }
     },
-    [setSqlResult, sqlDialect, kyselyModule, typescriptQuery, sqlFormatOptions, sqlEditorEvents]
+    [setSqlResult, sqlDialect, kyselyModule, typescriptQuery, sqlFormatOptions, sqlEditorEvents],
+    () => {
+      setSql("-- Error")
+    }
   )
 }
