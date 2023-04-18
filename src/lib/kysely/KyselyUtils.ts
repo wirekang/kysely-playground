@@ -85,8 +85,6 @@ export class KyselyUtils {
         throw new PlaygroundError("`result` is not an QueryBuilder")
       }
       evalResult.result.execute()
-    } else if (evalResult.expression && typeof evalResult.expression.execute === "function") {
-      evalResult.expression.execute()
     }
   }
 }
@@ -100,8 +98,9 @@ async function doEval(longArgumentNameToPreventConflicts: { ts: string; sql: Sql
   const kysely = longArgumentNameToPreventConflicts.instance
   const db = kysely
   let result: any = null
-  const expression = eval(await TypescriptUtils.toJs(longArgumentNameToPreventConflicts.ts))
-
+  let __TOP_LEVEL_FUNCTION__ = null as any
+  eval(await TypescriptUtils.toJs(longArgumentNameToPreventConflicts.ts))
+  await __TOP_LEVEL_FUNCTION__()
   // to prevent minification
-  return { sql, kysely, db, result, expression }
+  return { sql, kysely, db, result }
 }

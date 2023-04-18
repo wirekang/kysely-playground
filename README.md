@@ -45,12 +45,6 @@ These are pre-defined variables you can use to build query:
 | `db`     | alias for kysely             |
 | `result` | for backward-compatibility   |
 
-There are two ways to generate sql.
-
-1. Normal way:
-   call `kysely.execute*()`. [Playground Link](https://kyse.link/?p=b&i=haFkqHBvc3RncmVzoXamMC4yNC4yoXPZ6mltcG9ydCB7IEdlbmVyYXRlZCB9IGZyb20gJ2t5c2VseScKCmRlY2xhcmUgZ2xvYmFsIHsKICBpbnRlcmZhY2UgREIgewogICAgdXNlcjogVXNlclRhYmxlCiAgfQoKICBpbnRlcmZhY2UgVXNlclRhYmxlIHsKICAgIGlkOiBHZW5lcmF0ZWQ8c3RyaW5nPgogICAgZmlyc3RfbmFtZTogc3RyaW5nIHwgbnVsbAogICAgbGFzdF9uYW1lOiBzdHJpbmcKICAgIGNyZWF0ZWRfYXQ6IEdlbmVyYXRlZDxEYXRlPgogIH0KfaFx2X1jb25zdCByb3dzID0gYXdhaXQga3lzZWx5CiAgLnNlbGVjdEZyb20oInVzZXIiKQogIC5zZWxlY3QoWyJmaXJzdF9uYW1lIiwgImxhc3RfbmFtZSJdKQogIC53aGVyZSgiaWQiLCAiPSIsICIxIikKICAuZXhlY3V0ZSgpCqFjww==)
-2. Simple way: write expression in query
-   editor. [Playground Link](https://kyse.link/?p=b&i=haFkqHBvc3RncmVzoXamMC4yNC4yoXPZSmRlY2xhcmUgZ2xvYmFsIHsKICBpbnRlcmZhY2UgREIgewogICAgW2tleTogc3RyaW5nXTogYW55CiAgfQp9CgpleHBvcnQge30KoXHZK2t5c2VseQogIC5zZWxlY3RGcm9tKCJhc2RmIikKICAuc2VsZWN0QWxsKCmhY8M=)
 
 You can see the generated sql in the rightmost sql editor.  
 By default, the playground will show you the generated sql string as-is(with parameter placeholders).  
