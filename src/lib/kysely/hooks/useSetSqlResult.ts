@@ -31,10 +31,16 @@ export function useSetSqlResult() {
         return
       }
       const results: string[] = []
-      await KyselyUtils.compile(kyselyModule, sqlDialect, typescriptQuery, (cq) => {
-        const sql = SqlFormatUtils.format(cq.sql, cq.parameters as any, sqlDialect, sqlFormatOptions)
-        results.push(sql)
-      })
+      await KyselyUtils.compile(
+        kyselyModule,
+        sqlDialect,
+        typescriptQuery,
+        (cq) => {
+          const sql = SqlFormatUtils.format(cq.sql, cq.parameters as any, sqlDialect, sqlFormatOptions)
+          results.push(sql)
+        },
+        { rows: [{}, {}, {}] }
+      )
       setTimeout(() => {
         if (results.length === 0) {
           setSql("---- Call kysely.execute() ")

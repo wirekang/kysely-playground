@@ -1,7 +1,7 @@
 import type { CompiledQuery, DatabaseConnection, Driver, QueryResult, TransactionSettings } from "kysely_for_type"
 
 export class KyselyPlaygroundDriver implements Driver, DatabaseConnection {
-  constructor(private callback: (cq: CompiledQuery) => void) {}
+  constructor(private callback: (cq: CompiledQuery) => void, private result: QueryResult<any>) {}
 
   async acquireConnection(): Promise<DatabaseConnection> {
     return this
@@ -33,13 +33,14 @@ export class KyselyPlaygroundDriver implements Driver, DatabaseConnection {
 
   executeQuery<R>(compiledQuery: CompiledQuery): Promise<QueryResult<R>> {
     this.callback(compiledQuery)
-    return Promise.resolve({ rows: [] })
+    return Promise.resolve(this.result)
   }
 
   streamQuery<R>(compiledQuery: CompiledQuery, chunkSize?: number): AsyncIterableIterator<QueryResult<R>> {
     this.callback(compiledQuery)
+    const result = this.result
     return (async function* g() {
-      yield { rows: [] }
+      yield result
     })()
   }
 }
