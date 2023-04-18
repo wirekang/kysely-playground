@@ -27,7 +27,7 @@ export class SqlFormatUtils {
       return ""
     }
 
-    return "\n\n-- Parameters\n" + parameters.map((v, i) => `-- $${i + 1}: ${v}`).join("\n")
+    return "\n\n-- Parameters\n" + parameters.map((v, i) => `-- [${i + 1}] ${v}`).join("\n")
   }
 
   private static getParams(parameters: any[], dialect: SqlDialect): any {

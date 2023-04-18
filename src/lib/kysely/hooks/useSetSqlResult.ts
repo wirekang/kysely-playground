@@ -9,6 +9,7 @@ import { sqlEditorEventsState } from "src/lib/editor/atoms/sqlEditorEventsState"
 import { SqlFormatUtils } from "src/lib/sql/SqlFormatUtils"
 import { sqlFormatOptionsState } from "src/lib/sql/atoms/sqlFormatOptionsState"
 import { userTypingState } from "src/lib/ui/atoms/userTypingState"
+import { LogUtils } from "src/lib/log/LogUtils"
 
 export function useSetSqlResult() {
   const [, setSqlResult] = useRecoilState(sqlResultState)
@@ -30,15 +31,25 @@ export function useSetSqlResult() {
       if (!kyselyModule || !sqlEditorEvents || userTyping) {
         return
       }
-      let didCallback = false
+      const results: string[] = []
       await KyselyUtils.compile(kyselyModule, sqlDialect, typescriptQuery, (cq) => {
-        didCallback = true
         const sql = SqlFormatUtils.format(cq.sql, cq.parameters as any, sqlDialect, sqlFormatOptions)
-        setSql(sql)
+        results.push(sql)
       })
       setTimeout(() => {
-        if (!didCallback) {
-          setSql("-- Call kysely.execute() ")
+        if (results.length === 0) {
+          setSql("---- Call kysely.execute() ")
+        } else if (results.length === 1) {
+          setSql(results[0])
+        } else {
+          const sql =
+            "/* execute() has been called multiple times. */\n\n" +
+            results
+              .map((sql, i) => {
+                return `---- #${i + 1} ----\n${sql}`
+              })
+              .join("\n\n\n")
+          setSql(sql)
         }
       })
     },
