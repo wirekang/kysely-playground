@@ -20,7 +20,7 @@ export function EditorContainer(): JSX.Element {
         flexGrow: 1,
         overflow: "auto",
         opacity: !timeout || share === true ? 0 : undefined,
-        transition: "opacity 0.3s",
+        transition: "opacity 0.2s",
       }}
     >
       <TypescriptEditorContainer>
