@@ -9,7 +9,6 @@ import { sqlEditorEventsState } from "src/lib/editor/atoms/sqlEditorEventsState"
 import { SqlFormatUtils } from "src/lib/sql/SqlFormatUtils"
 import { sqlFormatOptionsState } from "src/lib/sql/atoms/sqlFormatOptionsState"
 import { userTypingState } from "src/lib/ui/atoms/userTypingState"
-import { LogUtils } from "src/lib/log/LogUtils"
 
 export function useSetSqlResult() {
   const [, setSqlResult] = useRecoilState(sqlResultState)
