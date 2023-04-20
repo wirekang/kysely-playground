@@ -16,7 +16,7 @@ export function usePrettify() {
   const typescriptQueryEditorEvents = useRecoilValue(typescriptQueryEditorEventsState)
   const [, setLoading] = useRecoilState(loadingState)
 
-  const handleClick = useCallback(() => {
+  const handleClick = useCallback(async () => {
     if (!typescriptSchemaEditorEvents || !typescriptQueryEditorEvents) {
       return
     }
@@ -25,7 +25,7 @@ export function usePrettify() {
     const handleError = (e: any) => {
       setLoading((v) => ({ ...v, prettier: e.toString() }))
     }
-    TypescriptFormatUtils.format(typescriptQuery, typescriptFormatOptions)
+    return TypescriptFormatUtils.format(typescriptQuery, typescriptFormatOptions)
       .then((ts) => {
         typescriptQueryEditorEvents.setValue(ts)
         return TypescriptFormatUtils.format(typescriptSchema, typescriptFormatOptions)
