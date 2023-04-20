@@ -21,8 +21,8 @@ export function HeaderBody(): JSX.Element {
       <ShareButton />
       <PrettifyButton />
       <HeaderShowSchemaButton />
-      <DialectSelect />
       <VersionSelect />
+      <DialectSelect />
       <ExpandHeaderButton />
       <HeaderRight />
     </HeaderBodyContainer>

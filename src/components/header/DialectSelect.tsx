@@ -12,7 +12,6 @@ export function DialectSelect(): JSX.Element {
 
   return (
     <HeaderSelect
-      title="dialect"
       value={sqlDialect}
       onChange={(e) => {
         setSqlDialect(e.target.value as any)

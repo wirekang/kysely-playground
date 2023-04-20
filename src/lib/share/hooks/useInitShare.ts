@@ -41,7 +41,7 @@ export function useInitShare() {
       return
     }
 
-    setLoading((v) => ({ ...v, share: true }))
+    setLoading((v) => ({ ...v, initShare: true }))
     storeManager
       .load(item.storeProviderId, item.value)
       .then((v) => {
@@ -56,7 +56,7 @@ export function useInitShare() {
         setShowTypescriptSchema(storeItem.showTypescriptSchema)
       })
       .finally(() => {
-        setLoading((v) => ({ ...v, share: false }))
+        setLoading((v) => ({ ...v, initShare: false }))
       })
   }, [
     setTypescriptSchema,

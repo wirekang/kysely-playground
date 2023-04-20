@@ -11,7 +11,6 @@ export function VersionSelect(): JSX.Element {
 
   return (
     <HeaderSelect
-      title="kysely"
       value={kyselyVersion}
       onChange={(e) => {
         setKyselyVersion(e.target.value)

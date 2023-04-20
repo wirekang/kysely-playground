@@ -9,7 +9,7 @@ import { useTimeout } from "src/lib/ui/hooks/useTimeout"
 
 export function EditorContainer(): JSX.Element {
   const compact = useIsCompact()
-  const { share } = useRecoilValue(loadingState)
+  const { initShare } = useRecoilValue(loadingState)
   const timeout = useTimeout(300)
 
   return (
@@ -19,7 +19,7 @@ export function EditorContainer(): JSX.Element {
         flexDirection: compact ? "column" : "row",
         flexGrow: 1,
         overflow: "auto",
-        opacity: !timeout || share === true ? 0 : undefined,
+        opacity: !timeout || initShare === true ? 0 : undefined,
         transition: "opacity 0.2s",
       }}
     >

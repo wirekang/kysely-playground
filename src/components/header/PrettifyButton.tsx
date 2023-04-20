@@ -6,10 +6,9 @@ import { typescriptQueryEditorEventsState } from "src/lib/editor/atoms/typescrip
 import { usePrettify } from "src/lib/typescript/hooks/usePrettify"
 
 export function PrettifyButton(): JSX.Element {
-  const typescriptSchemaEditorEvents = useRecoilValue(typescriptSchemaEditorEventsState)
   const typescriptQueryEditorEvents = useRecoilValue(typescriptQueryEditorEventsState)
+  const typescriptSchemaEditorEvents = useRecoilValue(typescriptSchemaEditorEventsState)
   const loading = useRecoilValue(loadingState)
-
   const handleClick = usePrettify()
 
   return (

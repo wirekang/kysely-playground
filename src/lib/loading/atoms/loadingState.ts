@@ -8,7 +8,9 @@ export const loadingState = atom<Loading>({
     kyselyModule: false,
     kyselyType: false,
     prettier: false,
-    share: false,
     compile: false,
+    initShare: false,
+    share: false,
+    shareCopy: false,
   },
 })
