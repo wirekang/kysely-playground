@@ -14,7 +14,6 @@ export const typescriptSchemaState = atom({
     "    id: Generated<string>\n" +
     "    first_name: string | null\n" +
     "    last_name: string\n" +
-    "    created_at: Generated<Date>\n" +
     "  }\n" +
     "}",
 })

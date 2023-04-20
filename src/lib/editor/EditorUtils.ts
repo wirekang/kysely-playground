@@ -1,8 +1,8 @@
 import { loader } from "@monaco-editor/react"
+import type { editor } from "monaco-editor"
 import * as monaco from "monaco-editor"
 import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker"
 import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker"
-import type { editor } from "monaco-editor"
 import { EditorConstants } from "src/lib/editor/EditorConstants"
 
 export class EditorUtils {

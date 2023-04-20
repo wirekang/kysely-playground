@@ -31,8 +31,13 @@ export function useSetMonacoEditorEvents(
         editor.trigger(null, handlerId, payload)
       },
       setValue: (value) => {
+        const selection = editor.getSelection()
         model.setValue(value)
         setValue(value)
+        if (selection === null) {
+          return
+        }
+        editor.setSelection(selection)
       },
       refresh: () => {
         model.setValue(model.getValue())

@@ -1,11 +1,27 @@
 import { useRecoilValue } from "recoil"
 import { loadingState } from "src/lib/loading/atoms/loadingState"
 import { useEffect, useState } from "react"
+import { useTimeout } from "src/lib/ui/hooks/useTimeout"
 
 export function LoadingPane(): JSX.Element {
   const loading = useRecoilValue(loadingState)
-  const loadingCount = Object.entries(loading).filter((v) => v[1] === true).length
   const [dotCount, setDotCount] = useState(1)
+  const [show, setShow] = useState(true)
+  const timeout = useTimeout(1000)
+
+  useEffect(() => {
+    const loadingCount = Object.entries(loading).filter((v) => v[1] === true).length
+    let t: any = null
+    if (loadingCount > 0) {
+      t = setTimeout(() => {
+        setShow(true)
+      }, 200)
+    }
+    setShow(false)
+    return () => {
+      clearTimeout(t)
+    }
+  }, [loading, setShow])
 
   useEffect(() => {
     const i = setInterval(() => {
@@ -21,30 +37,21 @@ export function LoadingPane(): JSX.Element {
     }
   }, [setDotCount])
 
+  const visible = show || !timeout
   return (
     <div
       style={{
         display: "flex",
         flexDirection: "row",
-        opacity: loadingCount,
-        height: loadingCount === 0 ? 0 : "auto",
-        transition: "all 0.3s ease",
+        opacity: visible ? 1 : 0,
+        height: visible ? undefined : 0,
+        transition: "all 0.4s ease",
+        fontSize: "1.5rem",
+        padding: 0,
+        margin: 0,
       }}
     >
-      <div style={{ marginRight: 8 }}>Loading </div>
-      {Object.entries(loading).map(([k, v], i) => (
-        <div
-          key={k}
-          style={{
-            opacity: v === true ? 1 : 0,
-            width: v === true ? "auto" : 0,
-            marginRight: 4,
-          }}
-        >
-          {k},
-        </div>
-      ))}
-      {".".repeat(dotCount)}
+      <div>Loading{".".repeat(dotCount)}</div>
     </div>
   )
 }

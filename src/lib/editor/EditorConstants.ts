@@ -21,11 +21,9 @@ export class EditorConstants {
     fontFamily: "Jetbrains Mono",
     padding: { top: 2, bottom: 4 },
     automaticLayout: true,
-    scrollbar: {
-      vertical: "hidden",
-    },
     overviewRulerBorder: false,
     overviewRulerLanes: 0,
+    scrollBeyondLastColumn: 0,
   }
 
   public static readonly TYPESCRIPT_SCHEMA_EDITOR_OPTIONS: editor.IStandaloneEditorConstructionOptions = {

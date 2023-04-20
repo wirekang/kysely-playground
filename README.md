@@ -1,26 +1,52 @@
-# [kysely-playground](https://kyse.link)
+# [Kysely Playground](https://kyse.link/)
+
+| branch  | url                               |
+|---------|-----------------------------------|
+| main    | https://kyse.link                 |
+| preview | https://kysely-playground.web.app |
 
 Playground for [Kysely](https://github.com/kysely-org/kysely).
 
-| branch       | url                               |
-|--------------|-----------------------------------|
-| main(stable) | https://kyse.link                 |
-| preview      | https://kysely-playground.web.app |
+Provides vscode-like experiences including type checking and auto suggestions.  
+Supports built-in dialects(postgres, mysql, sqlite), last 20 kysely versions.
 
-## Provides
+You can test stuffs quickly, create issues with reproducing with playground.
 
-1. Vscode-like experiences including type checking and auto suggestions.
-2. Various versions of kysely (recent 20 versions).
-3. Major dialects (postgres, mysql, sqlite).
+## Guide
 
-## Purposes
+The playground has 3 editor: `schema`, `query` and `sql`.
 
-1. Test stuffs quickly.
-2. Create examples for issues, PR and Discord.
+Schema editor is the leftmost editor(in wide-enough screen).  
+You can declare global scope interface `DB` to help checking types related database schema.  
+You can import `type`s from `kysely`. (e.g. `import { Generated } from "kysely"` )
 
-## Examples
+You can hide the editor by clicking `Schema` checkbox on header of playground.  
+If you want to let reader focus on building query not schema, hide the schema editor before share.  
+The visibility of schema editor will be shared.  
+(Type checking for schema still works even though it is hidden.)
 
-Examples to introduce various way to use kysely-playground, not kysely itself.
-Check out [the official docs](https://kysely.dev/docs/category/examples) to learn kysely.
+If you want to disable the type checking for schema,
+check out
+the [example](https://kyse.link/?p=b&i=haFkqHBvc3RncmVzoXamMC4yNC4yoXPZSmRlY2xhcmUgZ2xvYmFsIHsKICBpbnRlcmZhY2UgREIgewogICAgW2tleTogc3RyaW5nXTogYW55CiAgfQp9CgpleHBvcnQge30KoXHZK2t5c2VseQogIC5zZWxlY3RGcm9tKCJhc2RmIikKICAuc2VsZWN0QWxsKCmhY8M=).
 
-...todo
+To
+prevent [2669 error](https://stackoverflow.com/questions/57132428/augmentations-for-the-global-scope-can-only-be-directly-nested-in-external-modul),
+you should specify `export {}` if you import nothing in schema editor.
+
+The editor in the middle is the query editor.  
+For now, you can't import a non-type thing. If you need something to be pre-defined, please issue it.  
+
+These are pre-defined variables you can use to build query:
+
+| variable | description                  |
+|----------|------------------------------|
+| `sql`    | `import {sql} from "kysely"` |
+| `kysely` | an Kysely instance           |
+| `db`     | alias for kysely             |
+| `result` | for backward-compatibility   |
+
+
+You can see the generated sql in the rightmost sql editor.  
+By default, the playground will show you the generated sql string as-is(with parameter placeholders).  
+You can generate sql with hard-coded parameter by turning on `More Options` -> `SQL Format` -> `inlineParameters`.  
+It is useful when you copy-paste the sql into database cli or DataGrip.  

@@ -9,6 +9,8 @@ import { useSetTypescriptGlobalTypes } from "src/lib/typescript/hooks/useSetType
 import { useInitShare } from "src/lib/share/hooks/useInitShare"
 import { MonacoWrapper } from "src/components/editor/MonacoWrapper"
 import { useRefreshTypescriptQueryEditor } from "src/lib/editor/hooks/useRefreshTypescriptQueryEditor"
+import { useSetUserTyping } from "src/lib/ui/hooks/useSetUserTyping"
+import { useOnSave } from "src/lib/ui/hooks/useOnSave"
 
 function App() {
   useSetTypescriptCompilerOptions()
@@ -21,6 +23,9 @@ function App() {
   useSetSqlResult()
 
   useInitShare()
+
+  useSetUserTyping()
+  useOnSave()
 
   return (
     <div

@@ -1,14 +1,14 @@
 import { FirebaseConstants } from "src/lib/firebase/FirebaseConstants"
 import { initializeApp } from "firebase/app"
 import {
-  getFirestore,
-  Firestore,
-  collection,
   addDoc,
   Bytes,
-  getDoc,
-  doc,
+  collection,
   CollectionReference,
+  doc,
+  Firestore,
+  getDoc,
+  getFirestore,
 } from "firebase/firestore"
 import { LogUtils } from "src/lib/log/LogUtils"
 

@@ -23,7 +23,11 @@ export class SqlFormatUtils {
   }
 
   private static formatParameters(parameters: any[]): string {
-    return "\n\n-- Parameters\n" + parameters.map((v, i) => `-- $${i + 1}: ${v}`).join("\n")
+    if (parameters.length === 0) {
+      return ""
+    }
+
+    return "\n\n-- Parameters\n" + parameters.map((v, i) => `-- [${i + 1}] ${v}`).join("\n")
   }
 
   private static getParams(parameters: any[], dialect: SqlDialect): any {

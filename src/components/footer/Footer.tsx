@@ -10,7 +10,7 @@ export function Footer(): JSX.Element {
         width: "100%",
         alignItems: "flex-start",
         justifyContent: "flex-start",
-        padding: 4,
+        paddingLeft: 4,
         maxHeight: "100px",
         minHeight: "40px",
         overflow: "auto",

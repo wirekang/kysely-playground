@@ -3,8 +3,10 @@ import type {
   DatabaseIntrospector,
   Dialect,
   DialectAdapter,
+  Driver,
   Kysely,
   QueryCompiler,
+  QueryResult,
   Sql,
 } from "kysely_for_type"
 import { KyselyPlaygroundDriver } from "src/lib/kysely/KyselyPlaygroundDriver"
@@ -33,12 +35,12 @@ export class KyselyUtils {
     return `kysely_${v.replaceAll(".", "_")}`
   }
 
-  private static createDialect(module: any, sqlDialect: SqlDialect, callback: (cq: CompiledQuery) => void) {
+  private static createDialect(module: any, sqlDialect: SqlDialect, driver: Driver) {
     return KyselyUtils.createDialectFromTypes(
       module[KyselyConstants.DIALECT_ADAPTER_MAPPING[sqlDialect]],
       module[KyselyConstants.DIALECT_INTROSPECTOR_MAPPING[sqlDialect]],
       module[KyselyConstants.DIALECT_QUERY_COMPILER_MAPPING[sqlDialect]],
-      callback
+      driver
     )
   }
 
@@ -46,14 +48,14 @@ export class KyselyUtils {
     adapterType: Type<DialectAdapter>,
     introspectorType: Type<DatabaseIntrospector>,
     queryCompilerType: Type<QueryCompiler>,
-    callback: (cq: CompiledQuery) => void
+    driver: Driver
   ): Dialect {
     return {
       createAdapter() {
         return new adapterType()
       },
       createDriver() {
-        return new KyselyPlaygroundDriver(callback)
+        return driver
       },
       createIntrospector(db: Kysely<any>) {
         return new introspectorType(db)
@@ -64,8 +66,15 @@ export class KyselyUtils {
     }
   }
 
-  public static async compile(kyselyModule: any, sqlDialect: SqlDialect, ts: string, cb: (cq: CompiledQuery) => void) {
-    const dialect = KyselyUtils.createDialect(kyselyModule, sqlDialect, cb)
+  public static async compile(
+    kyselyModule: any,
+    sqlDialect: SqlDialect,
+    ts: string,
+    cb: (cq: CompiledQuery) => void,
+    result: QueryResult<any>
+  ) {
+    const driver = new KyselyPlaygroundDriver(cb, result)
+    const dialect = KyselyUtils.createDialect(kyselyModule, sqlDialect, driver)
     const Kysely = kyselyModule["Kysely"]
     const kysely = new Kysely({ dialect })
     const sql = kyselyModule["sql"]
@@ -76,8 +85,6 @@ export class KyselyUtils {
         throw new PlaygroundError("`result` is not an QueryBuilder")
       }
       evalResult.result.execute()
-    } else if (evalResult.expression && typeof evalResult.expression.execute === "function") {
-      evalResult.expression.execute()
     }
   }
 }
@@ -91,8 +98,9 @@ async function doEval(longArgumentNameToPreventConflicts: { ts: string; sql: Sql
   const kysely = longArgumentNameToPreventConflicts.instance
   const db = kysely
   let result: any = null
-  const expression = eval(await TypescriptUtils.toJs(longArgumentNameToPreventConflicts.ts))
-
+  let __TOP_LEVEL_FUNCTION__ = null as any
+  eval(await TypescriptUtils.toJs(longArgumentNameToPreventConflicts.ts))
+  await __TOP_LEVEL_FUNCTION__()
   // to prevent minification
-  return { sql, kysely, db, result, expression }
+  return { sql, kysely, db, result }
 }
