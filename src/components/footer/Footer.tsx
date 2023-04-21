@@ -9,10 +9,10 @@ export function Footer(): JSX.Element {
         flexDirection: "column",
         width: "100%",
         alignItems: "flex-start",
-        justifyContent: "flex-start",
-        paddingLeft: 4,
+        justifyContent: "stretch",
+        paddingLeft: 2,
         maxHeight: "100px",
-        minHeight: "40px",
+        minHeight: "30px",
         overflow: "auto",
       }}
     >

@@ -831,6 +831,18 @@
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
   integrity sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==
 
+"@react-hookz/deep-equal@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@react-hookz/deep-equal/-/deep-equal-1.0.4.tgz#68a71f36cbc88724b3ce6f4036183778b6e7f282"
+  integrity sha512-N56fTrAPUDz/R423pag+n6TXWbvlBZDtTehaGFjK0InmN+V2OFWLE/WmORhmn6Ce7dlwH5+tQN1LJFw3ngTJVg==
+
+"@react-hookz/web@^23.0.0":
+  version "23.0.0"
+  resolved "https://registry.yarnpkg.com/@react-hookz/web/-/web-23.0.0.tgz#d0470de7f9ec4f6eaedd2c13b9fb474d8f3a0d09"
+  integrity sha512-diBtlo17CJtZJ/Yb8veri7hZL7QPnqNZ+IAMHWWSb//nq+Z3XDHaXcozH7cyvMZj4gYwQeY/L/H4298etHxu1Q==
+  dependencies:
+    "@react-hookz/deep-equal" "^1.0.4"
+
 "@types/chai-subset@^1.3.3":
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/@types/chai-subset/-/chai-subset-1.3.3.tgz#97893814e92abd2c534de422cb377e0e0bdaac94"
@@ -1419,7 +1431,7 @@ jsonc-parser@^3.2.0:
   resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.24.1.tgz#c0397fe074ad318773b51854eeebf8f6b8d16408"
   integrity sha512-8js/qMaGSG0M1TC+qmTi0DjVV0sSzRYEt4Ff1YMNbHfHEd6VMcCUTfcGoFgHwOE4sK1kopYZ71B67c4FaQnw/w==
 
-"kysely_0_24_2@npm:kysely", "kysely_0_24_2@npm:kysely@0.24.2", "kysely_for_type@npm:kysely":
+"kysely_0_24_2@npm:kysely@0.24.2", "kysely_for_type@npm:kysely":
   version "0.24.2"
   resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.24.2.tgz#caf3be037939bd20449c0b7840e932f074b4d12c"
   integrity sha512-+7eaTJNUYm2yRq1x+lEOZc+78TO35dTZ9b0dh49+Z9CTt2byMSbMiOKpwPlOyCAaHD4kILkAYWYZNywFlmBwRA==

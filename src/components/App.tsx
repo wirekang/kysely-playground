@@ -1,4 +1,3 @@
-import { Header } from "src/components/header/Header"
 import { EditorContainer } from "src/components/editor/EditorContainer"
 import { Footer } from "src/components/footer/Footer"
 import { useSetKyselyGlobalType } from "src/lib/kysely/hooks/useSetKyselyGlobalType"
@@ -11,6 +10,7 @@ import { MonacoWrapper } from "src/components/editor/MonacoWrapper"
 import { useRefreshTypescriptQueryEditor } from "src/lib/editor/hooks/useRefreshTypescriptQueryEditor"
 import { useSetUserTyping } from "src/lib/ui/hooks/useSetUserTyping"
 import { useOnSave } from "src/lib/ui/hooks/useOnSave"
+import { Header2 } from "src/components/header2/Header2"
 
 function App() {
   useSetTypescriptCompilerOptions()
@@ -38,7 +38,7 @@ function App() {
         justifyContent: "flex-start",
       }}
     >
-      <Header />
+      <Header2 />
       <MonacoWrapper>
         <EditorContainer />
       </MonacoWrapper>

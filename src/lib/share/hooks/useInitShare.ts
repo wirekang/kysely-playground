@@ -12,6 +12,7 @@ import { typescriptSchemaEditorEventsState } from "src/lib/editor/atoms/typescri
 import { typescriptQueryEditorEventsState } from "src/lib/editor/atoms/typescriptQueryEditorEventsState"
 import { StoreUtils } from "src/lib/store/StoreUtils"
 import { showTypescriptSchemaState } from "src/lib/ui/atoms/showTypescriptSchemaState"
+import { typescriptSchemaEditorSizeState } from "src/lib/ui/atoms/typescriptSchemaEditorSizeState"
 
 export function useInitShare() {
   const storeManager = useStoreManager()

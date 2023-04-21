@@ -14,7 +14,7 @@ export function ErrorRow(props: Props): JSX.Element {
   }
 
   return (
-    <div style={{ border: "1px solid red", padding: 2 }}>
+    <div style={{ border: "1px solid red", padding: 2, whiteSpace: "pre" }}>
       {props.id}: {value}
     </div>
   )

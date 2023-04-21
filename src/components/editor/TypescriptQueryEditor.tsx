@@ -6,6 +6,9 @@ import { typescriptQueryState } from "src/lib/typescript/atoms/typescriptQuerySt
 export function TypescriptQueryEditor(): JSX.Element {
   return (
     <MonacoEditor
+      wrapperStyle={{
+        flex: 1,
+      }}
       options={EditorConstants.TYPESCRIPT_QUERY_EDITOR_OPTIONS}
       eventsState={typescriptQueryEditorEventsState}
       valueState={typescriptQueryState}

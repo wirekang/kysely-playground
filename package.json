@@ -12,6 +12,7 @@
   "dependencies": {
     "@monaco-editor/react": "^4.5.0",
     "@msgpack/msgpack": "^3.0.0-beta2",
+    "@react-hookz/web": "^23.0.0",
     "firebase": "^9.20.0",
     "kysely_0_19_12": "npm:kysely@0.19.12",
     "kysely_0_20_0": "npm:kysely@0.20.0",
