@@ -12,7 +12,7 @@ import { typescriptSchemaEditorEventsState } from "src/lib/editor/atoms/typescri
 import { typescriptQueryEditorEventsState } from "src/lib/editor/atoms/typescriptQueryEditorEventsState"
 import { StoreUtils } from "src/lib/store/StoreUtils"
 import { showTypescriptSchemaState } from "src/lib/ui/atoms/showTypescriptSchemaState"
-import { typescriptSchemaEditorSizeState } from "src/lib/ui/atoms/typescriptSchemaEditorSizeState"
+import { sqlEditorSizeState } from "src/lib/ui/atoms/sqlEditorSizeState"
 
 export function useInitShare() {
   const storeManager = useStoreManager()
@@ -22,6 +22,7 @@ export function useInitShare() {
   const [, setKyselyVersion] = useRecoilState(kyselyVersionState)
   const [, setShowTypescriptSchema] = useRecoilState(showTypescriptSchemaState)
   const [, setLoading] = useRecoilState(loadingState)
+  const [, setSqlEditorSize] = useRecoilState(sqlEditorSizeState)
   const typescriptSchemaEditorEvents = useRecoilValue(typescriptSchemaEditorEventsState)
   const typescriptQueryEditorEvents = useRecoilValue(typescriptQueryEditorEventsState)
   const [didInit, setDidInit] = useState(false)
@@ -55,6 +56,9 @@ export function useInitShare() {
         typescriptSchemaEditorEvents.setValue(storeItem.typescriptSchema)
         typescriptQueryEditorEvents.setValue(storeItem.typescriptQuery)
         setShowTypescriptSchema(storeItem.showTypescriptSchema)
+        if (!storeItem.showTypescriptSchema) {
+          setSqlEditorSize(window.document.body.clientWidth / 2)
+        }
       })
       .finally(() => {
         setLoading((v) => ({ ...v, initShare: false }))
