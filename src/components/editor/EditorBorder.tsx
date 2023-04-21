@@ -51,7 +51,7 @@ export function EditorBorder(props: Props): JSX.Element {
       ref={ref}
       style={{
         cursor: "col-resize",
-        width: "6px",
+        width: "9px",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",

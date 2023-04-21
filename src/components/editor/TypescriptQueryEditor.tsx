@@ -7,7 +7,8 @@ export function TypescriptQueryEditor(): JSX.Element {
   return (
     <MonacoEditor
       wrapperStyle={{
-        flex: 1,
+        flexGrow: 1,
+        flexBasis: "30%",
       }}
       options={EditorConstants.TYPESCRIPT_QUERY_EDITOR_OPTIONS}
       eventsState={typescriptQueryEditorEventsState}
