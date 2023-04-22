@@ -7,17 +7,19 @@ import { useTimeout } from "src/lib/ui/hooks/useTimeout"
 import { TypescriptBorder } from "src/components/editor/TypescriptBorder"
 import { SqlBorder } from "src/components/editor/SqlBorder"
 import { useSetEditorSizes } from "src/lib/ui/hooks/useSetEditorSizes"
+import { useIsCompact } from "src/lib/ui/hooks/useIsCompact"
 
 export function EditorContainer(): JSX.Element {
   const { initShare } = useRecoilValue(loadingState)
   const timeout = useTimeout(300)
+  const compact = useIsCompact()
   useSetEditorSizes()
 
   return (
     <div
       style={{
         display: "flex",
-        flexDirection: "row",
+        flexDirection: compact ? "column" : "row",
         flexGrow: 1,
         overflow: "auto",
         opacity: !timeout || initShare === true ? 0 : undefined,

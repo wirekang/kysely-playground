@@ -5,16 +5,18 @@ import { typescriptSchemaState } from "src/lib/typescript/atoms/typescriptSchema
 import { useRecoilValue } from "recoil"
 import { typescriptSchemaEditorSizeState } from "src/lib/ui/atoms/typescriptSchemaEditorSizeState"
 import { showTypescriptSchemaState } from "src/lib/ui/atoms/showTypescriptSchemaState"
+import { useIsCompact } from "src/lib/ui/hooks/useIsCompact"
 
 export function TypescriptSchemaEditor(): JSX.Element {
   const show = useRecoilValue(showTypescriptSchemaState)
   const size = useRecoilValue(typescriptSchemaEditorSizeState)
+  const compact = useIsCompact()
 
   return (
     <MonacoEditor
       wrapperStyle={{
         display: show ? "flex" : "none",
-        width: size,
+        width: compact ? undefined : size,
       }}
       options={EditorConstants.TYPESCRIPT_SCHEMA_EDITOR_OPTIONS}
       eventsState={typescriptSchemaEditorEventsState}

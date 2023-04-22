@@ -4,6 +4,7 @@ import { editor } from "monaco-editor"
 import { MonacoEditorEvents } from "src/lib/editor/types/MonacoEditorEvents"
 import { RecoilState } from "recoil"
 import { useSetMonacoEditorEvents } from "src/lib/editor/hooks/useSetMonacoEditorEvents"
+import { useIsCompact } from "src/lib/ui/hooks/useIsCompact"
 
 interface Props {
   options: editor.IStandaloneEditorConstructionOptions

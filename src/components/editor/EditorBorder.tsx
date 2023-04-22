@@ -1,5 +1,6 @@
 import { useEventListener } from "@react-hookz/web"
 import { useRef, useState } from "react"
+import { useIsCompact } from "src/lib/ui/hooks/useIsCompact"
 
 interface Props {
   setSize: (v: (v: number) => number) => void
@@ -8,6 +9,7 @@ interface Props {
 }
 
 export function EditorBorder(props: Props): JSX.Element {
+  const compact = useIsCompact()
   const deltaFactor = props.left ? 1 : -1
   const [dragging, setDragging] = useState(false)
   const ref = useRef(null)
@@ -19,6 +21,7 @@ export function EditorBorder(props: Props): JSX.Element {
 
   const dragOff = () => {
     setDragging(false)
+    setPreviousX(null)
   }
 
   useEventListener(window, "mouseup", dragOff)
@@ -45,6 +48,10 @@ export function EditorBorder(props: Props): JSX.Element {
     }
     props.setSize((v) => Math.max(min, Math.min(v - (touch.pageX - previousX) * deltaFactor, max)))
   })
+
+  if (compact) {
+    return <></>
+  }
 
   return (
     <div
