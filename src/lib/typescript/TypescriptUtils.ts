@@ -1,4 +1,3 @@
-import { LogUtils } from "src/lib/log/LogUtils"
 import { languages } from "monaco-editor"
 import ScriptTarget = languages.typescript.ScriptTarget
 

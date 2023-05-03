@@ -14,8 +14,6 @@ import type { SqlDialect } from "src/lib/sql/types/SqlDialect"
 import { IMPORT_MAP } from "src/generated/kysely-modules"
 import { KyselyConstants } from "src/lib/kysely/KyselyConstants"
 import { TypescriptUtils } from "src/lib/typescript/TypescriptUtils"
-import { LogUtils } from "src/lib/log/LogUtils"
-import { PlaygroundError } from "src/lib/error/PlaygroundError"
 
 export class KyselyUtils {
   public static async loadType(version: string): Promise<string> {
