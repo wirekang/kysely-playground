@@ -43,8 +43,6 @@ These are pre-defined variables you can use to build query:
 | `sql`    | `import {sql} from "kysely"` |
 | `kysely` | an Kysely instance           |
 | `db`     | alias for kysely             |
-| `result` | for backward-compatibility   |
-
 
 You can see the generated sql in the rightmost sql editor.  
 By default, the playground will show you the generated sql string as-is(with parameter placeholders).  

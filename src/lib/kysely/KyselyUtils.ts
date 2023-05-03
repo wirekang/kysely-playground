@@ -79,13 +79,6 @@ export class KyselyUtils {
     const kysely = new Kysely({ dialect })
     const sql = kyselyModule["sql"]
     const evalResult = await doEval({ ts, instance: kysely, sql })
-    if (evalResult.result !== null) {
-      LogUtils.info("Detect legacy result")
-      if (typeof evalResult.result.execute !== "function") {
-        throw new PlaygroundError("`result` is not an QueryBuilder")
-      }
-      evalResult.result.execute()
-    }
   }
 }
 
@@ -97,10 +90,9 @@ async function doEval(longArgumentNameToPreventConflicts: { ts: string; sql: Sql
   const sql = longArgumentNameToPreventConflicts.sql
   const kysely = longArgumentNameToPreventConflicts.instance
   const db = kysely
-  let result: any = null
   let __TOP_LEVEL_FUNCTION__ = null as any
   eval(await TypescriptUtils.toJs(longArgumentNameToPreventConflicts.ts))
   await __TOP_LEVEL_FUNCTION__()
   // to prevent minification
-  return { sql, kysely, db, result }
+  return { sql, kysely, db }
 }

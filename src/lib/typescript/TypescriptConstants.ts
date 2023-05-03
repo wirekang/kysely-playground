@@ -19,18 +19,7 @@ export class TypescriptConstants {
     * Alias for \`kysely\`.
     */
     const db: Kysely<DB>
-    
-    /**
-    *  \`THIS MESSAGE IS FROM PLAYGROUND.\`
-    *
-    * @deprecated
-    * use \`kysely.execute()\` instead.
-    * \`\`\`ts
-    * kysely.selectFrom("person").selectAll().execute()
-    * \`\`\`
-    */
-    let result:any
-    
+
     /**
     *  \`THIS MESSAGE IS FROM PLAYGROUND.\`
     *
