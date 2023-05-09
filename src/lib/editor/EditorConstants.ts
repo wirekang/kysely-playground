@@ -24,6 +24,7 @@ export class EditorConstants {
     overviewRulerBorder: false,
     overviewRulerLanes: 0,
     scrollBeyondLastColumn: 0,
+    tabSize: 2,
   }
 
   public static readonly TYPESCRIPT_SCHEMA_EDITOR_OPTIONS: editor.IStandaloneEditorConstructionOptions = {
