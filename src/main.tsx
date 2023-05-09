@@ -1,4 +1,4 @@
-import "the-new-css-reset/css/reset.css"
+import "src/reset.css"
 import "src/index.css"
 import React from "react"
 import ReactDOM from "react-dom/client"

@@ -1876,11 +1876,6 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
-the-new-css-reset@^1.8.4:
-  version "1.8.4"
-  resolved "https://registry.yarnpkg.com/the-new-css-reset/-/the-new-css-reset-1.8.4.tgz#f503e8eb98746f32175a484f1044ae116bbd6994"
-  integrity sha512-Upmb9XTyk78BmTbMQuAOTlESH9zmwqDAmmYC9MVm7uZLQdvGfxFTMhbpjKMUDwfmXGKnq6nkzISs/ReqHUP5xg==
-
 time-zone@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/time-zone/-/time-zone-1.0.0.tgz#99c5bf55958966af6d06d83bdf3800dc82faec5d"
