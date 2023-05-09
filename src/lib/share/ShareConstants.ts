@@ -3,9 +3,9 @@ import { StoreProviderId } from "src/lib/store/types/StoreProviderId"
 
 export class ShareConstants {
   public static readonly SHARE_KIND_TEXT: Record<ShareKind, string> = {
-    [ShareKind.Markdown]: "Markdown Hyperlink",
+    [ShareKind.Markdown]: "Markdown hyperlink",
     [ShareKind.Short]: "Short link for discord",
-    [ShareKind.Raw]: "Raw URL (Ctrl-S)",
+    [ShareKind.Raw]: "Raw url (Ctrl-S)",
   }
 
   public static readonly SHARE_KIND_PROVIDER_ID: Record<ShareKind, StoreProviderId> = {
