@@ -7,7 +7,6 @@ import type {
   Kysely,
   QueryCompiler,
   QueryResult,
-  Sql,
 } from "kysely_for_type"
 import { KyselyPlaygroundDriver } from "src/lib/kysely/KyselyPlaygroundDriver"
 import type { SqlDialect } from "src/lib/sql/types/SqlDialect"
@@ -75,8 +74,7 @@ export class KyselyUtils {
     const dialect = KyselyUtils.createDialect(kyselyModule, sqlDialect, driver)
     const Kysely = kyselyModule["Kysely"]
     const kysely = new Kysely({ dialect })
-    const sql = kyselyModule["sql"]
-    const evalResult = await doEval({ ts, instance: kysely, sql })
+    const evalResult = await doEval({ ts, instance: kysely, kyselyModule })
   }
 }
 
@@ -84,13 +82,19 @@ interface Type<T = any> extends Function {
   new (...args: any[]): T
 }
 
-async function doEval(longArgumentNameToPreventConflicts: { ts: string; sql: Sql; instance: Kysely<any> }) {
-  const sql = longArgumentNameToPreventConflicts.sql
+async function doEval(longArgumentNameToPreventConflicts: { ts: string; instance: Kysely<any>; kyselyModule: any }) {
+  // for legacy
+  const sql = longArgumentNameToPreventConflicts.kyselyModule["sql"]
+
   const kysely = longArgumentNameToPreventConflicts.instance
   const db = kysely
+
   let __TOP_LEVEL_FUNCTION__ = null as any
   eval(await TypescriptUtils.toJs(longArgumentNameToPreventConflicts.ts))
-  await __TOP_LEVEL_FUNCTION__()
+  await __TOP_LEVEL_FUNCTION__({
+    kysely: longArgumentNameToPreventConflicts.kyselyModule,
+  })
+
   // to prevent minification
   return { sql, kysely, db }
 }
