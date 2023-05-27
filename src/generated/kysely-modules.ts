@@ -1,4 +1,5 @@
 export const IMPORT_MAP = {
+  kysely_0_25_0: () => import("kysely_0_25_0"),
   kysely_0_24_2: () => import("kysely_0_24_2"),
   kysely_0_24_1: () => import("kysely_0_24_1"),
   kysely_0_24_0: () => import("kysely_0_24_0"),
@@ -18,5 +19,4 @@ export const IMPORT_MAP = {
   kysely_0_21_0: () => import("kysely_0_21_0"),
   kysely_0_20_1: () => import("kysely_0_20_1"),
   kysely_0_20_0: () => import("kysely_0_20_0"),
-  kysely_0_19_12: () => import("kysely_0_19_12"),
 } as const
