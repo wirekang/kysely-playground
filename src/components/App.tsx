@@ -17,7 +17,6 @@ function App() {
   useSetTypescriptGlobalTypes()
 
   useSetKyselyGlobalType()
-  useSetKyselyModule()
 
   useRefreshTypescriptQueryEditor()
   useSetSqlResult()

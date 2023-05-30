@@ -10,28 +10,12 @@ import type {
 } from "kysely_for_type"
 import { KyselyPlaygroundDriver } from "src/lib/kysely/KyselyPlaygroundDriver"
 import type { SqlDialect } from "src/lib/sql/types/SqlDialect"
-import { IMPORT_MAP } from "src/generated/kysely-modules"
 import { KyselyConstants } from "src/lib/kysely/KyselyConstants"
 import { TypescriptUtils } from "src/lib/typescript/TypescriptUtils"
+import { ModuleUtils } from "src/lib/module/ModuleUtils"
+import { ModuleFunction } from "src/lib/module/types/ModuleFunction"
 
 export class KyselyUtils {
-  public static async loadType(version: string): Promise<string> {
-    const module = await import(`../../generated/types/kysely_${version.replaceAll(".", "_")}.d.ts?raw`)
-    return module.default
-  }
-
-  public static importModule(version: string) {
-    const importFunction = IMPORT_MAP[KyselyUtils.versionToAlias(version) as keyof typeof IMPORT_MAP]
-    if (!importFunction) {
-      throw new Error(`No kysely module for version ${version}`)
-    }
-    return importFunction()
-  }
-
-  private static versionToAlias(v: string) {
-    return `kysely_${v.replaceAll(".", "_")}`
-  }
-
   private static createDialect(module: any, sqlDialect: SqlDialect, driver: Driver) {
     return KyselyUtils.createDialectFromTypes(
       module[KyselyConstants.DIALECT_ADAPTER_MAPPING[sqlDialect]],
@@ -64,17 +48,19 @@ export class KyselyUtils {
   }
 
   public static async compile(
-    kyselyModule: any,
+    version: string,
     sqlDialect: SqlDialect,
     ts: string,
     cb: (cq: CompiledQuery) => void,
     result: QueryResult<any>
   ) {
     const driver = new KyselyPlaygroundDriver(cb, result)
+    const moduleFunction = await ModuleUtils.makeModuleFunction(version)
+    const kyselyModule = moduleFunction("kysely")
     const dialect = KyselyUtils.createDialect(kyselyModule, sqlDialect, driver)
     const Kysely = kyselyModule["Kysely"]
     const kysely = new Kysely({ dialect })
-    const evalResult = await doEval({ ts, instance: kysely, kyselyModule })
+    const evalResult = await doEval({ ts, instance: kysely, moduleFunction })
   }
 }
 
@@ -82,19 +68,18 @@ interface Type<T = any> extends Function {
   new (...args: any[]): T
 }
 
-async function doEval(longArgumentNameToPreventConflicts: { ts: string; instance: Kysely<any>; kyselyModule: any }) {
-  // for legacy
-  const sql = longArgumentNameToPreventConflicts.kyselyModule["sql"]
-
-  const kysely = longArgumentNameToPreventConflicts.instance
+async function doEval(__longNamedArgumentForPreventConflicts__: {
+  ts: string
+  instance: Kysely<any>
+  moduleFunction: ModuleFunction
+}) {
+  const kysely = __longNamedArgumentForPreventConflicts__.instance
   const db = kysely
 
   let __TOP_LEVEL_FUNCTION__ = null as any
-  eval(await TypescriptUtils.toJs(longArgumentNameToPreventConflicts.ts))
-  await __TOP_LEVEL_FUNCTION__({
-    kysely: longArgumentNameToPreventConflicts.kyselyModule,
-  })
+  eval(await TypescriptUtils.toJs(__longNamedArgumentForPreventConflicts__.ts))
+  await __TOP_LEVEL_FUNCTION__(__longNamedArgumentForPreventConflicts__.moduleFunction)
 
   // to prevent minification
-  return { sql, kysely, db }
+  return { kysely, db }
 }

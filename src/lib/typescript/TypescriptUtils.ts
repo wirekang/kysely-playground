@@ -2,7 +2,7 @@ import { LogUtils } from "src/lib/log/LogUtils"
 
 export class TypescriptUtils {
   public static readonly TOP_LEVEL_FUNCTION_NAME = "__TOP_LEVEL_FUNCTION__"
-  private static readonly MODULE_ARGUMENT_NAME = "__MODULE__"
+  private static readonly MODULE_FUNCTION_NAME = "__MODULE__"
 
   public static async toJs(ts: string): Promise<string> {
     const { ModuleKind, transpile, ScriptTarget } = await import("typescript")
@@ -19,7 +19,7 @@ export class TypescriptUtils {
   }
 
   private static wrap(js: string): string {
-    return `${this.TOP_LEVEL_FUNCTION_NAME} = async function(${this.MODULE_ARGUMENT_NAME}){\n${js}\n}`
+    return `${this.TOP_LEVEL_FUNCTION_NAME} = async function(${this.MODULE_FUNCTION_NAME}){\n${js}\n}`
   }
 
   private static removeExports(js: string): string {
@@ -27,6 +27,6 @@ export class TypescriptUtils {
   }
 
   private static importToConst(js: string): string {
-    return js.replace(/^\s*import (.+) from ([^;]+)/m, `const $1 = ${this.MODULE_ARGUMENT_NAME}[$2]`)
+    return js.replace(/^\s*import (.+) from ([^;]+)/gm, `const $1 = ${this.MODULE_FUNCTION_NAME}($2)`)
   }
 }

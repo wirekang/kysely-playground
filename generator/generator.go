@@ -19,8 +19,9 @@ type Module struct {
 }
 
 type Version struct {
-	Name  string
-	Alias string
+	Name        string
+	ModuleAlias string
+	TypeAlias   string
 }
 
 type YarnInfo struct {
@@ -36,8 +37,8 @@ const modulesTsTemplate = `export const MODULES = {
   "{{ .Name }}": {
   {{- range .Versions }}
     "{{ .Name }}": {
-      "module": () => import("{{ .Alias }}"),
-      "type": () => import("./types/{{ .Alias }}.d.ts?raw"),
+      "module": () => import("{{ .ModuleAlias }}"),
+      "type": () => import("./types/{{ .TypeAlias }}.d.ts?raw"),
     },
   {{- end }}
   },
@@ -85,8 +86,9 @@ func generateModule(npmModule NpmModule, maxSize int) (Module, error) {
 	versions := make([]Version, len(versionNames))
 	for i, versionName := range versionNames {
 		versions[i] = Version{
-			Name:  versionName,
-			Alias: makeAlias(npmModule, versionName),
+			Name:        versionName,
+			ModuleAlias: makeAlias(npmModule, versionName),
+			TypeAlias:   makeAlias(npmModule, versionName),
 		}
 	}
 	return Module{
@@ -99,8 +101,9 @@ func generateKyselyHelpersModule(dialect string, minVersion string, kyselyModule
 	versions := make([]Version, 0, len(kyselyModule.Versions))
 	for _, version := range kyselyModule.Versions {
 		versions = append(versions, Version{
-			Name:  version.Name,
-			Alias: version.Alias + "/helpers/" + dialect,
+			Name:        version.Name,
+			ModuleAlias: version.ModuleAlias + "/helpers/" + dialect,
+			TypeAlias:   version.TypeAlias + "_helpers_" + dialect,
 		})
 		if version.Name == minVersion {
 			break
@@ -139,24 +142,48 @@ func clearDirs() error {
 func yarnInstallModule(module Module) error {
 	args := []string{"add"}
 	for _, version := range module.Versions {
-		args = append(args, fmt.Sprintf(`%s@npm:%s@%s`, version.Alias, module.Name, version.Name))
+		args = append(args, fmt.Sprintf(`%s@npm:%s@%s`, version.ModuleAlias, module.Name, version.Name))
 	}
 	return cmdutils.Execute("yarn", args...)
 }
 
+// TODO: refactor
 func generateKyselyTypeFile(module Module, root string) error {
 	for _, version := range module.Versions {
-		tempDir, err := os.MkdirTemp("", "kysely")
+		tempDir, err := os.MkdirTemp("", "kysely-playground")
 		if err != nil {
 			return err
 		}
-		srcDir := "./node_modules/" + version.Alias + "/dist/esm"
+		srcDir := "./node_modules/" + version.ModuleAlias + "/dist/esm"
 		err = cmdutils.Execute("cp", "-r", srcDir, tempDir)
 		if err != nil {
 			return err
 		}
 		in := tempDir + "/esm/index.d.ts"
-		out := root + "/" + version.Alias + ".d.ts"
+		out := root + version.TypeAlias + ".d.ts"
+		err = npxRollupDts(in, out)
+		if err != nil {
+			return err
+		}
+		_ = os.RemoveAll(tempDir)
+	}
+	return nil
+}
+
+// TODO: refactor
+func generateKyselyHelpersTypeFile(dialect string, module Module, root string) error {
+	for _, version := range module.Versions {
+		tempDir, err := os.MkdirTemp("", "kysely-playground")
+		if err != nil {
+			return err
+		}
+		srcDir := "./node_modules/kysely_" + version.Name
+		err = cmdutils.Execute("cp", "-r", srcDir, tempDir)
+		if err != nil {
+			return err
+		}
+		in := tempDir + "/kysely_" + version.Name + "/helpers/" + dialect + ".d.ts"
+		out := root + version.TypeAlias + ".d.ts"
 		err = npxRollupDts(in, out)
 		if err != nil {
 			return err
@@ -194,6 +221,14 @@ func Start() error {
 		return err
 	}
 	err = generateKyselyTypeFile(kyselyModules[0], typesDir)
+	if err != nil {
+		return err
+	}
+	err = generateKyselyHelpersTypeFile("mysql", kyselyModules[1], typesDir)
+	if err != nil {
+		return err
+	}
+	err = generateKyselyHelpersTypeFile("postgres", kyselyModules[2], typesDir)
 	if err != nil {
 		return err
 	}

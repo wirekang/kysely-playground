@@ -2,18 +2,18 @@ import { useLoadingScopeEffect } from "src/lib/loading/hooks/useLoadingScopeEffe
 import { useRecoilState, useRecoilValue } from "recoil"
 import { sqlResultState } from "src/lib/sql/atoms/sqlResultState"
 import { sqlDialectState } from "src/lib/sql/atoms/sqlDialectState"
-import { kyselyModuleState } from "src/lib/kysely/atoms/kyselyModuleState"
 import { KyselyUtils } from "src/lib/kysely/KyselyUtils"
 import { typescriptQueryState } from "src/lib/typescript/atoms/typescriptQueryState"
 import { sqlEditorEventsState } from "src/lib/editor/atoms/sqlEditorEventsState"
 import { SqlFormatUtils } from "src/lib/sql/SqlFormatUtils"
 import { sqlFormatOptionsState } from "src/lib/sql/atoms/sqlFormatOptionsState"
 import { userTypingState } from "src/lib/ui/atoms/userTypingState"
+import { kyselyVersionState } from "src/lib/kysely/atoms/kyselyVersionState"
 
 export function useSetSqlResult() {
   const [, setSqlResult] = useRecoilState(sqlResultState)
   const sqlDialect = useRecoilValue(sqlDialectState)
-  const kyselyModule = useRecoilValue(kyselyModuleState)
+  const kyselyVersion = useRecoilValue(kyselyVersionState)
   const typescriptQuery = useRecoilValue(typescriptQueryState)
   const sqlEditorEvents = useRecoilValue(sqlEditorEventsState)
   const sqlFormatOptions = useRecoilValue(sqlFormatOptionsState)
@@ -27,12 +27,12 @@ export function useSetSqlResult() {
   useLoadingScopeEffect(
     "compile",
     async () => {
-      if (!kyselyModule || !sqlEditorEvents || userTyping) {
+      if (!sqlEditorEvents || userTyping) {
         return
       }
       const results: string[] = []
       await KyselyUtils.compile(
-        kyselyModule,
+        kyselyVersion,
         sqlDialect,
         typescriptQuery,
         (cq) => {
@@ -58,7 +58,7 @@ export function useSetSqlResult() {
         }
       })
     },
-    [setSqlResult, sqlDialect, kyselyModule, typescriptQuery, sqlFormatOptions, sqlEditorEvents, userTyping],
+    [setSqlResult, sqlDialect, kyselyVersion, typescriptQuery, sqlFormatOptions, sqlEditorEvents, userTyping],
     () => {
       setSql("-- Error")
     }
