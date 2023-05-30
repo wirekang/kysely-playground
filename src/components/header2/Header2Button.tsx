@@ -1,9 +1,10 @@
-import { ButtonHTMLAttributes, useRef, useState } from "react"
+import { ButtonHTMLAttributes, CSSProperties, useRef, useState } from "react"
 import { useClickOutside } from "@react-hookz/web"
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   overrideHover?: boolean
   hoverColor?: string
+  overrideStyle?: CSSProperties
 }
 
 export function Header2Button(props: Props): JSX.Element {
@@ -29,6 +30,7 @@ export function Header2Button(props: Props): JSX.Element {
         padding: "2px 4px",
         fontSize: "14px",
         opacity: props.disabled ? 0.5 : 1,
+        ...props.overrideStyle,
       }}
       onMouseEnter={() => {
         setHover(true)
