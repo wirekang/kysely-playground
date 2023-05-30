@@ -27,4 +27,8 @@ export class EditorUtils {
 
     return EditorConstants.TRIGGER_SUGGEST_CHARACTERS.findIndex((v) => change.startsWith(v)) !== -1
   }
+
+  public static makeTypeFilePath(moduleName: string): string {
+    return `file:///node_modules/${moduleName}/index.ts`
+  }
 }

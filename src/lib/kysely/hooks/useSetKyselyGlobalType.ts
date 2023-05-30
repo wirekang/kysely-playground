@@ -1,9 +1,9 @@
 import { useRecoilState, useRecoilValue } from "recoil"
 import { kyselyVersionState } from "src/lib/kysely/atoms/kyselyVersionState"
 import { typescriptGlobalTypesState } from "src/lib/typescript/atoms/typescriptGlobalTypesState"
-import { EditorConstants } from "src/lib/editor/EditorConstants"
 import { useLoadingScopeEffect } from "src/lib/loading/hooks/useLoadingScopeEffect"
-import { KyselyUtils } from "src/lib/kysely/KyselyUtils"
+import { ModuleUtils } from "src/lib/module/ModuleUtils"
+import { EditorUtils } from "src/lib/editor/EditorUtils"
 
 export function useSetKyselyGlobalType() {
   const [, setTypescriptGlobalTypes] = useRecoilState(typescriptGlobalTypesState)
@@ -12,8 +12,21 @@ export function useSetKyselyGlobalType() {
   useLoadingScopeEffect(
     "kyselyType",
     async () => {
-      const typeContent = await KyselyUtils.loadType(kyselyVersion)
-      setTypescriptGlobalTypes((v) => ({ ...v, [EditorConstants.KYSELY_TYPE_PATH]: typeContent }))
+      const results = await Promise.all(
+        ModuleUtils.getAllModuleVersions(kyselyVersion).map(async ({ mv, name }) => {
+          return {
+            path: EditorUtils.makeTypeFilePath(name),
+            value: `declare module "${name}" {\n\n${(await mv.type()).default}\n\n}`,
+          }
+        })
+      )
+      setTypescriptGlobalTypes((v) => {
+        const newObject = { ...v }
+        results.forEach(({ path, value }) => {
+          newObject[path] = value
+        })
+        return newObject
+      })
     },
     [kyselyVersion, setTypescriptGlobalTypes]
   )

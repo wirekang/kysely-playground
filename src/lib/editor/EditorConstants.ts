@@ -4,7 +4,6 @@ export class EditorConstants {
   public static readonly TYPESCRIPT_SCHEMA_FILE_PATH = "file:///schema.d.ts"
   public static readonly TYPESCRIPT_QUERY_FILE_PATH = "file:///query.ts"
   public static readonly SQL_FILE_PATH = "file:///sql.sql"
-  public static readonly KYSELY_TYPE_PATH = "file:///node_modules/kysely/index.d.ts"
   public static readonly PLAYGROUND_GLOBAL_TYPE_PATH = "file:///playground-global.d.ts"
 
   private static readonly COMMON_EDITOR_OPTIONS: editor.IStandaloneEditorConstructionOptions = {

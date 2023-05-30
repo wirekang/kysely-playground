@@ -1,8 +1,8 @@
-import KYSELY_VERSIONS from "src/generated/versions.json"
 import { SqlDialect } from "src/lib/sql/types/SqlDialect"
+import { MODULES } from "src/generated/modules"
 
 export class KyselyConstants {
-  public static readonly VERSIONS = KYSELY_VERSIONS
+  public static readonly VERSIONS = Object.keys(MODULES.kysely)
   public static readonly LATEST_VERSION = KyselyConstants.VERSIONS[0]
 
   public static readonly DIALECT_ADAPTER_MAPPING = {
