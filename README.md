@@ -33,16 +33,15 @@ To
 prevent [2669 error](https://stackoverflow.com/questions/57132428/augmentations-for-the-global-scope-can-only-be-directly-nested-in-external-modul),
 you should specify `export {}` if you import nothing in schema editor.
 
-The editor in the middle is the query editor.  
-For now, you can't import a non-type thing. If you need something to be pre-defined, please issue it.  
+The editor in the middle is the query editor.
+You can import anything from module "kysely".
 
-These are pre-defined variables you can use to build query:
+These are pre-defined variables you can use without import:
 
-| variable | description                  |
-|----------|------------------------------|
-| `sql`    | `import {sql} from "kysely"` |
-| `kysely` | an Kysely instance           |
-| `db`     | alias for kysely             |
+| variable | description                                             |
+|----------|---------------------------------------------------------|
+| `kysely` | an Kysely instance with DB interface from schema editor |
+| `db`     | alias for kysely                                        |
 
 You can see the generated sql in the rightmost sql editor.  
 By default, the playground will show you the generated sql string as-is(with parameter placeholders).  
