@@ -11,7 +11,7 @@ export class SqlFormatUtils {
 
   public static format(sql: string, parameters: any[], dialect: SqlDialect, option: SqlFormatOptions): string {
     const params = option.inlineParameters
-      ? SqlFormatUtils.getParams(parameters.map(SqlFormatUtils.escape), dialect)
+      ? SqlFormatUtils.getParams(parameters.map(SqlFormatUtils.inline), dialect)
       : undefined
     return (
       format(sql, {
@@ -41,10 +41,10 @@ export class SqlFormatUtils {
     return parameters
   }
 
-  private static escape(v: any): any {
+  private static inline(v: any): string {
     if (typeof v === "string") {
       return `'${v}'`
     }
-    return v
+    return `${v}`
   }
 }
