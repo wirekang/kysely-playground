@@ -10893,7 +10893,7 @@ declare type OuterJoinedBuilderDB<DB, TB extends keyof DB, A extends keyof any, 
  * from `person`
  * ```
  */
-declare function jsonArrayFrom<O>(expr: SelectQueryBuilder<any, any, O>): RawBuilder<Simplify<O>[]>;
+declare function jsonArrayFrom<O>(expr: any): RawBuilder<Simplify<O>[]>;
 /**
  * A MySQL helper for turning a subquery (or other expression) into a JSON object.
  *
@@ -10941,7 +10941,7 @@ declare function jsonArrayFrom<O>(expr: SelectQueryBuilder<any, any, O>): RawBui
  * from `person`
  * ```
  */
-declare function jsonObjectFrom<O>(expr: SelectQueryBuilder<any, any, O>): RawBuilder<Simplify<O>>;
+declare function jsonObjectFrom<O>(expr: any): RawBuilder<Simplify<O>>;
 /**
  * The MySQL `json_object` function.
  *
