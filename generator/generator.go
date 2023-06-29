@@ -192,7 +192,7 @@ func generateKyselyHelpersTypeFile(dialect string, module Module, root string) e
 		if err != nil {
 			return err
 		}
-		newData := bytes.ReplaceAll(data, []byte("expr: SelectQueryBuilder<any, any, O>"), []byte("expr: any"))
+		newData := bytes.ReplaceAll(data, []byte("expr: SelectQueryBuilder<any, any, O>"), []byte("expr: Expression<O>"))
 		err = os.WriteFile(out, newData, os.ModePerm)
 		if err != nil {
 			return err
