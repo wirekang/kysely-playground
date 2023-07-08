@@ -37,6 +37,7 @@
     "kysely_0.24.1": "npm:kysely@0.24.1",
     "kysely_0.24.2": "npm:kysely@0.24.2",
     "kysely_0.25.0": "npm:kysely@0.25.0",
+    "kysely_0.26.0": "npm:kysely@0.26.0",
     "monaco-editor": "^0.37.1",
     "prettier": "^2.8.7",
     "react": "^18.2.0",
