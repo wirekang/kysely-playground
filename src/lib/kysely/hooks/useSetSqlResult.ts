@@ -43,7 +43,7 @@ export function useSetSqlResult() {
       )
       setTimeout(() => {
         if (results.length === 0) {
-          setSql("---- Call kysely.execute() ")
+          setSql("-- Call kysely.execute()")
         } else if (results.length === 1) {
           setSql(results[0])
         } else {

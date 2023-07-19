@@ -10,16 +10,20 @@ export class SqlFormatUtils {
   }
 
   public static format(sql: string, parameters: any[], dialect: SqlDialect, option: SqlFormatOptions): string {
-    const params = option.inlineParameters
-      ? SqlFormatUtils.getParams(parameters.map(SqlFormatUtils.inline), dialect)
-      : undefined
-    return (
-      format(sql, {
-        language: SqlFormatUtils.dialectLanguageMap[dialect],
-        keywordCase: option.lowerKeywords ? "lower" : "upper",
-        params,
-      }) + this.formatParameters(parameters)
-    )
+    try {
+      const params = option.inlineParameters
+        ? SqlFormatUtils.getParams(parameters.map(SqlFormatUtils.inline), dialect)
+        : undefined
+      return (
+        format(sql, {
+          language: SqlFormatUtils.dialectLanguageMap[dialect],
+          keywordCase: option.lowerKeywords ? "lower" : "upper",
+          params,
+        }) + this.formatParameters(parameters)
+      )
+    } catch (e: unknown) {
+      return `-- Failed to format sql\n\n${sql}${this.formatParameters(parameters)}`
+    }
   }
 
   private static formatParameters(parameters: any[]): string {
