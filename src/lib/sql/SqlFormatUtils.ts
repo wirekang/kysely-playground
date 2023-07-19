@@ -22,7 +22,9 @@ export class SqlFormatUtils {
         }) + this.formatParameters(parameters)
       )
     } catch (e: unknown) {
-      return `-- Failed to format sql\n\n${sql}${this.formatParameters(parameters)}`
+      return `/* Failed to format.\n** Please open an issue if you think this is valid sql.\n**/\n\n${sql}${this.formatParameters(
+        parameters
+      )}`
     }
   }
 
