@@ -7,6 +7,7 @@ import (
 	"github.com/wirekang/kysely-playground/generator/cmdutils"
 	"io/fs"
 	"os"
+	"strconv"
 	"strings"
 	"text/template"
 )
@@ -192,8 +193,11 @@ func generateKyselyHelpersTypeFile(dialect string, module Module, root string) e
 		if err != nil {
 			return err
 		}
-		newData := bytes.ReplaceAll(data, []byte("expr: SelectQueryBuilder<any, any, O>"), []byte("expr: Expression<O>"))
-		err = os.WriteFile(out, newData, os.ModePerm)
+		major, minor, patch, err := parseVersion(version.Name)
+		if major == 0 && (minor <= 25 || (minor == 26 && patch <= 1)) && strings.HasSuffix(version.ModuleAlias, "helpers/mysql") {
+			data = bytes.ReplaceAll(data, []byte("expr: SelectQueryBuilder<any, any, O>"), []byte("expr: Expression<O>"))
+		}
+		err = os.WriteFile(out, data, os.ModePerm)
 		if err != nil {
 			return err
 		}
@@ -214,6 +218,26 @@ func reverse[S ~[]E, E any](s S) {
 	for i, j := 0, len(s)-1; i < j; i, j = i+1, j-1 {
 		s[i], s[j] = s[j], s[i]
 	}
+}
+
+func parseVersion(name string) (int, int, int, error) {
+	s := strings.Split(name, ".")
+	if len(s) != 3 {
+		return 0, 0, 0, fmt.Errorf("%s is not valid semantic version", name)
+	}
+	major, err := strconv.ParseInt(s[0], 10, 32)
+	if err != nil {
+		return 0, 0, 0, err
+	}
+	minor, err := strconv.ParseInt(s[1], 10, 32)
+	if err != nil {
+		return 0, 0, 0, err
+	}
+	patch, err := strconv.ParseInt(s[2], 10, 32)
+	if err != nil {
+		return 0, 0, 0, err
+	}
+	return int(major), int(minor), int(patch), nil
 }
 
 func Start() error {
