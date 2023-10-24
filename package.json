@@ -47,7 +47,7 @@
     "react-dom": "^18.2.0",
     "react-responsive": "^9.0.2",
     "recoil": "^0.7.7",
-    "sql-formatter": "^12.2.3",
+    "sql-formatter": "^13.0.1",
     "typescript": "^5.0.4"
   },
   "devDependencies": {

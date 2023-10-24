@@ -1262,6 +1262,11 @@ get-func-name@^2.0.0:
   resolved "https://registry.yarnpkg.com/get-func-name/-/get-func-name-2.0.0.tgz#ead774abee72e20409433a066366023dd6887a41"
   integrity sha512-Hm0ixYtaSZ/V7C8FJrtZIuBBI+iSgL+1Aq82zSu8VQNB4S3Gk8e7Qs3VwBDJAhmRZcFqkl3tQu36g/Foh5I5ig==
 
+get-stdin@=8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/get-stdin/-/get-stdin-8.0.0.tgz#cbad6a73feb75f6eeb22ba9e01f89aa28aa97a53"
+  integrity sha512-sY22aA6xchAzprjyqmSEQv4UbAAzRN0L2dQB0NlN5acTTK9Don6nhoc3eAbUnpZiCANAMfd/+40kVdKfFygohg==
+
 globals@^11.1.0:
   version "11.12.0"
   resolved "https://registry.yarnpkg.com/globals/-/globals-11.12.0.tgz#ab8795338868a0babd8525758018c2a7eb95c42e"
@@ -1843,12 +1848,13 @@ source-map@^0.6.1:
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
   integrity sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==
 
-sql-formatter@^12.2.3:
-  version "12.2.3"
-  resolved "https://registry.yarnpkg.com/sql-formatter/-/sql-formatter-12.2.3.tgz#d19130eb55af91638afd4554f09d60eb6f837ea5"
-  integrity sha512-sVRjEBTKJ5to2kfn11eDHcfVswz1//AL6HdGbPVN8ROWQ/XTv7E3z7rjgRxEimaBq5yDBE55JCljgcJ8a3+s7Q==
+sql-formatter@^13.0.1:
+  version "13.0.1"
+  resolved "https://registry.yarnpkg.com/sql-formatter/-/sql-formatter-13.0.1.tgz#dda5c66c75b90c66aee6b9a7947ec4088da4451f"
+  integrity sha512-/tM0H1O2kto6DKv1YuaZa75PMr1J9vTHj5aMu3GF0coKskWUNNcHCvtE1YBHpoFEuKnGUqxAwEpeAH+BAcZcEQ==
   dependencies:
     argparse "^2.0.1"
+    get-stdin "=8.0.0"
     nearley "^2.20.1"
 
 stackback@0.0.2:
