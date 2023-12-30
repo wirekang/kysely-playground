@@ -1,5 +1,9 @@
 export const MODULES = {
   "kysely": {
+    "0.27.0": {
+      "module": () => import("kysely_0.27.0"),
+      "type": () => import("./types/kysely_0.27.0.d.ts?raw"),
+    },
     "0.26.3": {
       "module": () => import("kysely_0.26.3"),
       "type": () => import("./types/kysely_0.26.3.d.ts?raw"),
@@ -76,12 +80,12 @@ export const MODULES = {
       "module": () => import("kysely_0.21.3"),
       "type": () => import("./types/kysely_0.21.3.d.ts?raw"),
     },
-    "0.21.2": {
-      "module": () => import("kysely_0.21.2"),
-      "type": () => import("./types/kysely_0.21.2.d.ts?raw"),
-    },
   },
   "kysely/helpers/mysql": {
+    "0.27.0": {
+      "module": () => import("kysely_0.27.0/helpers/mysql"),
+      "type": () => import("./types/kysely_0.27.0_helpers_mysql.d.ts?raw"),
+    },
     "0.26.3": {
       "module": () => import("kysely_0.26.3/helpers/mysql"),
       "type": () => import("./types/kysely_0.26.3_helpers_mysql.d.ts?raw"),
@@ -112,6 +116,10 @@ export const MODULES = {
     },
   },
   "kysely/helpers/postgres": {
+    "0.27.0": {
+      "module": () => import("kysely_0.27.0/helpers/postgres"),
+      "type": () => import("./types/kysely_0.27.0_helpers_postgres.d.ts?raw"),
+    },
     "0.26.3": {
       "module": () => import("kysely_0.26.3/helpers/postgres"),
       "type": () => import("./types/kysely_0.26.3_helpers_postgres.d.ts?raw"),

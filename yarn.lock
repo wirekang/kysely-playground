@@ -1604,6 +1604,11 @@ jsonc-parser@^3.2.0:
   resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.26.3.tgz#45fdd0153d8c9418b0ea9a6f05ed46b95ed27678"
   integrity sha512-yWSgGi9bY13b/W06DD2OCDDHQmq1kwTGYlQ4wpZkMOJqMGCstVCFIvxCCVG4KfY1/3G0MhDAcZsip/Lw8/vJWw==
 
+"kysely_0.27.0@npm:kysely@0.27.0":
+  version "0.27.0"
+  resolved "https://registry.yarnpkg.com/kysely/-/kysely-0.27.0.tgz#95ab1b639666b386ca7dea9baff7865defe528ab"
+  integrity sha512-wxOVru+SYTzofm59GlN0Tyo0v23qfX9pyU0n6Fc0GZZ5YldcyswenWsCoETqiJdtx7ThnxZpicqA2aqPMZV7DQ==
+
 local-pkg@^0.4.3:
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/local-pkg/-/local-pkg-0.4.3.tgz#0ff361ab3ae7f1c19113d9bb97b98b905dbc4963"
