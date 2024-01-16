@@ -24,5 +24,6 @@ jobs:
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_KYSELY_PLAYGROUND }}'
+          channelId: preview
           expires: 7d
           projectId: kysely-playground
