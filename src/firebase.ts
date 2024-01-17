@@ -1,17 +1,16 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getAnalytics } from "firebase/analytics";
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDPmIeokxQ2UW4nNDNz8GpvxECU3VVbM8k",
-  authDomain: "kyse-link.firebaseapp.com",
-  projectId: "kyse-link",
-  storageBucket: "kyse-link.appspot.com",
-  messagingSenderId: "570112190474",
-  appId: "1:570112190474:web:0c7f0ffd69f9c106e297f3",
+  apiKey: "AIzaSyBtDODAWBHoFos8O3FK7xVf887sJmkI5dI",
+  authDomain: "kysely-playground.firebaseapp.com",
+  databaseURL: "https://kysely-playground-default-rtdb.firebaseio.com",
+  projectId: "kysely-playground",
+  storageBucket: "kysely-playground.appspot.com",
+  messagingSenderId: "823176398471",
+  appId: "1:823176398471:web:c24309dd907f0eab1b1a22",
+  measurementId: "G-G1QNWZ9NSP",
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
+export const analytics = getAnalytics(app);
