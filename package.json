@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@react-hookz/web": "^23.0.0",
+    "axios": "^1.6.5",
     "firebase": "^10.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
