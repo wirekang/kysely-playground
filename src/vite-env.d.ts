@@ -2,6 +2,7 @@
 
 interface ImportMetaEnv {
   readonly VITE_BRANCH: string;
+  readonly VITE_PREVIEW?: string;
 }
 
 interface ImportMeta {
