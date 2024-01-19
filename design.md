@@ -2,7 +2,8 @@
 
 * Save
   
-  Sync current state with url
+  Sync current state with url.
+  
   optional steps:
   * format before save
   * exclude version state before save
