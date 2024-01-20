@@ -1,7 +1,11 @@
 import { HttpUtils } from "../utility/http-utils";
-import { MinifiedKyselyUtils } from "./minified-kysely-utils";
-import { GITHUB_API_MINIFIED_KYSELY_MAIN_REFS } from "../constants";
+import {
+  GITHUB_API_MINIFIED_KYSELY_MAIN_REFS,
+  GITHUB_MINIFIED_KYSELY_OWNER,
+  GITHUB_MINIFIED_KYSELY_REPO,
+} from "../constants";
 import { KyselyModule } from "./kysely-module";
+import { JsDelivrUtils } from "../jsdelivr/jsdelivr-utils";
 
 export class KyselyManager {
   static async init(): Promise<KyselyManager> {
@@ -53,5 +57,12 @@ async function getLatestMinifiedCommitId() {
 }
 
 function getInfoJson(commitId: string) {
-  return HttpUtils.getJson(MinifiedKyselyUtils.getFileUrl(commitId, "dist/info.json"));
+  return HttpUtils.getJson(
+    JsDelivrUtils.github(
+      GITHUB_MINIFIED_KYSELY_OWNER,
+      GITHUB_MINIFIED_KYSELY_REPO,
+      commitId,
+      "dist/info.json",
+    ),
+  );
 }

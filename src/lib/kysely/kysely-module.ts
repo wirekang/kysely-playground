@@ -1,6 +1,7 @@
-import axios from "axios";
-import { MINIFIED_KYSELY_CDN } from "../constants";
 import { HttpUtils } from "../utility/http-utils";
+import { JsDelivrUtils } from "../jsdelivr/jsdelivr-utils";
+import { GITHUB_MINIFIED_KYSELY_OWNER, GITHUB_MINIFIED_KYSELY_REPO } from "../constants";
+import { StringUtils } from "../utility/string-utils";
 
 export type File = {
   path: string;
@@ -9,7 +10,7 @@ export type File = {
 
 export class KyselyModule {
   readonly label: string;
-  private readonly urlPrefix: string;
+  private readonly baseUrl: string;
 
   constructor(
     private readonly type: string,
@@ -26,13 +27,18 @@ export class KyselyModule {
     } else {
       this.label = `${id}`;
     }
-    this.urlPrefix = MINIFIED_KYSELY_CDN + "@" + this.minifiedCommitId + "/" + dir + "/";
+    this.baseUrl = JsDelivrUtils.github(
+      GITHUB_MINIFIED_KYSELY_OWNER,
+      GITHUB_MINIFIED_KYSELY_REPO,
+      this.minifiedCommitId,
+      dir,
+    );
   }
 
   loadFiles(): Promise<Array<File>> {
     return Promise.all(
       this.files.map(async (file) => {
-        const url = this.urlPrefix + file;
+        const url = this.baseUrl + "/" + StringUtils.trimPrefix(file, "/");
         const data = await HttpUtils.getBytes(url);
         return {
           path: file,

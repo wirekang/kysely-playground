@@ -134,4 +134,13 @@ kysely.selectFrom(...)
 ```
 
 
+## Migration
 
+1. Setup DNS
+
+  * kyse.link -> firebase
+
+  * old.kyse.link -> github pages
+
+
+2. Redirect to old based on query string

@@ -1,32 +1,37 @@
-import axios, { ResponseType, responseEncoding } from "axios";
-
 export class HttpUtils {
-  static request(
+  static async request(
     method: string,
     url: string,
     headers: any,
     status: Array<number>,
-    responseType: ResponseType,
-    responseEncoding: responseEncoding,
+    responseType: "json" | "buffer",
   ) {
-    return axios.request({
+    const res = await fetch(url, {
       method,
-      url,
       headers: {
         "User-Agent": "kysely-playground",
         ...headers,
       },
-      validateStatus: status.includes.bind(status),
-      responseType,
-      responseEncoding,
     });
+    if (!status.includes(res.status)) {
+      throw new HttpError(`status is ${res.status}`);
+    }
+    switch (responseType) {
+      case "json":
+        return res.json();
+      case "buffer":
+        return res.arrayBuffer();
+    }
   }
 
   static async getBytes(url: string) {
-    return (await HttpUtils.request("GET", url, {}, [200], "arraybuffer", "binary")).data as ArrayBuffer;
+    const res = await HttpUtils.request("GET", url, {}, [200], "buffer");
+    return res as ArrayBuffer;
   }
 
-  static async getJson(url: string) {
-    return (await HttpUtils.request("GET", url, {}, [200], "json", "utf-8")).data as any;
+  static getJson(url: string): Promise<any> {
+    return HttpUtils.request("GET", url, {}, [200], "json");
   }
 }
+
+class HttpError extends Error {}
