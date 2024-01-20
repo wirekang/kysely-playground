@@ -18,3 +18,4 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     </RecoilRoot>
   </React.StrictMode>
 )
+console.log("Github Pages")
