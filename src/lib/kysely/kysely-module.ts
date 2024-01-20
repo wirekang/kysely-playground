@@ -1,5 +1,5 @@
 import axios from "axios";
-import { MINIFIED_KYSELY_CDN } from "./constants";
+import { MINIFIED_KYSELY_CDN } from "../constants";
 import { HttpUtils } from "../utility/http-utils";
 
 export type File = {

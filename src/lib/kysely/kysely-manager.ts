@@ -1,6 +1,6 @@
 import { HttpUtils } from "../utility/http-utils";
 import { MinifiedKyselyUtils } from "./minified-kysely-utils";
-import { GITHUB_API_MINIFIED_KYSELY_MAIN_REFS, MINIFIED_KYSELY_CDN } from "./constants";
+import { GITHUB_API_MINIFIED_KYSELY_MAIN_REFS } from "../constants";
 import { KyselyModule } from "./kysely-module";
 
 export class KyselyManager {
