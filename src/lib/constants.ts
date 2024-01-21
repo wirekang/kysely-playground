@@ -10,6 +10,3 @@ export const GITHUB_API_MINIFIED_KYSELY_MAIN_REFS = `https://api.github.com/repo
 
 export const FIRESTORE_PROJECT_ID = "kysely-playground";
 export const FIRESTORE_COLLECTION_FRAGMENTS = "fragments";
-
-export const TRANSPILE_IMPORT_FUNCTION = "__KYSELY_PLAYGROUND_IMPORT_FUNCTION__";
-export const TRANSPILE_TOP_LEVEL_FUNCTION = "__KYSLEY_PLAYGROUND_TOP_LEVEL_FUNCTION__";

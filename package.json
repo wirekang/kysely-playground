@@ -8,12 +8,13 @@
     "test": "vitest"
   },
   "dependencies": {
-    "firebase-firestore-lite": "^1.0.3"
+    "firebase-firestore-lite": "^1.0.3",
+    "prettier": "^3.2.4",
+    "typescript": "^5.3.3"
   },
   "devDependencies": {
     "@types/node": "^18.15.12",
     "rollup-plugin-visualizer": "^5.12.0",
-    "typescript": "^5.0.4",
     "vite": "^5.0.12",
     "vitest": "^1.2.1"
   }
