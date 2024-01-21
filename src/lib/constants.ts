@@ -1,5 +1,6 @@
 export const JSDELIVR_API_SERVER = "https://data.jsdelivr.com";
 export const JSDELIVR_API_LIST_TAGS = `${JSDELIVR_API_SERVER}/v1/packages/npm/`;
+export const JSDELIVR_ESM = "https://esm.run";
 
 export const GITHUB_MINIFIED_KYSELY_OWNER = "wirekang";
 export const GITHUB_MINIFIED_KYSELY_REPO = "minified-kysely";

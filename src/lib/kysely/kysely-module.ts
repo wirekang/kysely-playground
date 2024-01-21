@@ -13,7 +13,7 @@ export class KyselyModule {
   private readonly baseUrl: string;
 
   constructor(
-    private readonly type: string,
+    readonly type: "tag" | "branch",
     private readonly id: string,
     private readonly commitId: string,
     private readonly minifiedCommitId: string,
