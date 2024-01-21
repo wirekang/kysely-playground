@@ -7,11 +7,7 @@ export class TypescriptManager {
     versions = versions
       .filter(
         (it: string, i: number) =>
-          i < 3 ||
-          (!it.includes("-dev.") &&
-            !it.includes("-insiders.") &&
-            !it.includes("-beta") &&
-            !it.includes("-rc")),
+          !it.includes("-dev") && !it.includes("-insiders") && !it.includes("-beta") && !it.includes("-rc"),
       )
       .filter((it: string) => !isOldVersion(it));
     const modules = versions.map((version) => new TypescriptModule(version));

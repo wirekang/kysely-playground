@@ -13,22 +13,9 @@ export class KyselyManager {
     const infoJson = await getInfoJson(minifiedCommitId);
     const lastCommitId = infoJson.lastCommitId;
     const modules: Array<KyselyModule> = [];
-    infoJson.branches.forEach((branch: any) => {
-      modules.push(
-        new KyselyModule(
-          "branch",
-          branch.id,
-          branch.commitId,
-          minifiedCommitId,
-          branch.dir,
-          branch.files,
-          branch.exports,
-          branch.dependencies,
-        ),
-      );
-    });
+
     infoJson.tags.forEach((tag: any) => {
-      modules.push(
+      modules.unshift(
         new KyselyModule(
           "tag",
           tag.id,
@@ -38,6 +25,20 @@ export class KyselyManager {
           tag.files,
           tag.exports,
           tag.dependencies,
+        ),
+      );
+    });
+    infoJson.branches.forEach((branch: any) => {
+      modules.unshift(
+        new KyselyModule(
+          "branch",
+          branch.id,
+          branch.commitId,
+          minifiedCommitId,
+          branch.dir,
+          branch.files,
+          branch.exports,
+          branch.dependencies,
         ),
       );
     });

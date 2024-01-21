@@ -14,7 +14,7 @@ export class KyselyModule {
 
   constructor(
     readonly type: "tag" | "branch",
-    private readonly id: string,
+    readonly id: string,
     private readonly commitId: string,
     private readonly minifiedCommitId: string,
     private readonly dir: string,
