@@ -2,8 +2,11 @@ import "./reset.css";
 import "./index.css";
 
 import { logger } from "./lib/log/logger";
-import { FragmentRepository } from "./lib/fragment-repository";
 
-logger.info("entrypoint");
-logger.debug(JSON.stringify(import.meta.env));
-new FragmentRepository();
+logger.info("kysely-playground");
+logger.debug("env:", import.meta.env);
+
+logger.debug(document);
+window.addEventListener("keydown", (e) => {
+  logger.debug(e);
+});

@@ -22,8 +22,9 @@ function log(level: number, messages: Array<any>) {
     return;
   }
   console.log(
-    `%c ${PREFIXES[level]} %c ${messages.join(" ")}`,
+    `%c ${PREFIXES[level]} %c`,
     `background-color: #000; color: ${PREFIX_COLORS[level]}`,
     `backgrond-color: none; color:none;`,
+    ...messages,
   );
 }

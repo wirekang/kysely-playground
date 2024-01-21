@@ -21,13 +21,7 @@ export class JsDelivrUtils {
 
   static async listNpmVersions(name: string): Promise<Array<string>> {
     const body = await HttpUtils.getJson(JSDELIVR_API_LIST_TAGS + name);
-    return body.versions
-      .map((it: any) => it.version)
-      .filter((it: string) => !isOldVersion(it))
-      .filter(
-        (it: string, i: number) =>
-          i < 3 || (!it.includes("-dev.") && !it.includes("-insiders.") && !it.includes("-beta")),
-      );
+    return body.versions.map((it: any) => it.version);
   }
 
   static esm(name: string, version: string, file: string) {
@@ -35,13 +29,6 @@ export class JsDelivrUtils {
   }
 }
 
-function isOldVersion(v: string): boolean {
-  try {
-    return parseInt(v.split(".")[0]) < 4;
-  } catch {
-    return false;
-  }
-}
 
 function make(prefix: string, version: string, file: string) {
   return prefix + "@" + version + "/" + StringUtils.trimPrefix(file, "/");

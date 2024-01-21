@@ -9,6 +9,7 @@ beforeAll(async () => {
 
 test("modules", () => {
   const modules = manager.modules;
+  console.log(modules);
   expect(modules.length).gt(10);
   modules.forEach((it) => {
     expect(typeof it).toBe("object");
