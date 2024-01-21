@@ -29,7 +29,6 @@ export class JsDelivrUtils {
   }
 }
 
-
 function make(prefix: string, version: string, file: string) {
   return prefix + "@" + version + "/" + StringUtils.trimPrefix(file, "/");
 }

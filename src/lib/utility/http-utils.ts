@@ -1,4 +1,4 @@
-import { logger } from "../log/logger";
+import { logger } from "./logger";
 
 export class HttpUtils {
   static async request(

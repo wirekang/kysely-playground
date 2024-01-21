@@ -1,7 +1,7 @@
 import "./reset.css";
 import "./index.css";
 
-import { logger } from "./lib/log/logger";
+import { logger } from "./lib/utility/logger";
 
 logger.info("kysely-playground");
 logger.debug("env:", import.meta.env);

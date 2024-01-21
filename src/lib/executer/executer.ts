@@ -1,5 +1,5 @@
 import { dynamicImport } from "../dynamic-import";
-import { logger } from "../log/logger";
+import { logger } from "../utility/logger";
 
 export class Executer {
   constructor(private readonly importMapping: Record<string, string>) {}

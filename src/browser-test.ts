@@ -1,6 +1,6 @@
 import { Executer } from "./lib/executer/executer";
 import { KyselyManager } from "./lib/kysely/kysely-manager";
-import { logger } from "./lib/log/logger";
+import { logger } from "./lib/utility/logger";
 import { HotkeyUtils } from "./lib/utility/hotkey-utils";
 
 async function testKyselyModules() {
