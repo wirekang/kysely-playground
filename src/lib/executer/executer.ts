@@ -1,4 +1,4 @@
-import { dynamicImport } from "../dynamic-import";
+import { dynamicImport } from "../utility/dynamic-import";
 import { logger } from "../utility/logger";
 
 export class Executer {

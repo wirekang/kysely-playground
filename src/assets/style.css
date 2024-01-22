@@ -1,0 +1,67 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap");
+
+:root {
+  --header-height: 1.3rem;
+}
+
+* {
+  font-family: "JetBrains Mono", Courier, Consolas, monospace !important;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+#header {
+  width: 100%;
+  height: var(--header-height);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.github {
+  transform: scale(0.2);
+  margin-left: auto;
+  margin-right: -34px;
+}
+
+#main {
+  width: 100%;
+  height: calc(100% - var(--header-height));
+}
+
+#panel-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.panel {
+  flex: 1;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.monaco-editor {
+  position: absolute !important;
+}
+
+/************************************************************* PORTRAIT */
+
+#panel-container {
+  flex-direction: column;
+}
+
+/************************************************************ LANDSCAPE */
+@media (min-width: 650px) {
+  #panel-container {
+    flex-direction: row;
+  }
+}

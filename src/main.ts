@@ -1,19 +1,15 @@
-import "./reset.css";
-import "./index.css";
-
+import { EditorController } from "./controllers/editor-controller";
 import { logger } from "./lib/utility/logger";
 
 logger.info("kysely-playground");
 logger.debug("env:", import.meta.env);
 
-logger.debug(document);
-window.addEventListener("keydown", (e) => {
-  logger.debug(e);
+await EditorController.init(document.getElementById("panel-0")!, {
+  language: "typescript",
 });
-
-import esTreePlugin from "prettier/plugins/estree";
-import typescriptPlugin from "prettier/plugins/typescript";
-import { format } from "prettier/standalone";
-format("const a= 'asdf'", { parser: "typescript", plugins: [typescriptPlugin, esTreePlugin] }).then(
-  logger.debug,
-);
+await EditorController.init(document.getElementById("panel-1")!, {
+  language: "typescript",
+});
+await EditorController.init(document.getElementById("panel-2")!, {
+  language: "sql",
+});

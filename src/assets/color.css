@@ -1,0 +1,36 @@
+:root {
+  color: #303030;
+}
+
+.panel {
+  border-color: #ccc;
+}
+
+#header {
+  background-color: #ebf0f4;
+}
+
+#main {
+}
+
+#panel-controller {
+}
+
+.dark {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  .light {
+    display: none;
+  }
+  :root {
+    color: #e2e2e2;
+  }
+  #header {
+    background-color: #1a1e23;
+  }
+  .panel {
+    border-color: #333;
+  }
+}
