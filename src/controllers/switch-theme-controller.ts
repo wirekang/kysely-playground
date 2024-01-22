@@ -4,7 +4,7 @@ export class SwitchThemeController {
   constructor(private readonly element: HTMLElement) {
     element.addEventListener("click", () => {
       const theme = CssUtils.getTheme() === "light" ? "dark" : "light";
-      CssUtils.setTheme(theme);
+      CssUtils.setTheme(theme, true);
     });
   }
 }

@@ -25,16 +25,19 @@ export class CssUtils {
       logger.debug("use saved theme", saved);
       theme = saved;
     }
-    CssUtils.setTheme(theme);
+    CssUtils.setTheme(theme, false);
   }
 
   static getTheme() {
     return document.body.getAttribute("data-theme");
   }
 
-  static setTheme(theme: string) {
-    logger.debug("set/save theme", theme);
+  static setTheme(theme: string, save: boolean) {
+    logger.debug("set theme", theme);
     document.body.setAttribute("data-theme", theme);
-    localStorage.setItem(LOCALSTORAGE_THEME, theme);
+    if (save) {
+      logger.debug("save theme", theme);
+      localStorage.setItem(LOCALSTORAGE_THEME, theme);
+    }
   }
 }
