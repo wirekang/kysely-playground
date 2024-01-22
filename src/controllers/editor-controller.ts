@@ -11,7 +11,7 @@ export class EditorController {
   ) {
     const monaco = await import("monaco-editor");
     if (window.MonacoEnvironment === undefined) {
-      logger.info("setup monaco workers");
+      logger.debug("setup monaco workers");
       const editorWorker = await import("monaco-editor/esm/vs/editor/editor.worker?worker");
       const tsWorker = await import("monaco-editor/esm/vs/language/typescript/ts.worker?worker");
       window.MonacoEnvironment = {

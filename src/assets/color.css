@@ -1,36 +1,49 @@
+[data-theme="light"] {
+  --font-color: #303030;
+  --border-color: #ccc;
+  --header-color: #edeff6;
+}
+
+[data-theme="dark"] {
+  --font-color: #eee;
+  --border-color: #333;
+  --header-color: #1a1e23;
+}
+/*********************************************** */
+
 :root {
-  color: #303030;
+  color: var(--font-color);
 }
 
 .panel {
-  border-color: #ccc;
+  border-color: var(--border-color);
 }
 
 #header {
-  background-color: #ebf0f4;
+  background-color: var(--header-color);
 }
 
-#main {
+/*********************************************** */
+
+* {
+  transition:
+    color,
+    border-color,
+    background-color 0.2s ease-in;
 }
 
-#panel-controller {
+[data-theme="light"] .light {
+  display: block;
 }
 
-.dark {
+[data-theme="light"] .dark {
   display: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  .light {
-    display: none;
-  }
-  :root {
-    color: #e2e2e2;
-  }
-  #header {
-    background-color: #1a1e23;
-  }
-  .panel {
-    border-color: #333;
-  }
+[data-theme="dark"] .light {
+  display: none;
+}
+
+[data-theme="dark"] .dark {
+  display: block;
 }

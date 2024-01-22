@@ -15,3 +15,5 @@ export const CSS_CLASS_PANEL = "panel";
 export const CSS_CLASS_RESIZER = "resizer";
 export const CSS_MIN_WIDE_WIDTH = 650;
 export const CSS_RESIZER_SIZE = 10;
+
+export const LOCALSTORAGE_THEME = "theme";

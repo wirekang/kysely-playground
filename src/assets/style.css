@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap");
 
 :root {
-  --header-height: 1.3rem;
+  --header-height: 1.4rem;
 }
 
 * {
@@ -26,10 +26,20 @@ body {
   align-items: center;
 }
 
-.github {
-  transform: scale(0.2);
+#header-end {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   margin-left: auto;
-  margin-right: -34px;
+}
+
+.header-icon {
+  width: calc(var(--header-height) - 2px);
+  height: calc(var(--header-height) - 2px);
+  margin-left: 2px;
+  margin-right: 2px;
+  cursor: pointer;
 }
 
 #main {
