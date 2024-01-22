@@ -25,13 +25,6 @@
 
 /*********************************************** */
 
-* {
-  transition:
-    color,
-    border-color,
-    background-color 0.2s ease-in;
-}
-
 [data-theme="light"] .light {
   display: block;
 }
