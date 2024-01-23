@@ -1,4 +1,4 @@
-import * as monaco from "monaco-editor";
+import type monaco from "monaco-editor";
 import { logger } from "../lib/utility/logger";
 import { CssUtils } from "../lib/utility/css-utils";
 
@@ -42,7 +42,8 @@ export class EditorController {
   }
 
   private constructor(private readonly editor: monaco.editor.IStandaloneCodeEditor) {
-    CssUtils.colorSchemaEffect((light) => {
+    CssUtils.colorSchemaEffect(async (light) => {
+      const monaco = await import("monaco-editor");
       monaco.editor.setTheme(light ? "vs" : "vs-dark");
     });
   }

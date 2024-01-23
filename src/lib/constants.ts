@@ -17,3 +17,5 @@ export const CSS_MIN_WIDE_WIDTH = 650;
 export const CSS_RESIZER_SIZE = 10;
 
 export const LOCALSTORAGE_THEME = "theme";
+
+export const LEGACY_PLAYGROUND_URL = "https://old.kyse.link";

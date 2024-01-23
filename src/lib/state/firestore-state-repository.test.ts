@@ -1,9 +1,9 @@
 import { beforeAll, expect, test } from "vitest";
-import { FragmentRepository } from "./fragment-repository";
+import { FirestoreStateRepository } from "./firestore-state-repository";
 
-let repo: FragmentRepository;
+let repo: FirestoreStateRepository;
 beforeAll(() => {
-  repo = new FragmentRepository();
+  repo = new FirestoreStateRepository();
 });
 
 test("add/get", async () => {
