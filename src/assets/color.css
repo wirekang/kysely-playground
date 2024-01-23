@@ -2,21 +2,25 @@
   --font-color: #303030;
   --border-color: #ccc;
   --header-color: #edeff6;
+  --bg-color: #fff;
 }
 
 [data-theme="dark"] {
   --font-color: #eee;
-  --border-color: #333;
+  --border-color: #444;
   --header-color: #1a1e23;
+  --bg-color: #1e1e1e;
 }
 /*********************************************** */
 
-:root {
+html {
   color: var(--font-color);
+  background-color: var(--bg-color);
 }
 
 .panel {
   border-color: var(--border-color);
+  background-color: var(--bg-color);
 }
 
 #header {

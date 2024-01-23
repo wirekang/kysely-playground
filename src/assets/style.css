@@ -26,7 +26,7 @@ body {
   align-items: center;
 }
 
-#header-end {
+#header-suffix {
   height: 100%;
   display: flex;
   flex-direction: row;

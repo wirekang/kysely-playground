@@ -37,6 +37,8 @@ export class EditorController {
       lineNumbersMinChars: 0,
       showFoldingControls: "never",
       overviewRulerLanes: 0,
+      theme: CssUtils.getTheme() === "dark" ? "vs-dark" : "vs",
+      scrollBeyondLastLine: false,
     });
     return new EditorController(editor);
   }
