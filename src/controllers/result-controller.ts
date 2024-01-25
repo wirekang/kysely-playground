@@ -4,7 +4,7 @@ export class ResultController {
   constructor(private readonly root: HTMLDivElement) {
     this.clear();
     (async () => {
-      await this.appendMessage("warn", "This is warngin message. Something is happened but it's not fatal.");
+      await this.appendMessage("warn", "This is warning message. Something is happened but it's not fatal.");
       await this.appendMessage("error", "This is error message. A key feature is not working.");
       await this.appendEditor("text", `${new Error("this is the message of catched error").stack}`);
       await this.appendPadding();

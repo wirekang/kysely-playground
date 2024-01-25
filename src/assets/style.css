@@ -113,12 +113,16 @@ body {
   cursor: pointer;
 }
 
+#panel-2 {
+  overflow-y: auto;
+}
+
 #result {
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
   padding: 4px;
+}
+#result > .result-item .monaco-editor {
+  position: static !important;
 }
 
 #result > .result-item > .message {

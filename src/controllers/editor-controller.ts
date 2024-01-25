@@ -73,9 +73,10 @@ export class EditorController {
     });
   }
 
-  setWordWrap(wordWrap: boolean) {
-    this.editor.updateOptions({ wordWrap: wordWrap ? "on" : "off" });
-  }
+  // getContentHeight related bug
+  // setWordWrap(wordWrap: boolean) {
+  //   this.editor.updateOptions({ wordWrap: wordWrap ? "on" : "off" });
+  // }
 
   setHeightByContent(padding = 16) {
     this.editor.updateOptions({
