@@ -64,7 +64,32 @@ export class EditorController {
   }
 
   setReadonly(readOnly: boolean) {
-    this.editor.updateOptions({ readOnly });
+    this.editor.updateOptions({
+      readOnly,
+      guides: {
+        indentation: false,
+      },
+    });
+  }
+
+  setWordWrap(wordWrap: boolean) {
+    this.editor.updateOptions({ wordWrap: wordWrap ? "on" : "off" });
+  }
+
+  setHeightByContent(padding = 16) {
+    this.editor.updateOptions({
+      scrollBeyondLastLine: false,
+      selectionHighlight: false,
+      renderLineHighlight: "none",
+      contextmenu: false,
+    });
+    this.editor.getContainerDomNode().style.height = this.editor.getContentHeight() + padding + "px";
+  }
+
+  enableCleanBlur() {
+    this.editor.onDidBlurEditorText(() => {
+      this.editor.setSelection({ startLineNumber: 0, startColumn: 0, endLineNumber: 0, endColumn: 0 });
+    });
   }
 
   setValue(v: string) {
@@ -73,6 +98,10 @@ export class EditorController {
 
   getValue() {
     return this.editor.getValue();
+  }
+
+  focus() {
+    this.editor.focus();
   }
 
   onChange(l: (v: string) => unknown) {

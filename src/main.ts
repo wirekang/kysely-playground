@@ -9,6 +9,7 @@ import { SelectController } from "./controllers/select-controller";
 import { KyselyManager } from "./lib/kysely/kysely-manager";
 import { State } from "./lib/state/state";
 import { HotkeyUtils } from "./lib/utility/hotkey-utils";
+import { ResultController } from "./controllers/result-controller";
 
 function e(id: TemplateStringsArray): any {
   const r = document.getElementById(id[0]);
@@ -77,6 +78,7 @@ async function bootstrap() {
   queryEditorController.onChange((v) => {
     logger.debug(v);
   });
+  const resultController = new ResultController(e`result`);
 
   function makeState(): State {
     const s: State = {
@@ -109,6 +111,12 @@ async function bootstrap() {
   });
   HotkeyUtils.register(["ctrl", "shift"], "s", async () => {
     await stateManager.save(makeState(), true);
+  });
+  HotkeyUtils.register(["ctrl"], "1", () => {
+    typeEditorController.focus();
+  });
+  HotkeyUtils.register(["ctrl"], "2", () => {
+    queryEditorController.focus();
   });
 }
 
