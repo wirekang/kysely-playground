@@ -2,6 +2,7 @@
   --font-color: #303030;
   --border-color: #ccc;
   --header-color: #edeff6;
+  --header-hover-color: #ddd;
   --bg-color: #fff;
   --toast-bg-color: #333;
   --toast-color: #fff;
@@ -11,6 +12,7 @@
   --font-color: #eee;
   --border-color: #444;
   --header-color: #1a1e20;
+  --header-hover-color: #666;
   --bg-color: #1e1e1e;
   --toast-bg-color: #eee;
   --toast-color: #000;
@@ -29,6 +31,11 @@
 #header * {
   background-color: var(--header-color);
   color: var(--font-color);
+}
+
+#header > select:hover,
+#header > button:hover {
+  background-color: var(--header-hover-color);
 }
 
 #toast {

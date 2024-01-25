@@ -23,6 +23,14 @@ async function bootstrap() {
   const state = await stateManager.load();
   logger.debug("loaded state:", state);
 
+  const panel0: HTMLDivElement = e`panel-0`;
+  const panel1: HTMLDivElement = e`panel-1`;
+  const panel2: HTMLDivElement = e`panel-2`;
+
+  if (state.hideType) {
+    panel0.setAttribute("hidden", "");
+  }
+
   const kyselyManager = await KyselyManager.init();
 
   const toastController = new ToastController(e`toast`);
@@ -49,13 +57,20 @@ async function bootstrap() {
   });
 
   new ButtonController(e`switch-theme`).onClick(CssUtils.toggleTheme.bind(null, true));
+  new ButtonController(e`view`).onClick(() => {
+    if (panel0.hasAttribute("hidden")) {
+      panel0.removeAttribute("hidden");
+    } else {
+      panel0.setAttribute("hidden", "");
+    }
+  });
 
-  const typeEditorController = await EditorController.init(e`panel-0`, {
+  const typeEditorController = await EditorController.init(panel0, {
     language: "typescript",
   });
   typeEditorController.setValue(state.editors.type);
 
-  const queryEditorController = await EditorController.init(e`panel-1`, {
+  const queryEditorController = await EditorController.init(panel1, {
     language: "typescript",
   });
   queryEditorController.setValue(state.editors.query);
@@ -64,7 +79,7 @@ async function bootstrap() {
   });
 
   function makeState(): State {
-    const s = {
+    const s: State = {
       editors: {
         type: typeEditorController.getValue(),
         query: queryEditorController.getValue(),
@@ -74,7 +89,7 @@ async function bootstrap() {
         type: kyselyModule.type,
         name: kyselyModule.name,
       },
-      views: {},
+      hideType: panel0.hasAttribute("hidden") ? true : undefined,
     };
     logger.debug("newState", s);
     return s;

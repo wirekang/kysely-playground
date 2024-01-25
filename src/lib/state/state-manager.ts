@@ -96,10 +96,7 @@ function checkLegacyParams() {
 function validate(s: State) {
   ValidateUtils.typeEqual(s.editors, "object", "State.editors");
   ValidateUtils.typeEqual(s.editors.type, "string", "State.editors.type");
-  ValidateUtils.typeIncludes(s.views, ["object", "undefined"], "State.views");
-  ValidateUtils.typeIncludes(s.views?.type, ["boolean", "undefined"], "State.views.type");
-  ValidateUtils.typeIncludes(s.views?.query, ["boolean", "undefined"], "State.views.query");
-  ValidateUtils.typeIncludes(s.views?.result, ["boolean", "undefined"], "State.views.result");
+  ValidateUtils.typeIncludes(s.hideType, ["boolean", "undefined"], "State.hideType");
 }
 
 /**

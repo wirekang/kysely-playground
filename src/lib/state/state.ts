@@ -4,11 +4,7 @@ export type State = {
     type: string;
     query: string;
   };
-  views?: {
-    type?: boolean;
-    query?: boolean;
-    result?: boolean;
-  };
+  hideType?: boolean;
   kysely?: {
     type: "tag" | "branch";
     name: string;
