@@ -24,7 +24,7 @@ export class KyselyModule {
     readonly dialects: Readonly<Array<string>>,
   ) {
     if (type === "branch") {
-      this.id = `${name}(${commitId.substring(0, 4)})`;
+      this.id = `${name}(${commitId.substring(0, 5)})`;
     } else {
       this.id = `${name}`;
     }
