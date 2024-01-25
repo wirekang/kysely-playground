@@ -80,6 +80,9 @@ body {
 .monaco-editor {
   position: absolute !important;
 }
+.monaco-editor .view-line {
+  padding-left: 4px;
+}
 
 #toast {
   position: fixed;
