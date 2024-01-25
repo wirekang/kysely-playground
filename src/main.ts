@@ -80,6 +80,19 @@ async function bootstrap() {
   });
   const resultController = new ResultController(e`result`);
 
+  HotkeyUtils.register(["ctrl"], "s", async () => {
+    await stateManager.save(makeState(), false);
+  });
+  HotkeyUtils.register(["ctrl", "shift"], "s", async () => {
+    await stateManager.save(makeState(), true);
+  });
+  HotkeyUtils.register(["ctrl"], "1", () => {
+    typeEditorController.focus();
+  });
+  HotkeyUtils.register(["ctrl"], "2", () => {
+    queryEditorController.focus();
+  });
+
   function makeState(): State {
     const s: State = {
       editors: {
@@ -105,19 +118,6 @@ async function bootstrap() {
   async function patchState(p: Partial<State>) {
     await reloadState({ ...makeState(), ...p });
   }
-
-  HotkeyUtils.register(["ctrl"], "s", async () => {
-    await stateManager.save(makeState(), false);
-  });
-  HotkeyUtils.register(["ctrl", "shift"], "s", async () => {
-    await stateManager.save(makeState(), true);
-  });
-  HotkeyUtils.register(["ctrl"], "1", () => {
-    typeEditorController.focus();
-  });
-  HotkeyUtils.register(["ctrl"], "2", () => {
-    queryEditorController.focus();
-  });
 }
 
 function getKyselyModule(s: State, km: KyselyManager, tc: ToastController) {
