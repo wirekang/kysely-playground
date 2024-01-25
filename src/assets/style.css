@@ -120,19 +120,22 @@ body {
 #result {
   height: 100%;
   padding: 4px;
-}
-#result > .result-item .monaco-editor {
-  position: static !important;
+  font-size: 0.8rem;
 }
 
 #result > .result-item > .message {
-  font-size: 0.8rem;
-  white-space-collapse: preserve;
+  font-weight: 600;
 }
 
 #result > .result-item > hr {
   width: 100%;
   height: 1rem;
+}
+
+#result > .result-item > .code {
+  white-space: pre;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 /************************************************************* PORTRAIT */
@@ -146,4 +149,43 @@ body {
   #panel-container {
     flex-direction: row;
   }
+}
+
+/************************************************************* hightlight.js */
+
+pre code.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 1em;
+}
+code.hljs {
+  padding: 3px 5px;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+.hljs-strong {
+  font-weight: bold;
+}
+
+.hljs-comment,
+.hljs-quote {
+  font-style: italic;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+.hljs-strong {
+  font-weight: bold;
+}
+
+.hljs-addition {
+  display: inline-block;
+  width: 100%;
+}
+.hljs-deletion {
+  display: inline-block;
+  width: 100%;
 }

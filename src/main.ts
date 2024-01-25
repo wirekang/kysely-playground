@@ -93,6 +93,11 @@ async function bootstrap() {
     queryEditorController.focus();
   });
 
+  const { default: hljs } = await import("highlight.js/lib/core");
+  const { default: hljsSql } = await import("highlight.js/lib/languages/sql");
+  hljs.registerLanguage("sql", hljsSql);
+  hljs.highlightAll();
+
   function makeState(): State {
     const s: State = {
       editors: {

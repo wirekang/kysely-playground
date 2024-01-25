@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "firebase-firestore-lite": "^1.0.3",
+    "highlight.js": "^11.9.0",
     "lz-string": "^1.5.0",
     "monaco-editor": "0.45.0",
     "prettier": "^3.2.4",

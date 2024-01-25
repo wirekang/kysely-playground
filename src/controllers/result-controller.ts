@@ -1,22 +1,19 @@
-import { EditorController } from "./editor-controller";
-
 export class ResultController {
   constructor(private readonly root: HTMLDivElement) {
     this.clear();
-    (async () => {
-      await this.appendMessage("warn", "This is warning message. Something is happened but it's not fatal.");
-      await this.appendMessage("error", "This is error message. A key feature is not working.");
-      await this.appendEditor("text", `${new Error("this is the message of catched error").stack}`);
-      await this.appendPadding();
-      await this.appendPadding();
-      await this.appendPadding();
-      await this.appendPadding();
-      await this.appendMessage("info", "execute() has been called multiple times.");
-      await this.appendPadding();
-      await this.appendMessage("info", "#1");
-      await this.appendEditor(
-        "sql",
-        `SELECT
+    this.appendMessage("warn", "This is warning message. Something is happened but it's not fatal.");
+    this.appendMessage("error", "This is error message. A key feature is not working.");
+    this.appendCode("plaintext", `${new Error("this is the message of catched error").stack}`);
+    this.appendPadding();
+    this.appendPadding();
+    this.appendPadding();
+    this.appendPadding();
+    this.appendMessage("info", "execute() has been called multiple times.");
+    this.appendPadding();
+    this.appendMessage("info", "#1");
+    this.appendCode(
+      "sql",
+      `SELECT
   "posts"."id" AS "_id",
   "posts"."url" AS "url",
   "posts"."post_key" AS "id",
@@ -36,47 +33,48 @@ export class ResultController {
   ) AS "childPosts"
 FROM
   "posts"`,
-      );
-      await this.appendPadding();
-      await this.appendMessage("info", "#2");
-      await this.appendEditor("sql", "SELECT * from asdf where qwer = 3");
-    })();
+    );
+    this.appendPadding();
+    this.appendMessage("info", "#2");
+    this.appendCode("sql", "SELECT * from asdf where qwer = 3");
   }
 
   clear() {
     this.root.innerText = "";
   }
 
-  private async append(cb: (tag: HTMLDivElement) => unknown) {
+  private append(cb: (container: HTMLDivElement) => unknown) {
     const tag = document.createElement("div");
-    await cb(tag);
+    cb(tag);
     tag.classList.add("result-item");
     this.root.appendChild(tag);
   }
 
   appendPadding() {
-    return this.append((tag) => {
+    return this.append((container) => {
       const hr = document.createElement("hr");
-      tag.appendChild(hr);
+      container.appendChild(hr);
     });
   }
 
   appendMessage(level: "warn" | "error" | "info", message: string) {
-    return this.append((tag) => {
+    return this.append((container) => {
       const msg = document.createElement("div");
       msg.classList.add("message", level);
-      msg.innerHTML = message;
-      tag.appendChild(msg);
+      msg.textContent = message;
+      container.appendChild(msg);
     });
   }
 
-  appendEditor(language: string, value: string) {
-    return this.append(async (tag) => {
-      const e = await EditorController.init(tag, { language });
-      e.setValue(value);
-      e.setReadonly(true);
-      e.enableCleanBlur();
-      e.setHeightByContent();
+  appendCode(language: string, value: string) {
+    return this.append((container) => {
+      const w = document.createElement("pre");
+      w.classList.add("code");
+      const code = document.createElement("code");
+      code.classList.add(`language-${language}`, "hljs");
+      code.textContent = value;
+      w.appendChild(code);
+      container.appendChild(w);
     });
   }
 }
