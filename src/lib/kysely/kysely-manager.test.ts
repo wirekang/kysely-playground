@@ -1,5 +1,6 @@
 import { beforeAll, expect, test } from "vitest";
 import { KyselyManager } from "./kysely-manager";
+import { KyselyModule } from "./kysely-module";
 
 let kyselyManager: KyselyManager;
 
@@ -11,6 +12,6 @@ test("lastCommitId", () => {
   expect(kyselyManager.lastCommitId.length).gte(20);
 });
 
-test("modules", () => {
-  expect(kyselyManager.modules.length).gte(10);
+test("getLatestTagModule", () => {
+  expect(kyselyManager.getLatestTagModule()).instanceOf(KyselyModule);
 });

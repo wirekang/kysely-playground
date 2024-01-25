@@ -18,13 +18,14 @@ export class KyselyManager {
       modules.unshift(
         new KyselyModule(
           "tag",
-          tag.id,
+          tag.name,
           tag.commitId,
           minifiedCommitId,
           tag.dir,
           tag.files,
           tag.exports,
           tag.dependencies,
+          tag.dialects,
         ),
       );
     });
@@ -32,13 +33,14 @@ export class KyselyManager {
       modules.unshift(
         new KyselyModule(
           "branch",
-          branch.id,
+          branch.name,
           branch.commitId,
           minifiedCommitId,
           branch.dir,
           branch.files,
           branch.exports,
           branch.dependencies,
+          branch.dialects,
         ),
       );
     });
@@ -49,8 +51,24 @@ export class KyselyManager {
   private constructor(
     private readonly minifiedCommitId: string,
     readonly lastCommitId: string,
-    readonly modules: ReadonlyArray<KyselyModule>,
+    private readonly modules: ReadonlyArray<KyselyModule>,
   ) {}
+
+  getModule(id: string) {
+    return this.modules.find((it) => it.id === id);
+  }
+
+  findModule(type: string, name: string): KyselyModule | undefined {
+    return this.modules.find((it) => it.type === type && it.name === name);
+  }
+
+  getModuleIds(): Array<string> {
+    return this.modules.map((m) => m.id);
+  }
+
+  getLatestTagModule(): KyselyModule {
+    return this.modules.find((m) => m.type === "tag")!;
+  }
 }
 
 async function getLatestMinifiedCommitId() {

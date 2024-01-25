@@ -1,21 +1,12 @@
 import { Executer } from "./lib/executer/executer";
-import { KyselyManager } from "./lib/kysely/kysely-manager";
 import { logger } from "./lib/utility/logger";
 import { HotkeyUtils } from "./lib/utility/hotkey-utils";
 
-async function testKyselyModules() {
-  const km = await KyselyManager.init();
-  for (let i = 0; i < 3; i += 1) {
-    const module = km.modules[i];
-    logger.debug(module.label, module);
-  }
-}
-
 function testHotKeyUtils() {
-  HotkeyUtils.register("s", { ctrl: true }, () => {
+  HotkeyUtils.register(["ctrl"], "s", () => {
     logger.info("ctrl-s");
   });
-  HotkeyUtils.register("s", { ctrl: true, shift: true }, () => {
+  HotkeyUtils.register(["ctrl", "shift"], "s", () => {
     logger.info("ctrl-shift-s");
   });
 }
@@ -40,5 +31,4 @@ async function testExecuter() {
 }
 
 testHotKeyUtils();
-testKyselyModules();
 testExecuter();

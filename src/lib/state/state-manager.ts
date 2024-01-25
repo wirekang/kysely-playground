@@ -1,76 +1,86 @@
-import { LEGACY_PLAYGROUND_URL } from "../constants";
+import { DEFUALT_STATE, LEGACY_PLAYGROUND_URL } from "../constants";
 import { logger } from "../utility/logger";
 import { StringUtils } from "../utility/string-utils";
 import { ValidateUtils } from "../utility/validate-utils";
+import { State } from "./state";
 import { FirestoreStateRepository } from "./firestore-state-repository";
 
 export class StateManager {
   constructor(private readonly firestoreStateRepository: FirestoreStateRepository) {}
 
   /**
-   * Sync state into url fragment.
+   * Encode the state and update url.
    */
   async save(state: State, shorten: boolean) {
     validate(state);
     logger.debug("encode state");
-    const encoded = await encode(JSON.stringify(state));
-    let header: FragmentHeader;
-    let body: string;
+    const encoded = await lzEncode(JSON.stringify(state));
     if (shorten) {
-      header = "f";
-      body = await this.firestoreStateRepository.add(encoded);
-    } else {
-      header = "r";
-      body = encoded;
+      const id = await this.firestoreStateRepository.add(encoded);
+      window.history.replaceState(null, "", window.location.origin + "/" + id);
+      return;
     }
-    window.location.hash = header + "/" + body;
+    const header: FragmentHeader = "c";
+    window.history.replaceState(null, "", window.location.origin);
+    window.location.hash = header + encoded;
   }
 
   /**
-   * Parse state from url fragment.
-   *
-   * @returns decoded state or null if fragment is empty.
+   * Returns decoded state from url, or DEFAULT_STATE.
    */
-  async load(): Promise<State | null> {
+  async load(): Promise<State> {
     checkLegacyParams();
     const fragment = StringUtils.trimPrefix(window.location.hash, "#");
-    if (fragment === "") {
-      logger.debug("no fragment");
-      return null;
+    const path = StringUtils.trimPrefix(window.location.pathname, "/");
+    if (fragment === "" && path === "") {
+      return DEFUALT_STATE;
     }
-    const delimiterIndex = fragment.indexOf("/");
-    if (delimiterIndex === -1) {
-      throw new StateManagerError("no delimiter in fragment");
+
+    if (fragment !== "" && path !== "") {
+      throw new StateManagerError(`both fragment and path are given`);
     }
-    const header = fragment.substring(0, delimiterIndex) as FragmentHeader;
-    const body = fragment.substring(delimiterIndex + 1);
+    if (fragment !== "") {
+      return this.loadFragment(fragment);
+    }
+    return this.loadPath(path);
+  }
+
+  private async loadFragment(fragment: string) {
+    const header = fragment.charAt(0) as FragmentHeader;
+    const body = fragment.substring(1);
     let json: string;
     switch (header) {
       case "r": {
         logger.debug("raw fragment");
-        json = await decode(body);
+        json = body;
         break;
       }
-      case "f": {
-        logger.debug(`get firestore state by id ${body}`);
-        json = await decode(await this.firestoreStateRepository.get(body));
+      case "c": {
+        logger.debug("compressed fragment");
+        json = await lzDecode(body);
         break;
       }
       default:
-        throw new StateManagerError(`unknown header ${header}`);
+        throw new StateManagerError(`unknown fragment header ${header}`);
     }
     const state = JSON.parse(json) as State;
     validate(state);
     return state;
   }
+
+  private async loadPath(path: string) {
+    const id = path;
+    logger.debug(`get firestore state by id ${id}`);
+    return JSON.parse(await lzDecode(await this.firestoreStateRepository.get(id)));
+  }
 }
 
-async function encode(v: string) {
+async function lzEncode(v: string) {
   const { compressToEncodedURIComponent } = await import("lz-string");
   return compressToEncodedURIComponent(v);
 }
 
-async function decode(v: string) {
+async function lzDecode(v: string) {
   const { decompressFromEncodedURIComponent } = await import("lz-string");
   return decompressFromEncodedURIComponent(v);
 }
@@ -86,29 +96,17 @@ function checkLegacyParams() {
 function validate(s: State) {
   ValidateUtils.typeEqual(s.editors, "object", "State.editors");
   ValidateUtils.typeEqual(s.editors.type, "string", "State.editors.type");
-  ValidateUtils.typeIncludes(s.views, ["string", "undefined"], "State.views");
+  ValidateUtils.typeIncludes(s.views, ["object", "undefined"], "State.views");
   ValidateUtils.typeIncludes(s.views?.type, ["boolean", "undefined"], "State.views.type");
   ValidateUtils.typeIncludes(s.views?.query, ["boolean", "undefined"], "State.views.query");
   ValidateUtils.typeIncludes(s.views?.result, ["boolean", "undefined"], "State.views.result");
 }
 
-export type State = {
-  editors: {
-    type: string;
-    query: string;
-  };
-  views?: {
-    type?: boolean;
-    query?: boolean;
-    result?: boolean;
-  };
-};
-
 /**
- * r = raw
+ * c = compressed
  *
- * f = firestore
+ * r = raw
  */
-type FragmentHeader = "r" | "f";
+type FragmentHeader = "c" | "r";
 
 class StateManagerError extends Error {}

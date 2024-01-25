@@ -13,6 +13,15 @@
   </head>
   <body data-theme="light">
     <div id="header">
+      <select id="version">
+        <option>Loading...</option>
+      </select>
+      <div class="padding"></div>
+      <select id="dialect">
+        <option>Loading...</option>
+      </select>
+      <div class="padding"></div>
+      <div>[VV]</div>
       <div id="header-suffix">
         <button class="header-icon" id="switch-theme">
           <img class="dark" src="./src/assets/switch-theme-white.svg" />
@@ -31,11 +40,18 @@
     </div>
     <div id="main">
       <div id="panel-container">
-        <div class="panel" id="panel-0"></div>
-        <div class="panel" id="panel-1"></div>
-        <div class="panel" id="panel-2"></div>
+        <div class="panel" id="panel-0">
+          <div class="loading">Loading...</div>
+        </div>
+        <div class="panel" id="panel-1">
+          <div class="loading">Loading...</div>
+        </div>
+        <div class="panel" id="panel-2">
+          <div class="loading">Loading...</div>
+        </div>
       </div>
     </div>
+    <div id="toast"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

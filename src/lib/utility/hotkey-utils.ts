@@ -1,8 +1,8 @@
 export class HotkeyUtils {
-  static register(key: string, mods: { ctrl?: boolean; shift?: boolean; alt?: boolean }, cb: () => unknown) {
-    const ctrl = !!mods.ctrl;
-    const shift = !!mods.shift;
-    const alt = !!mods.alt;
+  static register(mods: Array<"ctrl" | "shift" | "alt">, key: string, cb: () => unknown) {
+    const ctrl = mods.includes("ctrl");
+    const shift = mods.includes("shift");
+    const alt = mods.includes("alt");
     window.addEventListener("keydown", (e) => {
       if (
         e.key.toLowerCase() === key.toLowerCase() &&

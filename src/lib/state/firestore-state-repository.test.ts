@@ -9,6 +9,7 @@ beforeAll(() => {
 test("add/get", async () => {
   const data = "test data";
   const id = await repo.add(data);
+  console.log(id);
   const response = await repo.get(id);
   expect(response).toBe(data);
 });

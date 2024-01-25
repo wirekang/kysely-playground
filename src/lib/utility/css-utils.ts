@@ -18,7 +18,12 @@ export class CssUtils {
     onMutate();
   }
 
-  static initSavedTheme() {
+  static initTheme() {
+    const queryTheme = new URLSearchParams(window.location.search).get("theme");
+    if (queryTheme && ["light", "dark"].includes(queryTheme)) {
+      CssUtils.setTheme(queryTheme, false);
+      return;
+    }
     let theme = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
     const saved = localStorage.getItem(LOCALSTORAGE_THEME);
     if (saved !== null) {
@@ -39,5 +44,10 @@ export class CssUtils {
       logger.debug("save theme", theme);
       localStorage.setItem(LOCALSTORAGE_THEME, theme);
     }
+  }
+
+  static toggleTheme(save: boolean) {
+    const theme = CssUtils.getTheme() === "light" ? "dark" : "light";
+    CssUtils.setTheme(theme, save);
   }
 }

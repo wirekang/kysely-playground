@@ -24,6 +24,7 @@ export class EditorController {
       };
     }
 
+    element.innerHTML = "";
     const editor = monaco.editor.create(element, {
       language: options.language,
       value: "",
@@ -43,14 +44,45 @@ export class EditorController {
     return new EditorController(editor);
   }
 
+  private onChangeHandle?: any;
+  private readonly onChangeListeners: Array<(v: string) => unknown> = [];
+
   private constructor(private readonly editor: monaco.editor.IStandaloneCodeEditor) {
-    CssUtils.colorSchemaEffect(async (light) => {
-      const monaco = await import("monaco-editor");
-      monaco.editor.setTheme(light ? "vs" : "vs-dark");
+    import("monaco-editor").then((monaco) => {
+      CssUtils.colorSchemaEffect(async (light) => {
+        monaco.editor.setTheme(light ? "vs" : "vs-dark");
+      });
+      const model = this.editor.getModel()!;
+      model.setEOL(monaco.editor.EndOfLineSequence.LF);
+      model.onDidChangeContent((e) => {
+        clearTimeout(this.onChangeHandle);
+        this.onChangeHandle = setTimeout(() => {
+          this.handleOnChange();
+        }, 500);
+      });
     });
   }
 
   setReadonly(readOnly: boolean) {
     this.editor.updateOptions({ readOnly });
+  }
+
+  setValue(v: string) {
+    this.editor.setValue(v);
+  }
+
+  getValue() {
+    return this.editor.getValue();
+  }
+
+  onChange(l: (v: string) => unknown) {
+    this.onChangeListeners.push(l);
+  }
+
+  private handleOnChange() {
+    const v = this.getValue();
+    this.onChangeListeners.forEach((l) => {
+      l(v);
+    });
   }
 }

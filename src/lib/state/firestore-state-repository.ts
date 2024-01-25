@@ -1,5 +1,7 @@
 import { Database, Reference } from "firebase-firestore-lite";
 import { FIRESTORE_COLLECTION_FRAGMENTS, FIRESTORE_PROJECT_ID } from "../constants";
+import { logger } from "../utility/logger";
+import Transform from "firebase-firestore-lite/dist/Transform";
 
 export class FirestoreStateRepository {
   private readonly states: Reference;
@@ -9,21 +11,43 @@ export class FirestoreStateRepository {
   }
 
   async add(data: string): Promise<string> {
-    const res = await this.states.add({ fragment: data }, { exists: false });
-    if (!res) {
-      throw new FirestoreError("failed to add document");
+    let tryCount = 0;
+    while (tryCount < 16) {
+      try {
+        tryCount += 1;
+        const document = this.states.child(randomId(4 + tryCount));
+        await document.set({ data, createdAt: new Transform("serverTimestamp") }, { exists: false });
+        return document.id;
+      } catch (e: any) {
+        if (e.status === "ALREADY_EXISTS") {
+          logger.warn("firestore document confict", "try:", tryCount);
+          continue;
+        }
+        throw e;
+      }
     }
-    return res.id;
+    throw new FirestoreError(`Unreachable, tryCount: ${tryCount}`);
   }
 
   async get(id: string): Promise<string> {
     const document = await this.states.child(id).get();
-    const fragment = document.fragment as string;
-    if (!fragment) {
-      throw new FirestoreError(`document has no fragment. id=${id}`);
+    const data = document.data as string;
+    if (!data) {
+      throw new FirestoreError(`document has no data. id=${id}`);
     }
-    return fragment;
+    return data;
   }
 }
 
 class FirestoreError extends Error {}
+
+// firestore document id
+
+const validChars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-.+$&" as const;
+
+function randomId(size: number) {
+  const b = crypto.getRandomValues(new Uint8Array(size));
+  return Array.from(b)
+    .map((b) => validChars[b % validChars.length])
+    .join("");
+}

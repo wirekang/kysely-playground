@@ -1,7 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap");
 
 :root {
-  --header-height: 1.4rem;
+  font-size: 16px;
+  --header-height: 1.5rem;
 }
 
 * {
@@ -24,6 +25,8 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
+  padding-left: 2px;
+  padding-right: 2px;
 }
 
 #header-suffix {
@@ -35,10 +38,10 @@ body {
 }
 
 .header-icon {
-  width: calc(var(--header-height) - 2px);
-  height: calc(var(--header-height) - 2px);
-  margin-left: 2px;
-  margin-right: 2px;
+  width: calc(var(--header-height) - 4px);
+  height: calc(var(--header-height) - 4px);
+  margin-left: 4px;
+  margin-right: 4px;
   cursor: pointer;
 }
 
@@ -61,6 +64,30 @@ body {
 
 .monaco-editor {
   position: absolute !important;
+}
+
+.padding {
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: transparent;
+}
+
+#toast {
+  position: fixed;
+  max-width: 30rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 0.5rem;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+  font-size: 1.3rem;
+  border-radius: 1rem;
+}
+
+#toast.show {
+  opacity: 1;
 }
 
 /************************************************************* PORTRAIT */
