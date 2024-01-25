@@ -1,6 +1,8 @@
 name: deploy-preview
 on:
   pull_request:
+    branches:
+      - main
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -18,8 +20,8 @@ jobs:
           VITE_PREVIEW: 1
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_KYSELY_PLAYGROUND }}'
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_KYSELY_PLAYGROUND }}"
           channelId: preview
           expires: 7d
           projectId: kysely-playground
