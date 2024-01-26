@@ -8,12 +8,12 @@ export class Executer {
    *
    * @param js formatted javascript code with infinity-printWidth and semicolons.
    */
-  execute(js: string): Promise<any> {
+  async execute(js: string): Promise<any> {
     logger.debug("Execute:\n", js);
     js = this.replaceImports(js);
     logger.debug("Import replaced:\n", js);
     js = encodeURIComponent(js);
-    return dynamicImport(`data:text/javascript;charset=utf-8,${js}`);
+    await dynamicImport(`data:text/javascript;charset=utf-8,${js}`);
   }
 
   private replaceImports(js: string): string {
@@ -33,3 +33,5 @@ export class Executer {
 }
 
 class ExecuterError extends Error {}
+
+// TODO

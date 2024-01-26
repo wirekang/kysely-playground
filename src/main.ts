@@ -275,12 +275,3 @@ function initKyselyModule() {
 }
 
 bootstrap();
-
-/**
- * TODO
- * executer
- * prettier
- * hide fixed lines
- * embeded detecting
- * open-in-new-window button
- */
