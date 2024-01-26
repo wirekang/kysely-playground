@@ -1,6 +1,6 @@
 import { JSDELIVR_API_LIST_TAGS, JSDELIVR_ESM } from "../constants";
-import { HttpUtils } from "../utility/http-utils";
-import { StringUtils } from "../utility/string-utils";
+import { HttpUtils } from "./http-utils";
+import { StringUtils } from "./string-utils";
 
 export class JsDelivrUtils {
   static npmPrefix(name: string) {

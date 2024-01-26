@@ -5,7 +5,7 @@ import {
   GITHUB_MINIFIED_KYSELY_REPO,
 } from "../constants";
 import { KyselyModule } from "./kysely-module";
-import { JsDelivrUtils } from "../jsdelivr/jsdelivr-utils";
+import { JsDelivrUtils } from "../utility/jsdelivr-utils";
 
 export class KyselyManager {
   static async init(): Promise<KyselyManager> {
@@ -72,7 +72,11 @@ export class KyselyManager {
 }
 
 async function getLatestMinifiedCommitId() {
-  return (await HttpUtils.getJson(GITHUB_API_MINIFIED_KYSELY_MAIN_REFS)).object.sha as string;
+  try {
+    return (await HttpUtils.getJsonOrCache(GITHUB_API_MINIFIED_KYSELY_MAIN_REFS, 120)).object.sha as string;
+  } catch (e) {
+    throw Error(`GitHub API Error: ${e}`);
+  }
 }
 
 function getInfoJson(commitId: string) {

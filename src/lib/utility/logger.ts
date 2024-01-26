@@ -13,7 +13,12 @@ export const logger = {
   },
 };
 
-const MIN_LEVEL = import.meta.env.DEV || import.meta.env.VITE_PREVIEW ? 0 : 1;
+const MIN_LEVEL = (() => {
+  if (typeof window !== "undefined" && new URLSearchParams(window.location.search).has("debug")) {
+    return 0;
+  }
+  return import.meta.env.DEV || import.meta.env.VITE_PREVIEW ? 0 : 1;
+})();
 const PREFIXES = ["DBG", "INF", "WRN", "ERR"];
 const PREFIX_COLORS = ["#bbb", "#fff", "#fb6", "#f66"];
 

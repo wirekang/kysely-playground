@@ -1,6 +1,6 @@
 import { expect, test } from "vitest";
 import { JsDelivrUtils } from "./jsdelivr-utils";
-import { HttpUtils } from "../utility/http-utils";
+import { HttpUtils } from "./http-utils";
 
 test("listNpmVersions", async () => {
   const versions = await JsDelivrUtils.listNpmVersions("is-number");

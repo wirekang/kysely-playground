@@ -1,5 +1,5 @@
 import { HttpUtils } from "../utility/http-utils";
-import { JsDelivrUtils } from "../jsdelivr/jsdelivr-utils";
+import { JsDelivrUtils } from "../utility/jsdelivr-utils";
 import { GITHUB_MINIFIED_KYSELY_OWNER, GITHUB_MINIFIED_KYSELY_REPO } from "../constants";
 import { StringUtils } from "../utility/string-utils";
 
@@ -36,16 +36,22 @@ export class KyselyModule {
     );
   }
 
-  loadFiles(): Promise<Array<File>> {
+  getEntrypointUrl(): string {
+    return this.makeUrl("index.js");
+  }
+
+  private makeUrl(file: string): string {
+    return this.baseUrl + "/" + StringUtils.trimPrefix(file, "/");
+  }
+
+  loadTypeFiles(): Promise<Array<File>> {
     return Promise.all(
-      this.files.map(async (file) => {
-        const url = this.baseUrl + "/" + StringUtils.trimPrefix(file, "/");
-        const data = await HttpUtils.getBytes(url);
-        return {
-          path: file,
-          data,
-        };
-      }),
+      this.files
+        .filter((it) => it.endsWith(".d.ts"))
+        .map(async (path) => ({
+          path,
+          data: await HttpUtils.getBytes(this.makeUrl(path)),
+        })),
     );
   }
 }

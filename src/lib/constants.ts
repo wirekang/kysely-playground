@@ -19,6 +19,31 @@ export const LOCALSTORAGE_THEME = "theme";
 
 export const LEGACY_PLAYGROUND_URL = "https://old.kyse.link";
 
+export const QUERY_EDITOR_HEADER_DELIMITER = "/* __QUERY_EDITOR_HEADER_DELIMITER__ */\n\n";
+
+export const DIALECT_CONSTRUCTORS = {
+  postgres: {
+    adapter: "PostgresAdapter",
+    introspector: "PostgresIntrospector",
+    queryCompiler: "PostgresQueryCompiler",
+  },
+  mysql: {
+    adapter: "MysqlAdapter",
+    introspector: "MysqlIntrospector",
+    queryCompiler: "MysqlQueryCompiler",
+  },
+  mssql: {
+    adapter: "MssqlAdapter",
+    introspector: "MssqlIntrospector",
+    queryCompiler: "MssqlQueryCompiler",
+  },
+  sqlite: {
+    adapter: "SqliteAdapter",
+    introspector: "SqliteIntrospector",
+    queryCompiler: "SqliteQueryCompiler",
+  },
+};
+
 export const DEFUALT_STATE: State = {
   dialect: "postgres",
   editors: {
@@ -66,11 +91,9 @@ export type Pet = Selectable<PetTable>
 export type NewPet = Insertable<PetTable>
 export type PetUpdate = Updateable<PetTable>
     `.trim(),
-    query: `
-await db.selectFrom('person')
+    query: `await db.selectFrom('person')
   .where('id', '=', 42)
   .selectAll()
-  .executeTakeFirst()
-    `.trim(),
+  .executeTakeFirst()`,
   },
 };

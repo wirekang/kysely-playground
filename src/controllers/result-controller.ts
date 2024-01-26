@@ -1,43 +1,5 @@
 export class ResultController {
-  constructor(private readonly root: HTMLDivElement) {
-    this.clear();
-    this.appendMessage("warn", "This is warning message. Something is happened but it's not fatal.");
-    this.appendMessage("error", "This is error message. A key feature is not working.");
-    this.appendCode("plaintext", `${new Error("this is the message of catched error").stack}`);
-    this.appendPadding();
-    this.appendPadding();
-    this.appendPadding();
-    this.appendPadding();
-    this.appendMessage("info", "execute() has been called multiple times.");
-    this.appendPadding();
-    this.appendMessage("info", "#1");
-    this.appendCode(
-      "sql",
-      `SELECT
-  "posts"."id" AS "_id",
-  "posts"."url" AS "url",
-  "posts"."post_key" AS "id",
-  (
-    SELECT
-      COALESCE(json_agg (agg), '[]')
-    FROM
-      (
-        SELECT
-          "id"
-        FROM
-          "posts_subposts"
-          INNER JOIN "posts" AS "subposts" ON "posts_subposts"."subpost_id" = "posts"."id"
-        WHERE
-          "posts_subposts"."post_id" = "posts"."id"
-      ) AS agg
-  ) AS "childPosts"
-FROM
-  "posts"`,
-    );
-    this.appendPadding();
-    this.appendMessage("info", "#2");
-    this.appendCode("sql", "SELECT * from asdf where qwer = 3");
-  }
+  constructor(private readonly root: HTMLDivElement) {}
 
   clear() {
     this.root.innerText = "";
@@ -57,7 +19,7 @@ FROM
     });
   }
 
-  appendMessage(level: "warn" | "error" | "info", message: string) {
+  appendMessage(level: "warn" | "error" | "info" | "trace", message: string) {
     return this.append((container) => {
       const msg = document.createElement("div");
       msg.classList.add("message", level);

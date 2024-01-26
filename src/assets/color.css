@@ -6,6 +6,7 @@
   --bg: #fff;
   --toast-bg: #333;
   --toast: #fff;
+  --result-trace: #444;
   --result-info: #333;
   --result-warn: #820;
   --result-error: #f00;
@@ -29,6 +30,7 @@
   --bg: #1e1e1e;
   --toast-bg: #eee;
   --toast: #000;
+  --result-trace: #aaa;
   --result-info: #bbb;
   --result-warn: #fc6;
   --result-error: #f44;
@@ -71,6 +73,10 @@
 
 .loading {
   color: var(--font);
+}
+
+#result > .result-item > .message.trace {
+  color: var(--result-trace);
 }
 
 #result > .result-item > .message.info {

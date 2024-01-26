@@ -44,6 +44,23 @@ export class HttpUtils {
     return HttpUtils.request("GET", url, {}, [200], "json");
   }
 
+  static async getJsonOrCache(url: string, maxAgeSeconds: number): Promise<any> {
+    const key = `HTTP_CACHE:${url}`;
+    const cached = localStorage.getItem(key);
+    if (cached !== null) {
+      const { timestamp, result } = JSON.parse(cached);
+      const age = Date.now() - timestamp;
+      if (age <= maxAgeSeconds * 1000) {
+        logger.debug("use cached", url);
+        return result;
+      }
+      logger.debug("cached data is too old", url, age);
+    }
+    const result = await this.getJson(url);
+    localStorage.setItem(key, JSON.stringify({ timestamp: Date.now(), result }));
+    return result;
+  }
+
   static getText(url: string): Promise<string> {
     return HttpUtils.request("GET", url, {}, [200], "text");
   }
