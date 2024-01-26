@@ -11,15 +11,20 @@ REWRITING
 
 TODO
  * main should not know about "playground" event.  
-    executer should handle "playground" window.  
-    executer.execute() returns array of events with it's own type.
+    Executer should handle "playground" window.  
+    Executer.execute() returns array of events with its own type.  
+    Executer should catch the error during `dynamicImport` and return as its own type.
+
  * TypescriptUtils.format -> Formatter  
     Formatter = format codes regardless of language(sql,ts).  
     Formatter has its own mutable state.  
     main will mutate the state by "settings" feature.
+
  * hide header lines
+
  * embeded detecting  
      open-in-new-window button
+    
  * tests
 
 ## API
