@@ -98,11 +98,17 @@ function initExecuter() {
 }
 
 async function initTypeEditorController() {
-  D.typeEditorController = await EditorController.init(D.panel0, { language: "typescript" });
+  D.typeEditorController = await EditorController.init(D.panel0, {
+    language: "typescript",
+    filePath: "type-editor.ts",
+  });
 }
 
 async function initQueryEditorController() {
-  D.queryEditorController = await EditorController.init(D.panel1, { language: "typescript" });
+  D.queryEditorController = await EditorController.init(D.panel1, {
+    language: "typescript",
+    filePath: "query-editor.ts",
+  });
 }
 
 function setupResultController() {

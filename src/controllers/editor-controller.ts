@@ -5,14 +5,15 @@ export class EditorController {
   static async init(
     element: HTMLElement,
     options: {
+      filePath: string;
       language: string;
     },
   ) {
     const monaco = await import("monaco-editor");
+    const model = monaco.editor.createModel("", "typescript", monaco.Uri.file(options.filePath));
     element.innerHTML = "";
     const editor = monaco.editor.create(element, {
-      language: options.language,
-      value: "",
+      model,
       fontFamily: '"Jetbrains Mono", Courier, Consolas, monospace',
       automaticLayout: true,
       lineNumbers: "off",

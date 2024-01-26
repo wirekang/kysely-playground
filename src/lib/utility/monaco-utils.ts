@@ -8,6 +8,7 @@ export class MonacoUtils {
     const monaco = await import("monaco-editor");
     monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
       module: monaco.languages.typescript.ModuleKind.ESNext,
+      target: monaco.languages.typescript.ScriptTarget.ESNext,
     });
   }
 }

@@ -19,7 +19,7 @@ export const LOCALSTORAGE_THEME = "theme";
 
 export const LEGACY_PLAYGROUND_URL = "https://old.kyse.link";
 
-export const QUERY_EDITOR_HEADER_DELIMITER = "/* __QUERY_EDITOR_HEADER_DELIMITER__ */\n\n";
+export const QUERY_EDITOR_HEADER_DELIMITER = "\n/* __QUERY_EDITOR_HEADER_DELIMITER__ */\n\n";
 
 export const DIALECT_CONSTRUCTORS = {
   postgres: {
