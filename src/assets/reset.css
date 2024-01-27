@@ -198,3 +198,7 @@ meter {
 :where(dialog:modal) {
   all: revert;
 }
+
+pre {
+  margin: 0;
+}

@@ -17,6 +17,8 @@ import { PlaygroundUtils } from "./lib/utility/playground-utils";
 import { CompiledQuery, QueryResult } from "kysely-0.27.2";
 import { MonacoUtils } from "./lib/utility/monaco-utils";
 import { TypescriptUtils } from "./lib/utility/typescript-utils";
+import { StringUtils } from "./lib/utility/string-utils";
+import { ClipboardUtils } from "./lib/utility/clipboard-utils";
 
 const lazy = null as unknown;
 const D = {
@@ -122,34 +124,9 @@ function setupResultController() {
   window.addEventListener("unhandledrejection", handleUnexpectedError);
   D.resultController.clear();
   D.resultController.appendMessage("info", "Loading...");
-  window.addEventListener("playground", ({ detail }: any) => {
-    const method = detail.method as string;
-    logger.debug("playground: ", detail);
-    switch (method) {
-      case "commitTransaction":
-      case "rollbackTransaction":
-        D.resultController.appendMessage("trace", method);
-        break;
-      case "beginTransaction":
-        D.resultController.appendMessage(
-          "trace",
-          `beginTransaction ${detail.settings?.isolationLevel ?? ""}`,
-        );
-      case "executeQuery":
-      case "streamQuery":
-        const compiledQuery: CompiledQuery = detail.compiledQuery;
-        const chunkSize: number | undefined = detail.chunkSize;
-        D.resultController.appendMessage(
-          "trace",
-          method + (chunkSize !== undefined ? `(chunkSize: ${chunkSize})` : ""),
-        );
-        D.resultController.appendCode("sql", compiledQuery.sql);
-        D.resultController.appendCode(
-          "plaintext",
-          compiledQuery.parameters.map((it, i) => `[${i + 1}] ${it}`).join("\n"),
-        );
-    }
-  });
+  D.resultController.onClickCode = (v) => {
+    copyText(v, "Code copied");
+  };
 }
 
 function setupPanels() {
@@ -208,7 +185,32 @@ function setupQueryEditorController() {
     D.resultController.appendMessage("info", "Compiling...");
     const js = await TypescriptUtils.transpile(v);
     D.resultController.clear();
-    await D.executer.execute(js);
+    const outputs = await D.executer.execute(js);
+    logger.debug("execute outputs", outputs);
+    outputs.forEach((it) => {
+      switch (it.type) {
+        case "transaction":
+          D.resultController.appendMessage(
+            "trace",
+            `${StringUtils.capitalize(it.type2)}${StringUtils.capitalize(it.type)}`,
+          );
+          break;
+        case "error":
+          D.resultController.appendMessage("error", `Error`);
+          D.resultController.appendCode("plaintext", it.message);
+          break;
+        case "query":
+          D.resultController.appendCode("sql", it.sql);
+          if (it.parameters.length > 0) {
+            D.resultController.appendCode(
+              "plaintext",
+              it.parameters.map((p, i) => `[${i + 1}] ${p}`).join("\n"),
+            );
+            D.resultController.appendPadding();
+          }
+          break;
+      }
+    });
     D.hightlighter.highlight();
   });
 }
@@ -272,6 +274,15 @@ function initKyselyModule() {
     D.toastController.show(`${D.state.kysely.type}:${D.state.kysely.name} not found.`);
   }
   D.kyselyModule = D.kyselyManager.getLatestTagModule();
+}
+
+async function copyText(v: string, msg: string) {
+  try {
+    await ClipboardUtils.writeText(v);
+    D.toastController.show(msg);
+  } catch (e: any) {
+    D.toastController.show(e.message ?? e.toString());
+  }
 }
 
 bootstrap();

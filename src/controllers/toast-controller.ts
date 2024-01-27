@@ -3,13 +3,10 @@ export class ToastController {
   constructor(private readonly element: HTMLElement) {}
 
   show(message: string) {
-    this.hide();
-    setTimeout(() => {
-      this.element.classList.add("show");
-      this.element.innerHTML = message;
-      clearTimeout(this.hideTimeout);
-      this.hideTimeout = setTimeout(this.hide.bind(this), 1000 + message.length * 50);
-    }, 250);
+    this.element.classList.add("show");
+    this.element.innerHTML = message;
+    clearTimeout(this.hideTimeout);
+    this.hideTimeout = setTimeout(this.hide.bind(this), 400 + message.length * 40);
   }
 
   hide() {

@@ -25,7 +25,6 @@ export class EditorController {
       showFoldingControls: "never",
       overviewRulerLanes: 0,
       theme: CssUtils.getTheme() === "dark" ? "vs-dark" : "vs",
-      scrollBeyondLastLine: false,
       padding: { top: 2 },
     });
     return new EditorController(editor);

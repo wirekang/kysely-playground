@@ -91,6 +91,9 @@
   color: var(--result-error);
 }
 
+#result > .result-item > .code {
+  border-color: var(--border);
+}
 /*********************************************** */
 
 [data-theme="light"] .light {

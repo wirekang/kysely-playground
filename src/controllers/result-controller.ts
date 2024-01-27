@@ -1,4 +1,5 @@
 export class ResultController {
+  onClickCode?: (v: string) => unknown;
   constructor(private readonly root: HTMLDivElement) {}
 
   clear() {
@@ -36,6 +37,11 @@ export class ResultController {
       code.classList.add(`language-${language}`, "hljs");
       code.textContent = value;
       w.appendChild(code);
+      w.addEventListener("click", () => {
+        if (this.onClickCode) {
+          this.onClickCode(value);
+        }
+      });
       container.appendChild(w);
     });
   }

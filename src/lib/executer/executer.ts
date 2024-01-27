@@ -1,3 +1,4 @@
+import { CompiledQuery } from "kysely-0.27.2";
 import { dynamicImport } from "../utility/dynamic-import";
 import { logger } from "../utility/logger";
 
@@ -8,12 +9,48 @@ export class Executer {
    *
    * @param js formatted javascript code with infinity-printWidth and semicolons.
    */
-  async execute(js: string): Promise<any> {
+  async execute(js: string) {
+    const module = this.makeModule(js);
+    const outputs: Array<ExecuteOutput> = [];
+    const cb = ({ detail }: any) => {
+      const method = detail.method as string;
+      logger.debug("playground: ", detail);
+      switch (method) {
+        case "executeQuery":
+        case "streamQuery":
+          const cc = detail.compiledQuery as CompiledQuery;
+          outputs.push({ type: "query", sql: cc.sql, parameters: [...cc.parameters] });
+          break;
+        case "beginTransaction":
+          const settings = detail.settings;
+          outputs.push({ type: "transaction", type2: "begin", isolationLevel: settings.isolationLevel });
+          break;
+        case "commitTransaction":
+          outputs.push({ type: "transaction", type2: "commit" });
+          break;
+        case "rollbackTransaction":
+          outputs.push({ type: "transaction", type2: "rollback" });
+          break;
+      }
+    };
+    window.addEventListener("playground", cb);
+    try {
+      await dynamicImport(module);
+    } catch (e: any) {
+      const message = e.message ?? `${e}`;
+      outputs.push({ type: "error", message });
+    } finally {
+      window.removeEventListener("playground", cb);
+    }
+    return outputs;
+  }
+
+  private makeModule(js: string) {
     logger.debug("Execute:\n", js);
     js = this.replaceImports(js);
     logger.debug("Import replaced:\n", js);
     js = encodeURIComponent(js);
-    await dynamicImport(`data:text/javascript;charset=utf-8,${js}`);
+    return `data:text/javascript;charset=utf-8,${js}`;
   }
 
   private replaceImports(js: string): string {
@@ -34,4 +71,28 @@ export class Executer {
 
 class ExecuterError extends Error {}
 
-// TODO
+export type ExecuteOutput = ExecuteOutputQuery | ExecuteOutputError | ExecuteOutputTransaction;
+
+type ExecuteOutputQuery = {
+  type: "query";
+  sql: string;
+  parameters: Array<unknown>;
+};
+
+type ExecuteOutputError = {
+  type: "error";
+  message: string;
+};
+
+type ExecuteOutputTransaction = ExecuteOutputTransactionBegin | ExecuteOutputTransactionOther;
+
+type ExecuteOutputTransactionBegin = {
+  type: "transaction";
+  type2: "begin";
+  isolationLevel?: string;
+};
+
+type ExecuteOutputTransactionOther = {
+  type: "transaction";
+  type2: "rollback" | "commit";
+};

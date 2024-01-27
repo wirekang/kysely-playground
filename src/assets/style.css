@@ -119,15 +119,20 @@ body {
 
 #result {
   height: 100%;
-  padding: 4px;
-  font-size: 0.8rem;
+  padding-left: 4px;
+}
+
+#result > .result-item {
+  padding: 2px 0;
 }
 
 #result > .result-item > .message {
   font-weight: 600;
+  font-size: 0.7rem;
 }
 
 #result > .result-item > .message.trace {
+  font-weight: lighter;
   font-size: 0.7rem;
 }
 
@@ -140,6 +145,16 @@ body {
   white-space: pre;
   overflow-x: auto;
   overflow-y: hidden;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+#result > .result-item > .code:hover {
+  border-width: 1px;
+  border-style: solid;
+  margin-left: -1px;
+  margin-top: -1px;
+  margin-bottom: -1px;
 }
 
 /************************************************************* PORTRAIT */
@@ -160,7 +175,6 @@ body {
 pre code.hljs {
   display: block;
   overflow-x: auto;
-  padding-left: 0.4em;
 }
 
 .hljs-emphasis {
