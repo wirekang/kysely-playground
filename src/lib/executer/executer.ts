@@ -46,7 +46,7 @@ export class Executer {
   }
 
   private makeModule(js: string) {
-    logger.debug("Execute:\n", js);
+    logger.debug("execute:\n", js);
     js = this.replaceImports(js);
     // prevent module caching
     js = js + `\n\nexport const timestamp = ${Date.now()};\n`;

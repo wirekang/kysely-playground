@@ -15,8 +15,11 @@ export class PlaygroundUtils {
 // prettier-ignore
 // @ts-ignore
 const __playground_init_result__ = (await import("playground")).init(${k}.Kysely,new ${k}.${adapter}(),new ${k}.${introspector}(),new ${k}.${queryCompiler}());
+// prettier-ignore
 const kysely: import("kysely").Kysely<import("type-editor").Database> = __playground_init_result__.kysely;
+// prettier-ignore
 const db = kysely;
+// prettier-ignore
 export {}
       `.trim() + QUERY_EDITOR_HEADER_DELIMITER
     );

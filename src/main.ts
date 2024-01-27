@@ -18,6 +18,7 @@ import { MonacoUtils } from "./lib/utility/monaco-utils";
 import { TypescriptUtils } from "./lib/utility/typescript-utils";
 import { StringUtils } from "./lib/utility/string-utils";
 import { ClipboardUtils } from "./lib/utility/clipboard-utils";
+import { Formatter } from "./lib/format/formatter";
 
 const lazy = null as unknown;
 const D = {
@@ -38,6 +39,7 @@ const D = {
   panel0: lazy as HTMLElement,
   panel1: lazy as HTMLElement,
   panel2: lazy as HTMLElement,
+  formatter: lazy as Formatter,
 };
 
 async function init() {
@@ -59,6 +61,7 @@ async function init() {
   D.dialectController = new SelectController(e`dialect`);
   D.switchThemeController = new ButtonController(e`switch-theme`);
   D.viewController = new ButtonController(e`view`);
+  D.formatter = new Formatter();
 
   await Promise.all<any>([
     (async () => {
@@ -66,6 +69,7 @@ async function init() {
     })(),
     (async () => {
       D.state = await D.stateManager.load();
+      D.formatter.dialect = D.state.dialect;
     })(),
     (async () => {
       await MonacoUtils.init();
@@ -183,7 +187,7 @@ function setupTypeEditorController() {
 function setupQueryEditorController() {
   const header = PlaygroundUtils.makeQueryEditorHeader(D.state.dialect);
   D.queryEditorController.setValue(header + D.state.editors.query);
-  D.queryEditorController.hideHeaderLines(header.split("\n").length - 1);
+  D.queryEditorController.setHiddenHeader(header);
 
   D.queryEditorController.onChange(async (v) => {
     D.resultController.clear();
@@ -199,30 +203,31 @@ function setupQueryEditorController() {
       D.resultController.appendPadding();
     }
     logger.debug("execute outputs", outputs);
-    outputs.forEach((it) => {
-      switch (it.type) {
+    for (const output of outputs) {
+      switch (output.type) {
         case "transaction":
           D.resultController.appendMessage(
             "trace",
-            `${StringUtils.capitalize(it.type2)}${StringUtils.capitalize(it.type)}`,
+            `${StringUtils.capitalize(output.type2)}${StringUtils.capitalize(output.type)}`,
           );
           break;
         case "error":
           D.resultController.appendMessage("error", `Error`);
-          D.resultController.appendCode("plaintext", it.message);
+          D.resultController.appendCode("plaintext", output.message);
           break;
         case "query":
-          D.resultController.appendCode("sql", it.sql);
-          if (it.parameters.length > 0) {
+          const formatted = await D.formatter.formatSql(output.sql);
+          D.resultController.appendCode("sql", formatted);
+          if (output.parameters.length > 0) {
             D.resultController.appendCode(
               "plaintext",
-              it.parameters.map((p, i) => `[${i + 1}] ${p}`).join("\n"),
+              output.parameters.map((p, i) => `[${i + 1}] ${p}`).join("\n"),
             );
             D.resultController.appendPadding();
           }
           break;
       }
-    });
+    }
     D.hightlighter.highlight();
   });
 }
@@ -268,6 +273,8 @@ function setupHotKeys() {
 }
 
 async function save(shorten: boolean) {
+  D.typeEditorController.setValue(await D.formatter.formatTs(D.typeEditorController.getValue()));
+  D.queryEditorController.setValue(await D.formatter.formatTs(D.queryEditorController.getValue()));
   await D.stateManager.save(makeState(), shorten);
 }
 
@@ -275,7 +282,7 @@ function makeState(): State {
   const s: State = {
     editors: {
       type: D.typeEditorController.getValue(),
-      query: PlaygroundUtils.trimQueryEditorHeader(D.queryEditorController.getValue()),
+      query: D.queryEditorController.getValue(),
     },
     dialect: D.state.dialect,
     kysely: {

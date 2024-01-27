@@ -48,52 +48,68 @@ export const DEFUALT_STATE: State = {
   dialect: "postgres",
   editors: {
     type: `
-import {
-  ColumnType,
-  Generated,
-  Insertable,
-  JSONColumnType,
-  Selectable,
-  Updateable
-} from 'kysely'
+import { Generated, ColumnType } from "kysely";
 
-export type Database = {
-  person: PersonTable
-  pet: PetTable
+export interface Database {
+  person: Person;
+  pet: Pet;
+  toy: Toy;
+  "toy_schema.toy": Toy;
 }
 
-export interface PersonTable {
-  id: Generated<number>
-  first_name: string
-  gender: 'man' | 'woman' | 'other'
-  last_name: string | null
-  created_at: ColumnType<Date, string | undefined, never>
-    metadata: JSONColumnType<{
-    login_at: string;
-    ip: string | null;
-    agent: string | null;
-    plan: 'free' | 'premium';
-  }>
+export interface Person {
+  id: Generated<number>;
+  first_name: string | null;
+  middle_name: ColumnType<
+    string | null,
+    string | undefined,
+    string | undefined
+  >;
+  last_name: string | null;
+  gender: Gender;
+  marital_status: MaritalStatus | null;
+  children: Generated<number>;
 }
 
-export type Person = Selectable<PersonTable>
-export type NewPerson = Insertable<PersonTable>
-export type PersonUpdate = Updateable<PersonTable>
-
-export interface PetTable {
-  id: Generated<number>
-  name: string
-  owner_id: number
-  species: 'dog' | 'cat'
+export interface Pet {
+  id: Generated<number>;
+  name: string;
+  owner_id: number;
+  species: Species;
 }
 
-export type Pet = Selectable<PetTable>
-export type NewPet = Insertable<PetTable>
-export type PetUpdate = Updateable<PetTable>
+export interface Toy {
+  id: Generated<number>;
+  name: string;
+  price: number;
+  pet_id: number;
+}
+
+export type Gender = "male" | "female" | "other";
+export type MaritalStatus =
+  | "single"
+  | "married"
+  | "divorced"
+  | "widowed";
+export type Species = "dog" | "cat" | "hamster";
     `.trim(),
-    query: `await db.selectFrom('person')
-  .where('id', '=', 42)
-  .selectAll()
-  .executeTakeFirst()`,
+    query: `await db
+  .selectFrom("person")
+  .select("person.last_name as ln")
+  .where("first_name", "=", "Jennifer")
+  .execute();
+
+await db
+  .selectFrom("person")
+  .innerJoin("pet", "owner_id", "person.id")
+  .innerJoin("toy", "pet_id", "pet.id")
+  .where("first_name", "=", "Jennifer")
+  .select([
+    "first_name",
+    "pet.name as pet_name",
+    "toy.name as toy_name",
+  ])
+  .execute();
+`.trim(),
   },
 };

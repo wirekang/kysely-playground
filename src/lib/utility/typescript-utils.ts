@@ -1,19 +1,8 @@
+import { logger } from "./logger";
+
 export class TypescriptUtils {
-  static async format(input: string, options: FormatOptions) {
-    const { default: estree } = await import("prettier/plugins/estree");
-    const { default: ts } = await import("prettier/plugins/typescript");
-    const { format } = await import("prettier/standalone");
-
-    return format(input, {
-      printWidth: options.printWidth,
-      semi: options.semi,
-      singleQuote: options.singleQuotes,
-      parser: "typescript",
-      plugins: [estree, ts],
-    });
-  }
-
   static async transpile(input: string): Promise<string> {
+    logger.debug("transpile:\n", input);
     const ts = await import("typescript");
     return ts.transpile(input, {
       strict: false,
@@ -28,9 +17,3 @@ export class TypescriptUtils {
     return (await import("typescript")).version;
   }
 }
-
-export type FormatOptions = {
-  printWidth?: number;
-  semi?: boolean;
-  singleQuotes?: boolean;
-};

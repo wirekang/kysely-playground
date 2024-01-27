@@ -1,6 +1,7 @@
 import monaco from "monaco-editor";
 import { CssUtils } from "../lib/utility/css-utils";
 import { logger } from "../lib/utility/logger";
+import { StringUtils } from "../lib/utility/string-utils";
 
 export class EditorController {
   static async init(
@@ -47,6 +48,7 @@ export class EditorController {
 
   private onChangeHandle?: any;
   private readonly onChangeListeners: Array<(v: string) => unknown> = [];
+  private hiddenHeader?: string;
 
   private constructor(private readonly editor: monaco.editor.IStandaloneCodeEditor) {
     import("monaco-editor").then((monaco) => {
@@ -95,11 +97,18 @@ export class EditorController {
   }
 
   setValue(v: string) {
-    this.editor.setValue(v);
+    if (!this.hiddenHeader) {
+      this.editor.setValue(v);
+      return;
+    }
+    this.editor.executeEdits(null, [{ range: this.getWholeSelection(), text: v }]);
   }
 
   getValue() {
-    return this.editor.getValue();
+    if (!this.hiddenHeader) {
+      return this.editor.getValue();
+    }
+    return StringUtils.trimPrefix(this.editor.getValue(), this.hiddenHeader);
   }
 
   focus() {
@@ -111,21 +120,50 @@ export class EditorController {
   }
 
   private handleOnChange() {
-    const v = this.getValue();
+    const v = this.editor.getValue();
     this.onChangeListeners.forEach((l) => {
       l(v);
     });
   }
 
-  hideHeaderLines(end: number) {
+  setHiddenHeader(hiddenHeader: string) {
+    this.hiddenHeader = hiddenHeader;
+    const end = this.getHiddenHeaderLineLength();
+
     // use internal api
     // @ts-ignore
     this.editor.setHiddenAreas([{ startLineNumber: 1, startColumn: 0, endLineNumber: end, endColumn: 0 }]);
 
-    // prevent header changes via backspace
+    // for auto-import action
+    this.editor.getModel()!.onDidChangeContent((e) => {
+      if (e.isUndoing || e.isRedoing || e.isEolChange) {
+        return;
+      }
+      const changes = e.changes.filter((it) => {
+        return it.range.startLineNumber < end;
+      });
+      if (changes.length === 0) {
+        return;
+      }
+      logger.warn("header line changes", changes);
+      this.editor.trigger(null, "undo", null);
+      changes
+        .filter((it) => {
+          return it.range.startLineNumber === it.range.endLineNumber;
+        })
+        .forEach((it) => {
+          this.editor.executeEdits(null, [
+            {
+              range: { startColumn: 1, endColumn: 1, endLineNumber: end + 1, startLineNumber: end + 1 },
+              text: it.text.trimStart(),
+            },
+          ]);
+        });
+    });
+
     this.editor.onKeyDown((e) => {
+      // prevent header deleted by backspace
       if (e.keyCode === 1) {
-        // backspace
         const selection = this.editor.getSelection();
         if (!selection) {
           return;
@@ -141,17 +179,28 @@ export class EditorController {
           e.stopPropagation();
         }
       }
-      // ctrl + a
+      // custom ctrl + a
       if (e.keyCode === 31 && (e.ctrlKey || e.metaKey)) {
         e.preventDefault();
         e.stopPropagation();
-        this.editor.setSelection({
-          startLineNumber: end + 1,
-          endLineNumber: 9999,
-          startColumn: 1,
-          endColumn: 9999,
-        });
+        this.editor.setSelection(this.getWholeSelection());
       }
     });
+  }
+
+  private getHiddenHeaderLineLength() {
+    if (!this.hiddenHeader) {
+      return 0;
+    }
+    return this.hiddenHeader.split("\n").length - 1;
+  }
+
+  private getWholeSelection() {
+    return {
+      startLineNumber: this.getHiddenHeaderLineLength() + 1,
+      endLineNumber: 9999,
+      startColumn: 1,
+      endColumn: 9999,
+    };
   }
 }
