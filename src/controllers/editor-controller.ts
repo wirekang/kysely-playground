@@ -1,5 +1,6 @@
-import type monaco from "monaco-editor";
+import monaco from "monaco-editor";
 import { CssUtils } from "../lib/utility/css-utils";
+import { logger } from "../lib/utility/logger";
 
 export class EditorController {
   static async init(
@@ -27,6 +28,20 @@ export class EditorController {
       theme: CssUtils.getTheme() === "dark" ? "vs-dark" : "vs",
       padding: { top: 2 },
     });
+
+    // hacky vs-code like behavior
+    model.onDidChangeContent((e) => {
+      const change = e.changes[0]?.text;
+      if (!change) {
+        return;
+      }
+      if (["'", '"'].findIndex((it) => change.startsWith(it)) !== -1) {
+        setTimeout(() => {
+          editor.trigger(null, "editor.action.triggerSuggest", null);
+        }, 200);
+      }
+    });
+
     return new EditorController(editor);
   }
 
@@ -99,6 +114,44 @@ export class EditorController {
     const v = this.getValue();
     this.onChangeListeners.forEach((l) => {
       l(v);
+    });
+  }
+
+  hideHeaderLines(end: number) {
+    // use internal api
+    // @ts-ignore
+    this.editor.setHiddenAreas([{ startLineNumber: 1, startColumn: 0, endLineNumber: end, endColumn: 0 }]);
+
+    // prevent header changes via backspace
+    this.editor.onKeyDown((e) => {
+      if (e.keyCode === 1) {
+        // backspace
+        const selection = this.editor.getSelection();
+        if (!selection) {
+          return;
+        }
+        if (
+          selection.startLineNumber === selection.endLineNumber &&
+          selection.startColumn === selection.endColumn &&
+          selection.startLineNumber === end + 1 &&
+          selection.startColumn === 1
+        ) {
+          logger.debug("prevent backspace");
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      }
+      // ctrl + a
+      if (e.keyCode === 31 && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.editor.setSelection({
+          startLineNumber: end + 1,
+          endLineNumber: 9999,
+          startColumn: 1,
+          endColumn: 9999,
+        });
+      }
     });
   }
 }

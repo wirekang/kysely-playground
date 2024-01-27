@@ -10,19 +10,16 @@ REWRITING
 
 
 TODO
- * remove loadTypeFiles  
-    d.ts/js/module
- * triggerSuggestion hack like vscode
  * TypescriptUtils.format -> Formatter  
     Formatter = format codes regardless of language(sql,ts).  
     Formatter has its own mutable state.  
     main will mutate the state by "settings" feature.
 
- * hide header lines
-
  * embeded detecting  
      open-in-new-window button
     
+ * mobile read-only
+ 
  * tests
 
 ## API

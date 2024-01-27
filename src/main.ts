@@ -181,9 +181,9 @@ function setupTypeEditorController() {
 }
 
 function setupQueryEditorController() {
-  D.queryEditorController.setValue(
-    PlaygroundUtils.makeQueryEditorHeader(D.state.dialect) + D.state.editors.query,
-  );
+  const header = PlaygroundUtils.makeQueryEditorHeader(D.state.dialect);
+  D.queryEditorController.setValue(header + D.state.editors.query);
+  D.queryEditorController.hideHeaderLines(header.split("\n").length - 1);
 
   D.queryEditorController.onChange(async (v) => {
     D.resultController.clear();
