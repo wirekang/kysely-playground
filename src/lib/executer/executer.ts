@@ -50,13 +50,12 @@ export class Executer {
     js = this.replaceImports(js);
     // prevent module caching
     js = js + `\n\nexport const timestamp = ${Date.now()};\n`;
-    logger.debug("Import replaced:\n", js);
     js = encodeURIComponent(js);
     return `data:text/javascript;charset=utf-8,${js}`;
   }
 
   private replaceImports(js: string): string {
-    return js.replace(/^(\s*import .+ from) (.+);/gm, (match: string, p1: string, p2: string) => {
+    js = js.replace(/^(\s*import .+ from) (.+);/gm, (match: string, p1: string, p2: string) => {
       p2 = p2.trim();
       const quote = p2[0];
       if (quote !== p2[p2.length - 1]) {
@@ -68,6 +67,23 @@ export class Executer {
       }
       return match;
     });
+    logger.debug("static import replaced:\n", js);
+    js = js.replace(/await import\("(\w+)"\)/g, (match: string, p1: string) => {
+      if (this.importMapping[p1]) {
+        return `await import("${this.importMapping[p1]}")`;
+      }
+      return match;
+    });
+
+    logger.debug("dynamic import replaced 1:\n", js);
+    js = js.replace(/await import\('(\w+)'\)/g, (match: string, p1: string) => {
+      if (this.importMapping[p1]) {
+        return `await import('${this.importMapping[p1]}')`;
+      }
+      return match;
+    });
+    logger.debug("dynamic import replaced 2:\n", js);
+    return js;
   }
 }
 

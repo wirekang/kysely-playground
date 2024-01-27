@@ -4,8 +4,8 @@ import {
   GITHUB_MINIFIED_KYSELY_OWNER,
   GITHUB_MINIFIED_KYSELY_REPO,
 } from "../constants";
-import { KyselyModule } from "./kysely-module";
 import { JsDelivrUtils } from "../utility/jsdelivr-utils";
+import { KyselyModule } from "./kysely-module";
 
 export class KyselyManager {
   static async init(): Promise<KyselyManager> {

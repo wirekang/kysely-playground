@@ -14,7 +14,6 @@ import { Executer } from "./lib/executer/executer";
 import { Hightlighter } from "./lib/format/highlighter";
 import { KyselyModule } from "./lib/kysely/kysely-module";
 import { PlaygroundUtils } from "./lib/utility/playground-utils";
-import { CompiledQuery, QueryResult } from "kysely-0.27.2";
 import { MonacoUtils } from "./lib/utility/monaco-utils";
 import { TypescriptUtils } from "./lib/utility/typescript-utils";
 import { StringUtils } from "./lib/utility/string-utils";
@@ -94,8 +93,13 @@ function setup() {
 }
 
 function initExecuter() {
+  const entrypoints = D.kyselyModule.getEntrypoints();
+  const mapping: Record<string, string> = {};
+  entrypoints.forEach((e) => {
+    mapping[e.module] = e.url;
+  });
   D.executer = new Executer({
-    kysely: D.kyselyModule.getEntrypointUrl(),
+    ...mapping,
     playground: PlaygroundUtils.getEntrypointUrl(),
   });
 }
@@ -103,7 +107,7 @@ function initExecuter() {
 async function initTypeEditorController() {
   D.typeEditorController = await EditorController.init(D.panel0, {
     language: "typescript",
-    filePath: "type-editor.ts",
+    filePath: "node_modules/type-editor/index.ts",
   });
 }
 
@@ -188,7 +192,11 @@ function setupQueryEditorController() {
     D.resultController.clear();
     const outputs = await D.executer.execute(js);
     if (outputs.length === 0) {
-      D.resultController.appendMessage("trace", "Call kysely.execute()");
+      D.resultController.appendMessage("info", "Call kysely.execute()");
+    }
+    if (outputs.filter((it) => it.type === "query").length > 1) {
+      D.resultController.appendMessage("info", "execute() has been called multiple times.");
+      D.resultController.appendPadding();
     }
     logger.debug("execute outputs", outputs);
     outputs.forEach((it) => {
@@ -231,10 +239,19 @@ async function setupMonaco() {
   const typeFiles = await D.kyselyModule.loadTypeFiles();
   await Promise.all(
     typeFiles.map(async ({ data, path }) => {
-      return MonacoUtils.addLib(
-        `file:///node_modules/kysely/${path}`,
-        `declare module "kysely" {\n\n${data}\n\n  }`,
-      );
+      return MonacoUtils.addLib(`file:///node_modules/kysely/${path}`, data);
+    }),
+  );
+  const dependencies: any = {
+    "type-editor": "*",
+  };
+  D.kyselyModule.getEntrypoints().forEach(({ module }) => {
+    dependencies[module] = "*";
+  });
+  await MonacoUtils.addLib(
+    "file:///package.json",
+    JSON.stringify({
+      dependencies,
     }),
   );
 }

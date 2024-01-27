@@ -9,19 +9,15 @@ export class PlaygroundUtils {
     const { adapter, introspector, queryCompiler } =
       DIALECT_CONSTRUCTORS[dialect as keyof typeof DIALECT_CONSTRUCTORS];
 
+    const k = '(await import("kysely"))';
     return (
       `
 // prettier-ignore
 // @ts-ignore
-import { init as __$$0 } from "playground";
-// prettier-ignore
-// @ts-ignore
-import { Kysely as __$$1, ${adapter} as __$$2, ${introspector} as __$$3, ${queryCompiler} as __$$4 } from "kysely";
-// prettier-ignore
-// @ts-ignore
-const __$$5 = __$$0(__$$1,new __$$2(),new __$$3(),new __$$4())
-const kysely: import("kysely").Kysely<import("./type-editor").Database> = __$$5.kysely;
+const __playground_init_result__ = (await import("playground")).init(${k}.Kysely,new ${k}.${adapter}(),new ${k}.${introspector}(),new ${k}.${queryCompiler}());
+const kysely: import("kysely").Kysely<import("type-editor").Database> = __playground_init_result__.kysely;
 const db = kysely;
+export {}
       `.trim() + QUERY_EDITOR_HEADER_DELIMITER
     );
   }

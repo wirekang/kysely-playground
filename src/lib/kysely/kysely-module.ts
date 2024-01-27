@@ -19,8 +19,8 @@ export class KyselyModule {
     private readonly minifiedCommitId: string,
     private readonly dir: string,
     private readonly files: ReadonlyArray<string>,
-    readonly exports: ReadonlyArray<string>,
-    readonly dependencies: Readonly<Record<string, string>>,
+    private readonly exports: ReadonlyArray<string>,
+    private readonly dependencies: Readonly<Record<string, string>>,
     readonly dialects: Readonly<Array<string>>,
   ) {
     if (type === "branch") {
@@ -36,8 +36,22 @@ export class KyselyModule {
     );
   }
 
-  getEntrypointUrl(): string {
-    return this.makeUrl("index.js");
+  getEntrypoints(): Array<Entrypoint> {
+    return this.exports.map((it) => {
+      let file;
+      if (it === ".") {
+        file = "index.js";
+      } else if (it.startsWith("./")) {
+        file = it.substring(2) + ".js";
+      } else {
+        throw new KyselyModuleError(`unknown exports: ${it}`);
+      }
+      const module = it.replace(".", "kysely");
+      return {
+        module,
+        url: this.makeUrl(file),
+      };
+    });
   }
 
   private makeUrl(file: string): string {
@@ -55,3 +69,10 @@ export class KyselyModule {
     );
   }
 }
+
+export type Entrypoint = {
+  module: string;
+  url: string;
+};
+
+class KyselyModuleError extends Error {}

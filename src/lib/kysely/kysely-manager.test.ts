@@ -1,6 +1,6 @@
 import { beforeAll, expect, test } from "vitest";
 import { KyselyManager } from "./kysely-manager";
-import { KyselyModule } from "./kysely-module";
+import { KyselyModule } from "./KyselyModule";
 
 let kyselyManager: KyselyManager;
 
