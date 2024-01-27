@@ -90,6 +90,7 @@ function setup() {
   setupTypeEditorController();
   setupQueryEditorController();
   setupHotKeys();
+  setupMonaco();
 }
 
 function initExecuter() {
@@ -186,6 +187,9 @@ function setupQueryEditorController() {
     const js = await TypescriptUtils.transpile(v);
     D.resultController.clear();
     const outputs = await D.executer.execute(js);
+    if (outputs.length === 0) {
+      D.resultController.appendMessage("trace", "Call kysely.execute()");
+    }
     logger.debug("execute outputs", outputs);
     outputs.forEach((it) => {
       switch (it.type) {
@@ -221,6 +225,18 @@ async function bootstrap() {
   CssUtils.initTheme();
   await init();
   setup();
+}
+
+async function setupMonaco() {
+  const typeFiles = await D.kyselyModule.loadTypeFiles();
+  await Promise.all(
+    typeFiles.map(async ({ data, path }) => {
+      return MonacoUtils.addLib(
+        `file:///node_modules/kysely/${path}`,
+        `declare module "kysely" {\n\n${data}\n\n  }`,
+      );
+    }),
+  );
 }
 
 function setupHotKeys() {

@@ -10,11 +10,9 @@ REWRITING
 
 
 TODO
- * main should not know about "playground" event.  
-    Executer should handle "playground" window.  
-    Executer.execute() returns array of events with its own type.  
-    Executer should catch the error during `dynamicImport` and return as its own type.
-
+ * remove loadTypeFiles  
+    d.ts/js/module
+ * triggerSuggestion hack like vscode
  * TypescriptUtils.format -> Formatter  
     Formatter = format codes regardless of language(sql,ts).  
     Formatter has its own mutable state.  

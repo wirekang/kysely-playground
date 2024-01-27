@@ -5,7 +5,7 @@ import { StringUtils } from "../utility/string-utils";
 
 export type File = {
   path: string;
-  data: ArrayBuffer;
+  data: string;
 };
 
 export class KyselyModule {
@@ -50,7 +50,7 @@ export class KyselyModule {
         .filter((it) => it.endsWith(".d.ts"))
         .map(async (path) => ({
           path,
-          data: await HttpUtils.getBytes(this.makeUrl(path)),
+          data: await HttpUtils.getText(this.makeUrl(path)),
         })),
     );
   }

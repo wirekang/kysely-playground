@@ -48,6 +48,8 @@ export class Executer {
   private makeModule(js: string) {
     logger.debug("Execute:\n", js);
     js = this.replaceImports(js);
+    // prevent module caching
+    js = js + `\n\nexport const timestamp = ${Date.now()};\n`;
     logger.debug("Import replaced:\n", js);
     js = encodeURIComponent(js);
     return `data:text/javascript;charset=utf-8,${js}`;

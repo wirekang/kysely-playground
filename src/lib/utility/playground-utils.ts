@@ -20,9 +20,7 @@ import { Kysely as __$$1, ${adapter} as __$$2, ${introspector} as __$$3, ${query
 // prettier-ignore
 // @ts-ignore
 const __$$5 = __$$0(__$$1,new __$$2(),new __$$3(),new __$$4())
-import type { Kysely } from "kysely";
-import type { Database } from "./type-editor"
-const kysely: Kysely<Database> = __$$5.kysely;
+const kysely: import("kysely").Kysely<import("./type-editor").Database> = __$$5.kysely;
 const db = kysely;
       `.trim() + QUERY_EDITOR_HEADER_DELIMITER
     );

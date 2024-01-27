@@ -7,8 +7,14 @@ export class MonacoUtils {
     };
     const monaco = await import("monaco-editor");
     monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
+      moduleResolution: monaco.languages.typescript.ModuleResolutionKind.NodeJs,
       module: monaco.languages.typescript.ModuleKind.ESNext,
       target: monaco.languages.typescript.ScriptTarget.ESNext,
     });
+  }
+
+  static async addLib(filePath: string, value: string) {
+    const monaco = await import("monaco-editor");
+    monaco.languages.typescript.typescriptDefaults.addExtraLib(value, filePath);
   }
 }
