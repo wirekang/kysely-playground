@@ -5,7 +5,7 @@ export class ToastUtils {
   static show(level: "trace" | "info" | "error", text: string) {
     toastify({
       text,
-      duration: 500 + text.length * 40,
+      duration: 400 + text.length * 80,
       newWindow: true,
       position: "center",
       gravity: "bottom",

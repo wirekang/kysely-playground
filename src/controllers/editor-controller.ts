@@ -73,9 +73,7 @@ export class EditorController {
   setReadonly(readOnly: boolean) {
     this.editor.updateOptions({
       readOnly,
-      guides: {
-        indentation: false,
-      },
+      domReadOnly: readOnly,
     });
   }
 

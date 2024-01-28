@@ -44,6 +44,7 @@ const D = {
   formatter: lazy as Formatter,
   settingsController: lazy as ButtonController,
   settingPopupController: lazy as settingPopupController,
+  mobileModeController: lazy as ButtonController,
 };
 
 async function init() {
@@ -67,6 +68,7 @@ async function init() {
   D.formatter = new Formatter();
   D.settingsController = new ButtonController(e`settings`);
   D.settingPopupController = new settingPopupController(e`settings-popup`);
+  D.mobileModeController = new ButtonController(e`mobile-mode`);
 
   await Promise.all<any>([
     (async () => {
@@ -104,6 +106,26 @@ function setup() {
   setupHotKeys();
   setupMonaco();
   setupSettings();
+  setupMobileMode();
+}
+
+function setupMobileMode() {
+  if (CssUtils.isWideScreen()) {
+    D.mobileModeController.remove();
+    return;
+  }
+  let mobileMode = false;
+  const toggle = () => {
+    mobileMode = !mobileMode;
+    const msg = mobileMode ? "enabled" : "disabled";
+    ToastUtils.show("info", `MobileMode ${msg}`);
+    D.mobileModeController.setOpacity(mobileMode ? "1" : "0.5");
+    D.typeEditorController.setReadonly(mobileMode);
+    D.queryEditorController.setReadonly(mobileMode);
+  };
+  D.mobileModeController.onClick(toggle);
+  toggle();
+  ToastUtils.show("info", `Editors are read-only. Click right-top mobile icon to disable`);
 }
 
 function setupSettings() {

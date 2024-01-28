@@ -58,6 +58,9 @@ body {
   margin-left: 4px;
   margin-right: 4px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #main {

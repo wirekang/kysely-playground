@@ -20,7 +20,7 @@ export const GITHUB_API_MINIFIED_KYSELY_MAIN_REFS = `https://api.github.com/repo
 export const FIRESTORE_PROJECT_ID = "kysely-playground";
 export const FIRESTORE_COLLECTION_FRAGMENTS = "states";
 
-export const CSS_MIN_WIDE_WIDTH = 650;
+export const CSS_MIN_WIDE_WIDTH = 600;
 
 export const LOCALSTORAGE_THEME = "theme";
 export const LOCALSTORAGE_SETTINGS = "settings:";
