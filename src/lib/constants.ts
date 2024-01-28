@@ -80,52 +80,44 @@ export const DIALECT_CONSTRUCTORS = {
 export const DEFUALT_STATE: State = {
   dialect: "postgres",
   editors: {
-    type: `
-import { Generated, ColumnType } from "kysely";
+    type: `import {
+  Generated,
+  Selectable,
+  Updateable,
+  Insertable,
+} from "kysely";
 
 export interface Database {
-  person: Person;
-  pet: Pet;
-  toy: Toy;
-  "toy_schema.toy": Toy;
+  person: PersonTable;
+  pet: PetTable;
 }
 
-export interface Person {
+export interface PersonTable {
   id: Generated<number>;
-  first_name: string | null;
-  middle_name: ColumnType<
-    string | null,
-    string | undefined,
-    string | undefined
-  >;
+  first_name: string;
   last_name: string | null;
   gender: Gender;
-  marital_status: MaritalStatus | null;
-  children: Generated<number>;
 }
 
-export interface Pet {
+export interface PetTable {
   id: Generated<number>;
   name: string;
   owner_id: number;
   species: Species;
 }
 
-export interface Toy {
-  id: Generated<number>;
-  name: string;
-  price: number;
-  pet_id: number;
-}
-
 export type Gender = "male" | "female" | "other";
-export type MaritalStatus =
-  | "single"
-  | "married"
-  | "divorced"
-  | "widowed";
 export type Species = "dog" | "cat" | "hamster";
-    `.trim(),
+
+export type Person = Selectable<PersonTable>;
+export type NewPerson = Insertable<PersonTable>;
+export type PersonUpdate = Updateable<PersonTable>;
+
+export type Pet = Selectable<PetTable>;
+export type NewPet = Insertable<PetTable>;
+export type PetUpdate = Updateable<PetTable>;
+
+`.trim(),
     query: `
 import { sql } from "kysely";
 import { Species } from "type-editor";
@@ -135,15 +127,11 @@ const species: Species = "hamster";
 const rows = await db
   .selectFrom("person")
   .innerJoin("pet", "owner_id", "person.id")
-  .innerJoin("toy", "pet_id", "pet.id")
-  .where("first_name", "=",sql.lit("Jennifer"))
+  .where("first_name", "=", sql.lit("Jennifer"))
   .where("species", "=", species)
-  .select([
-    "first_name",
-    "pet.name as pet_name",
-    "toy.name as toy_name",
-  ])
+  .select(["first_name", "pet.name as pet_name"])
   .execute();
+
 `.trim(),
   },
 };
