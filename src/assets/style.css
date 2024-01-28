@@ -157,6 +157,11 @@ body {
   margin-bottom: -1px;
 }
 
+#result > .result-item > .code > .language-plaintext {
+  opacity: 0.8;
+  font-size: 0.7rem;
+}
+
 /************************************************************* PORTRAIT */
 
 #panel-container {

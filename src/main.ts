@@ -216,8 +216,13 @@ function setupQueryEditorController() {
           D.resultController.appendCode("plaintext", output.message);
           break;
         case "query":
-          const formatted = await D.formatter.formatSql(output.sql);
-          D.resultController.appendCode("sql", formatted);
+          let sql = output.sql;
+          try {
+            sql = await D.formatter.formatSql(sql);
+          } catch (e) {
+            D.resultController.appendMessage("error", "Failed to format");
+          }
+          D.resultController.appendCode("sql", sql);
           if (output.parameters.length > 0) {
             D.resultController.appendCode(
               "plaintext",
@@ -273,8 +278,17 @@ function setupHotKeys() {
 }
 
 async function save(shorten: boolean) {
-  D.typeEditorController.setValue(await D.formatter.formatTs(D.typeEditorController.getValue()));
-  D.queryEditorController.setValue(await D.formatter.formatTs(D.queryEditorController.getValue()));
+  let typeEditorValue = D.typeEditorController.getValue();
+  let queryEditorValue = D.queryEditorController.getValue();
+  try {
+    typeEditorValue = await D.formatter.formatTs(typeEditorValue);
+    queryEditorValue = await D.formatter.formatTs(queryEditorValue);
+  } catch (e) {
+    logger.error("Failed to format typescript\n", e);
+    D.toastController.show("Failed to format typescript");
+  }
+  D.typeEditorController.setValue(typeEditorValue);
+  D.queryEditorController.setValue(queryEditorValue);
   await D.stateManager.save(makeState(), shorten);
 }
 

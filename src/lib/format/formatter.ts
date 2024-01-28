@@ -15,7 +15,7 @@ export class Formatter {
       mysql: "mysql",
       postgres: "postgresql",
       sqlite: "sqlite",
-      mssql: "sql",
+      mssql: "tsql",
     }[this.dialect];
     return format(v, { language, keywordCase: "upper" });
   }

@@ -94,6 +94,7 @@
 #result > .result-item > .code {
   border-color: var(--border);
 }
+
 /*********************************************** */
 
 [data-theme="light"] .light {
