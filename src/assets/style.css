@@ -84,24 +84,6 @@ body {
   padding-left: 4px;
 }
 
-#toast {
-  position: fixed;
-  max-width: 30rem;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 0.5rem;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.2s ease-out;
-  font-size: 1.3rem;
-  border-radius: 1rem;
-}
-
-#toast.show {
-  opacity: 1;
-}
-
 #header > select,
 #header > button {
   font-size: 0.8rem;
@@ -208,4 +190,80 @@ pre code.hljs {
 .hljs-deletion {
   display: inline-block;
   width: 100%;
+}
+
+/*************************************************************** toastify.js */
+
+.toastify {
+  padding: 12px 20px;
+  display: inline-block;
+  position: fixed;
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+  border-radius: 2px;
+  cursor: pointer;
+  text-decoration: none;
+  max-width: calc(50% - 20px);
+  z-index: 2147483647;
+}
+
+.toastify.on {
+  opacity: 1;
+}
+
+.toast-close {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1em;
+  opacity: 0.4;
+  padding: 0 5px;
+}
+
+.toastify-right {
+  right: 15px;
+}
+
+.toastify-left {
+  left: 15px;
+}
+
+.toastify-top {
+  top: -150px;
+}
+
+.toastify-bottom {
+  bottom: -150px;
+}
+
+.toastify-rounded {
+  border-radius: 25px;
+}
+
+.toastify-avatar {
+  width: 1.5em;
+  height: 1.5em;
+  margin: -7px 5px;
+  border-radius: 2px;
+}
+
+.toastify-center {
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  max-width: fit-content;
+  max-width: -moz-fit-content;
+}
+
+@media only screen and (max-width: 360px) {
+  .toastify-right,
+  .toastify-left {
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    max-width: fit-content;
+  }
 }

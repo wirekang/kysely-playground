@@ -4,7 +4,6 @@ import { ButtonController } from "./controllers/button-controller";
 import { CssUtils } from "./lib/utility/css-utils";
 import { StateManager } from "./lib/state/state-manager";
 import { FirestoreStateRepository } from "./lib/state/firestore-state-repository";
-import { ToastController } from "./controllers/toast-controller";
 import { SelectController } from "./controllers/select-controller";
 import { KyselyManager } from "./lib/kysely/kysely-manager";
 import { State } from "./lib/state/state";
@@ -19,13 +18,13 @@ import { TypescriptUtils } from "./lib/utility/typescript-utils";
 import { StringUtils } from "./lib/utility/string-utils";
 import { ClipboardUtils } from "./lib/utility/clipboard-utils";
 import { Formatter } from "./lib/format/formatter";
+import { ToastUtils } from "./lib/utility/toast-utils";
 
 const lazy = null as unknown;
 const D = {
   resultController: lazy as ResultController,
   stateManager: lazy as StateManager,
   kyselyManager: lazy as KyselyManager,
-  toastController: lazy as ToastController,
   kyselyModule: lazy as KyselyModule,
   versionController: lazy as SelectController,
   dialectController: lazy as SelectController,
@@ -56,7 +55,6 @@ async function init() {
   D.resultController = new ResultController(e`result`);
   setupResultController();
   D.stateManager = new StateManager(new FirestoreStateRepository());
-  D.toastController = new ToastController(e`toast`);
   D.versionController = new SelectController(e`version`);
   D.dialectController = new SelectController(e`dialect`);
   D.switchThemeController = new ButtonController(e`switch-theme`);
@@ -278,6 +276,7 @@ function setupHotKeys() {
 }
 
 async function save(shorten: boolean) {
+  ToastUtils.show("trace", "Saving...");
   let typeEditorValue = D.typeEditorController.getValue();
   let queryEditorValue = D.queryEditorController.getValue();
   try {
@@ -285,11 +284,13 @@ async function save(shorten: boolean) {
     queryEditorValue = await D.formatter.formatTs(queryEditorValue);
   } catch (e) {
     logger.error("Failed to format typescript\n", e);
-    D.toastController.show("Failed to format typescript");
+    ToastUtils.show("error", "Failed to format typescript");
   }
   D.typeEditorController.setValue(typeEditorValue);
   D.queryEditorController.setValue(queryEditorValue);
   await D.stateManager.save(makeState(), shorten);
+  await ClipboardUtils.writeText(window.location.toString());
+  ToastUtils.show("trace", "URL copied");
 }
 
 function makeState(): State {
@@ -325,7 +326,7 @@ function initKyselyModule() {
       D.kyselyModule = m;
       return;
     }
-    D.toastController.show(`${D.state.kysely.type}:${D.state.kysely.name} not found.`);
+    ToastUtils.show("error", `${D.state.kysely.type}:${D.state.kysely.name} not found.`);
   }
   D.kyselyModule = D.kyselyManager.getLatestTagModule();
 }
@@ -333,9 +334,9 @@ function initKyselyModule() {
 async function copyText(v: string, msg: string) {
   try {
     await ClipboardUtils.writeText(v);
-    D.toastController.show(msg);
+    ToastUtils.show("info", msg);
   } catch (e: any) {
-    D.toastController.show(e.message ?? e.toString());
+    ToastUtils.show("error", e.message ?? e.toString());
   }
 }
 

@@ -4,8 +4,6 @@
   --header: #edeff6;
   --header-hover: #ddd;
   --bg: #fff;
-  --toast-bg: #333;
-  --toast: #fff;
   --result-trace: #444;
   --result-info: #333;
   --result-warn: #820;
@@ -20,6 +18,10 @@
   --hljs-doctag: #808080;
   --hljs-attr: #f00;
   --hljs-symbol: #00b0e8;
+
+  --tst-bg1: #333;
+  --tst-bg2: #444;
+  --tst-fg: white;
 }
 
 [data-theme="dark"] {
@@ -28,8 +30,6 @@
   --header: #1a1e20;
   --header-hover: #666;
   --bg: #1e1e1e;
-  --toast-bg: #eee;
-  --toast: #000;
   --result-trace: #aaa;
   --result-info: #bbb;
   --result-warn: #fc6;
@@ -44,6 +44,10 @@
   --hljs-doctag: #608b4e;
   --hljs-attr: #9cdcfe;
   --hljs-symbol: #569cd6;
+
+  --tst-bg1: #eee;
+  --tst-bg2: #ddd;
+  --tst-fg: #000;
 }
 /*********************************************** */
 
@@ -64,11 +68,6 @@
 #header > select:hover,
 #header > button:hover {
   background-color: var(--header-hover);
-}
-
-#toast {
-  background-color: var(--toast-bg);
-  color: var(--toast);
 }
 
 .loading {
@@ -158,4 +157,19 @@
 .hljs-bullet,
 .hljs-link {
   color: var(--hljs-symbol);
+}
+
+/*************************************************************** toastify.js */
+
+.toastify {
+  color: var(--tst-fg);
+  box-shadow:
+    0 3px 6px -1px rgba(0, 0, 0, 0.12),
+    0 10px 36px -4px rgba(77, 96, 232, 0.3);
+  background: -webkit-linear-gradient(315deg, var(--tst-bg1), var(--tst-bg2));
+  background: linear-gradient(135deg, var(--tst-bg1), var(--tst-bg2));
+}
+
+.toastify.on {
+  opacity: 1;
 }
