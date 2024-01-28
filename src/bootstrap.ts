@@ -140,13 +140,13 @@ function setupMobileMode() {
     mobileMode = !mobileMode;
     const msg = mobileMode ? "enabled" : "disabled";
     ToastUtils.show("info", `MobileMode ${msg}`);
-    D.mobileModeController.setOpacity(mobileMode ? "1" : "0.5");
+    D.mobileModeController.setOpacity(mobileMode ? "0.5" : "1");
     D.typeEditorController.setReadonly(mobileMode);
     D.queryEditorController.setReadonly(mobileMode);
   };
   D.mobileModeController.onClick(toggle);
   toggle();
-  ToastUtils.show("info", `Editor is read-only.\nCheckout the mobile-icon in header.`);
+  ToastUtils.show("info", `Editor is read-only.\nCheckout the mobile-icon.`);
 }
 
 function setupSettings() {

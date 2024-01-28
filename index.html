@@ -21,10 +21,6 @@
       <button type="button" id="view">View</button>
       <button type="button" id="settings">More</button>
       <div id="header-suffix">
-        <button class="header-icon" id="mobile-mode">
-          <img class="dark" src="./src/assets//mobile-white.svg" />
-          <img class="light" src="./src/assets//mobile.svg" />
-        </button>
         <button class="header-icon" id="switch-theme">
           <img class="dark" src="./src/assets/switch-theme-white.svg" />
           <img class="light" src="./src/assets/switch-theme.svg" />
@@ -55,6 +51,11 @@
     </div>
     <div id="settings-popup" hidden></div>
     <div id="loading-overlay">Loading...</div>
+    <button id="mobile-mode">
+      <img class="dark" src="./src/assets//mobile-white.svg" />
+      <img class="light" src="./src/assets//mobile.svg" />
+    </button>
+
     <div id="debug-indicator" hidden>DEBUG MODE</div>
     <script type="module" src="/src/main.ts"></script>
   </body>

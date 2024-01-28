@@ -115,6 +115,10 @@
   color: var(--fg);
 }
 
+#mobile-mode {
+  background-color: var(--bg);
+}
+
 /*********************************************** */
 
 [data-theme="light"] .light {

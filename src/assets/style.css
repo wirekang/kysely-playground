@@ -55,12 +55,9 @@ body {
 .header-icon {
   width: calc(var(--header-height) - 4px);
   height: calc(var(--header-height) - 4px);
-  margin-left: 4px;
-  margin-right: 4px;
+  margin-left: 2px;
+  margin-right: 2px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 #main {
@@ -218,6 +215,18 @@ body {
   font-weight: bold;
   pointer-events: none;
   transition: opacity 0.2s linear;
+}
+
+#mobile-mode {
+  position: fixed;
+  z-index: 1;
+  top: calc(var(--header-height) + 0.5rem);
+  right: 0.5rem;
+  width: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /************************************************************* PORTRAIT */
