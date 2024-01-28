@@ -1,6 +1,6 @@
 import { logger } from "./lib/utility/logger";
 import { EditorController } from "./controllers/editor-controller";
-import { ButtonController } from "./controllers/button-controller";
+import { ElementController } from "./controllers/button-controller";
 import { CssUtils } from "./lib/utility/css-utils";
 import { StateManager } from "./lib/state/state-manager";
 import { FirestoreStateRepository } from "./lib/state/firestore-state-repository";
@@ -31,8 +31,8 @@ const D = {
   kyselyModule: lazy as KyselyModule,
   versionController: lazy as SelectController,
   dialectController: lazy as SelectController,
-  switchThemeController: lazy as ButtonController,
-  viewController: lazy as ButtonController,
+  switchThemeController: lazy as ElementController,
+  viewController: lazy as ElementController,
   hightlighter: lazy as Hightlighter,
   executer: lazy as Executer,
   state: lazy as State,
@@ -42,9 +42,10 @@ const D = {
   panel1: lazy as HTMLElement,
   panel2: lazy as HTMLElement,
   formatter: lazy as Formatter,
-  settingsController: lazy as ButtonController,
+  settingsController: lazy as ElementController,
   settingPopupController: lazy as settingPopupController,
-  mobileModeController: lazy as ButtonController,
+  mobileModeController: lazy as ElementController,
+  loadingOverayController: lazy as ElementController,
 };
 
 async function init() {
@@ -63,12 +64,13 @@ async function init() {
   D.stateManager = new StateManager(new FirestoreStateRepository());
   D.versionController = new SelectController(e`version`);
   D.dialectController = new SelectController(e`dialect`);
-  D.switchThemeController = new ButtonController(e`switch-theme`);
-  D.viewController = new ButtonController(e`view`);
+  D.switchThemeController = new ElementController(e`switch-theme`);
+  D.viewController = new ElementController(e`view`);
   D.formatter = new Formatter();
-  D.settingsController = new ButtonController(e`settings`);
+  D.settingsController = new ElementController(e`settings`);
   D.settingPopupController = new settingPopupController(e`settings-popup`);
-  D.mobileModeController = new ButtonController(e`mobile-mode`);
+  D.mobileModeController = new ElementController(e`mobile-mode`);
+  D.loadingOverayController = new ElementController(e`loading-overlay`);
 
   await Promise.all<any>([
     (async () => {
@@ -80,9 +82,9 @@ async function init() {
     })(),
     (async () => {
       await MonacoUtils.init();
-      const indentGuide = SettingsUtils.get("editor:indent-guide");
-      await initQueryEditorController(indentGuide);
-      await initTypeEditorController(indentGuide);
+      await initQueryEditorController();
+      await initTypeEditorController();
+      updateEditorOptions();
     })(),
     (async () => {
       D.hightlighter = await Hightlighter.init();
@@ -107,6 +109,25 @@ function setup() {
   setupMonaco();
   setupSettings();
   setupMobileMode();
+  setLoading(false);
+}
+
+function setLoading(v: boolean) {
+  D.loadingOverayController.setOpacity(v ? "1" : "0");
+}
+
+let loadingCounter = 0;
+async function useLoading(cb: () => unknown) {
+  setLoading(true);
+  loadingCounter += 1;
+  try {
+    await cb();
+  } finally {
+    loadingCounter -= 1;
+    if (loadingCounter === 0) {
+      setLoading(false);
+    }
+  }
 }
 
 function setupMobileMode() {
@@ -161,8 +182,7 @@ function setupSettings() {
   append("copy-url-after-save", "save:copy-url-after-save");
   append("save-view-state", "save:save-view-state");
   D.settingPopupController.appendHeading("editor");
-  D.settingPopupController.appendText("(refresh requried)");
-  append("indent-guide", "editor:indent-guide");
+  append("indent-guide", "editor:indent-guide", updateEditorOptions);
 }
 
 function initExecuter() {
@@ -177,20 +197,24 @@ function initExecuter() {
   });
 }
 
-async function initTypeEditorController(indentGuide: boolean) {
+async function initTypeEditorController() {
   D.typeEditorController = await EditorController.init(D.panel0, {
     language: "typescript",
     filePath: "node_modules/type-editor/index.ts",
-    indentGuide,
   });
 }
 
-async function initQueryEditorController(indentGuide: boolean) {
+async function initQueryEditorController() {
   D.queryEditorController = await EditorController.init(D.panel1, {
     language: "typescript",
     filePath: "query-editor.ts",
-    indentGuide,
   });
+}
+
+function updateEditorOptions() {
+  const indentGuide = SettingsUtils.get("editor:indent-guide");
+  D.typeEditorController.setIndentGuide(indentGuide);
+  D.queryEditorController.setIndentGuide(indentGuide);
 }
 
 function setupResultController() {
@@ -353,37 +377,41 @@ function setupHotKeys() {
 }
 
 async function save(shorten: boolean) {
-  if (SettingsUtils.get("save:format-before-save")) {
-    await formatEditors();
-  }
-  await D.stateManager.save(makeState(), shorten);
-  if (SettingsUtils.get("save:copy-url-after-save")) {
-    await ClipboardUtils.writeText(window.location.toString());
-    ToastUtils.show("info", "URL copied");
-  }
+  await useLoading(async () => {
+    if (SettingsUtils.get("save:format-before-save")) {
+      await formatEditors();
+    }
+    await D.stateManager.save(makeState(), shorten);
+    if (SettingsUtils.get("save:copy-url-after-save")) {
+      await ClipboardUtils.writeText(window.location.toString());
+      ToastUtils.show("info", "URL copied");
+    }
+  });
 }
 
 async function formatEditors() {
-  try {
-    const printWidth = SettingsUtils.get("ts-format:wider-width") ? 100 : 70;
-    const semi = SettingsUtils.get("ts-format:semi");
-    const singleQuote = SettingsUtils.get("ts-format:single-quote");
-    const typeEditorValue = await D.formatter.formatTs(D.typeEditorController.getValue(), {
-      printWidth,
-      semi,
-      singleQuote,
-    });
-    const queryEditorValue = await D.formatter.formatTs(D.queryEditorController.getValue(), {
-      printWidth,
-      semi,
-      singleQuote,
-    });
-    D.typeEditorController.setValue(typeEditorValue);
-    D.queryEditorController.setValue(queryEditorValue);
-  } catch (e) {
-    logger.error("Failed to format typescript\n", e);
-    ToastUtils.show("error", "Failed to format typescript");
-  }
+  await useLoading(async () => {
+    try {
+      const printWidth = SettingsUtils.get("ts-format:wider-width") ? 100 : 70;
+      const semi = SettingsUtils.get("ts-format:semi");
+      const singleQuote = SettingsUtils.get("ts-format:single-quote");
+      const typeEditorValue = await D.formatter.formatTs(D.typeEditorController.getValue(), {
+        printWidth,
+        semi,
+        singleQuote,
+      });
+      const queryEditorValue = await D.formatter.formatTs(D.queryEditorController.getValue(), {
+        printWidth,
+        semi,
+        singleQuote,
+      });
+      D.typeEditorController.setValue(typeEditorValue);
+      D.queryEditorController.setValue(queryEditorValue);
+    } catch (e) {
+      logger.error("Failed to format typescript\n", e);
+      ToastUtils.show("error", "Failed to format typescript");
+    }
+  });
 }
 
 function makeState(): State {

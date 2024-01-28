@@ -10,7 +10,6 @@ export class EditorController {
     options: {
       filePath: string;
       language: string;
-      indentGuide: boolean;
     },
   ) {
     const monaco = await import("monaco-editor");
@@ -23,7 +22,6 @@ export class EditorController {
       lineNumbers: "off",
       minimap: { enabled: false },
       glyphMargin: false,
-      guides: { indentation: options.indentGuide },
       folding: false,
       lineDecorationsWidth: 0,
       lineNumbersMinChars: 0,
@@ -77,25 +75,8 @@ export class EditorController {
     });
   }
 
-  // getContentHeight related bug
-  // setWordWrap(wordWrap: boolean) {
-  //   this.editor.updateOptions({ wordWrap: wordWrap ? "on" : "off" });
-  // }
-
-  setHeightByContent(padding = 16) {
-    this.editor.updateOptions({
-      scrollBeyondLastLine: false,
-      selectionHighlight: false,
-      renderLineHighlight: "none",
-      contextmenu: false,
-    });
-    this.editor.getContainerDomNode().style.height = this.editor.getContentHeight() + padding + "px";
-  }
-
-  enableCleanBlur() {
-    this.editor.onDidBlurEditorText(() => {
-      this.editor.setSelection({ startLineNumber: 0, startColumn: 0, endLineNumber: 0, endColumn: 0 });
-    });
+  setIndentGuide(v: boolean) {
+    this.editor.updateOptions({ guides: { indentation: v } });
   }
 
   setValue(v: string) {

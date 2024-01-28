@@ -1,4 +1,4 @@
-export class ButtonController {
+export class ElementController {
   constructor(private readonly element: HTMLElement) {}
 
   onClick(cb: () => unknown) {

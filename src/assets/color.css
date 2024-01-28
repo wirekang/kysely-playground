@@ -8,6 +8,7 @@
   --result-info: #333;
   --result-warn: #820;
   --result-error: #f00;
+  --lo-bg: #fff8;
 
   --hljs-bg: white;
   --hljs-fg: black;
@@ -34,6 +35,7 @@
   --result-info: #bbb;
   --result-warn: #fc6;
   --result-error: #f44;
+  --lo-bg: #0008;
 
   --hljs-bg: #1e1e1e;
   --hljs-fg: #dcdcdc;
@@ -106,6 +108,11 @@
 
 #settings-popup > .settings-item .checkbox.checked {
   background-color: var(--fg);
+}
+
+#loading-overlay {
+  background-color: var(--lo-bg);
+  color: var(--fg);
 }
 
 /*********************************************** */
