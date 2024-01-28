@@ -125,7 +125,7 @@ function setupMobileMode() {
   };
   D.mobileModeController.onClick(toggle);
   toggle();
-  ToastUtils.show("info", `Editors are read-only. Click right-top mobile icon to disable`);
+  ToastUtils.show("info", `Editor is read-only.\nCheckout the mobile-icon in header.`);
 }
 
 function setupSettings() {
