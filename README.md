@@ -10,16 +10,8 @@ REWRITING
 
 
 TODO
- * TypescriptUtils.format -> Formatter  
-    Formatter = format codes regardless of language(sql,ts).  
-    Formatter has its own mutable state.  
-    main will mutate the state by "settings" feature.
-
  * embeded detecting  
      open-in-new-window button
-    
- * mobile read-only
- 
  * tests
 
 ## API
