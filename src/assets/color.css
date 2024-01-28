@@ -1,5 +1,5 @@
 [data-theme="light"] {
-  --font: #303030;
+  --fg: #303030;
   --border: #ccc;
   --header: #edeff6;
   --header-hover: #ddd;
@@ -25,7 +25,7 @@
 }
 
 [data-theme="dark"] {
-  --font: #eee;
+  --fg: #eee;
   --border: #444;
   --header: #1a1e20;
   --header-hover: #666;
@@ -62,7 +62,7 @@
 
 #header * {
   background-color: var(--header);
-  color: var(--font);
+  color: var(--fg);
 }
 
 #header > select:hover,
@@ -71,7 +71,7 @@
 }
 
 .loading {
-  color: var(--font);
+  color: var(--fg);
 }
 
 #result > .result-item > .message.trace {
@@ -92,6 +92,20 @@
 
 #result > .result-item > .code {
   border-color: var(--border);
+}
+
+#settings-popup {
+  color: var(--fg);
+  background-color: var(--header);
+  border-color: var(--border);
+}
+
+#settings-popup > .settings-item .checkbox {
+  border-color: var(--fg);
+}
+
+#settings-popup > .settings-item .checkbox.checked {
+  background-color: var(--fg);
 }
 
 /*********************************************** */

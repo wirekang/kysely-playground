@@ -13,12 +13,20 @@ export class PlaygroundUtils {
     return (
       `
 // prettier-ignore
+/**
+ * [playground]
+ * 
+ * A \`Kysely\` instance with \`Database\` type from \`type-editor\`.
+ * 
+ * \`\`\`ts
+ * import type { Database } from "type-editor";
+ * const db: Kysely<Database>;
+ * \`\`\`
+ */
+declare const db: import("kysely").Kysely<import("type-editor").Database>;
+// prettier-ignore
 // @ts-ignore
-const __playground_init_result__ = (await import("playground")).init(${k}.Kysely,new ${k}.${adapter}(),new ${k}.${introspector}(),new ${k}.${queryCompiler}());
-// prettier-ignore
-const kysely: import("kysely").Kysely<import("type-editor").Database> = __playground_init_result__.kysely;
-// prettier-ignore
-const db = kysely;
+const db = (await import("playground")).init(${k}.Kysely,new ${k}.${adapter}(),new ${k}.${introspector}(),new ${k}.${queryCompiler}()).kysely;
 // prettier-ignore
 export {}
       `.trim() + QUERY_EDITOR_HEADER_DELIMITER

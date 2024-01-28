@@ -1,3 +1,4 @@
+import { LOCALSTORAGE_HTTP_CACHE } from "../constants";
 import { logger } from "./logger";
 
 export class HttpUtils {
@@ -45,7 +46,7 @@ export class HttpUtils {
   }
 
   static async getJsonOrCache(url: string, maxAgeSeconds: number): Promise<any> {
-    const key = `HTTP_CACHE:${url}`;
+    const key = `${LOCALSTORAGE_HTTP_CACHE}${url}`;
     const cached = localStorage.getItem(key);
     if (cached !== null) {
       const { timestamp, result } = JSON.parse(cached);

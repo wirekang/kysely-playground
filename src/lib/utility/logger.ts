@@ -1,3 +1,5 @@
+import { DEBUG } from "../constants";
+
 export const logger = {
   debug: (...messages: Array<any>) => {
     log(0, messages);
@@ -14,7 +16,7 @@ export const logger = {
 };
 
 const MIN_LEVEL = (() => {
-  if (typeof window !== "undefined" && new URLSearchParams(window.location.search).has("debug")) {
+  if (DEBUG) {
     return 0;
   }
   return import.meta.env.DEV || import.meta.env.VITE_PREVIEW ? 0 : 1;

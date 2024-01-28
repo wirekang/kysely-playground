@@ -2,6 +2,7 @@ import monaco from "monaco-editor";
 import { CssUtils } from "../lib/utility/css-utils";
 import { logger } from "../lib/utility/logger";
 import { StringUtils } from "../lib/utility/string-utils";
+import { DEBUG } from "../lib/constants";
 
 export class EditorController {
   static async init(
@@ -9,6 +10,7 @@ export class EditorController {
     options: {
       filePath: string;
       language: string;
+      indentGuide: boolean;
     },
   ) {
     const monaco = await import("monaco-editor");
@@ -21,6 +23,7 @@ export class EditorController {
       lineNumbers: "off",
       minimap: { enabled: false },
       glyphMargin: false,
+      guides: { indentation: options.indentGuide },
       folding: false,
       lineDecorationsWidth: 0,
       lineNumbersMinChars: 0,
@@ -28,6 +31,7 @@ export class EditorController {
       overviewRulerLanes: 0,
       theme: CssUtils.getTheme() === "dark" ? "vs-dark" : "vs",
       padding: { top: 2 },
+      contextmenu: false,
     });
 
     // hacky vs-code like behavior
@@ -60,7 +64,7 @@ export class EditorController {
       model.onDidChangeContent((e) => {
         clearTimeout(this.onChangeHandle);
         this.onChangeHandle = setTimeout(() => {
-          this.handleOnChange();
+          this.invokeOnChange();
         }, 500);
       });
     });
@@ -119,7 +123,7 @@ export class EditorController {
     this.onChangeListeners.push(l);
   }
 
-  private handleOnChange() {
+  invokeOnChange() {
     const v = this.editor.getValue();
     this.onChangeListeners.forEach((l) => {
       l(v);
@@ -130,9 +134,11 @@ export class EditorController {
     this.hiddenHeader = hiddenHeader;
     const end = this.getHiddenHeaderLineLength();
 
-    // use internal api
-    // @ts-ignore
-    this.editor.setHiddenAreas([{ startLineNumber: 1, startColumn: 0, endLineNumber: end, endColumn: 0 }]);
+    if (!DEBUG) {
+      // use internal api
+      // @ts-ignore
+      this.editor.setHiddenAreas([{ startLineNumber: 1, startColumn: 0, endLineNumber: end, endColumn: 0 }]);
+    }
 
     // for auto-import action
     this.editor.getModel()!.onDidChangeContent((e) => {
@@ -162,7 +168,7 @@ export class EditorController {
     });
 
     this.editor.onKeyDown((e) => {
-      // prevent header deleted by backspace
+      // prevent backspace
       if (e.keyCode === 1) {
         const selection = this.editor.getSelection();
         if (!selection) {

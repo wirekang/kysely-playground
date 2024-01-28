@@ -6,7 +6,7 @@
 }
 
 * {
-  font-family: "JetBrains Mono", Courier, Consolas, monospace !important;
+  font-family: "JetBrains Mono", Courier, Consolas, monospace;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -142,6 +142,63 @@ body {
 #result > .result-item > .code > .language-plaintext {
   opacity: 0.8;
   font-size: 0.7rem;
+}
+
+#settings-popup {
+  position: fixed;
+  left: 0;
+  top: calc(var(--header-height) + 0px);
+  border-style: solid;
+  border-width: 1px;
+  border-top-width: 0;
+  z-index: 999;
+  padding: 8px;
+  min-width: 17.7rem;
+}
+
+#settings-popup > .settings-item > .heading {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  margin-top: 1.2rem;
+  margin-bottom: 0.2rem;
+  pointer-events: none;
+}
+
+#settings-popup > .settings-item > .text {
+  font-size: 0.7rem;
+  margin-bottom: 4px;
+  white-space: pre;
+}
+
+#settings-popup > .settings-item > .input-container {
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 1px;
+}
+
+#settings-popup > .settings-item > .input-container:hover {
+  font-weight: bold;
+}
+
+#settings-popup > .settings-item .checkbox {
+  width: 0.9rem;
+  height: 0.9rem;
+  border-style: solid;
+  border-width: 2px;
+  margin-right: 3px;
+}
+
+#debug-indicator {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  color: red;
+  font-size: 1.3rem;
+  font-weight: bold;
+  pointer-events: none;
 }
 
 /************************************************************* PORTRAIT */
