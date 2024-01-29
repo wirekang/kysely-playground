@@ -23,6 +23,7 @@ import { settingPopupController } from "./controllers/settings-popup-controller"
 import { DEBUG, SETTING_KEYS } from "./lib/constants";
 import { SettingsUtils } from "./lib/utility/settings-utils";
 import { PanelContainerController } from "./controllers/panel-container-controller";
+import { DomUtils } from "./lib/utility/dom-utils";
 
 const lazy = null as unknown;
 const D = {
@@ -48,6 +49,7 @@ const D = {
   mobileModeController: lazy as ElementController,
   loadingOverayController: lazy as ElementController,
   panelContainerController: lazy as PanelContainerController,
+  openInNewtabController: lazy as ElementController,
 };
 
 async function init() {
@@ -66,6 +68,8 @@ async function init() {
     D.panel1.element,
     D.panel2.element,
   ]);
+  D.openInNewtabController = new ElementController(e`open-in-new-tab`);
+
   D.resultController = new ResultController(e`result`);
   setupResultController();
   D.stateManager = new StateManager(new FirestoreStateRepository());
@@ -114,9 +118,10 @@ function setup() {
   setupQueryEditorController();
   setupHotKeys();
   setupMonaco();
-  setupSettings();
-  setupMobileMode();
+  setupSettingsController();
+  setupMobileModeController();
   setLoading(false);
+  setupOpenInNewTabController();
 }
 
 function setLoading(v: boolean) {
@@ -137,7 +142,18 @@ async function useLoading(cb: () => unknown) {
   }
 }
 
-function setupMobileMode() {
+function setupOpenInNewTabController() {
+  if (!DomUtils.inIframe()) {
+    D.openInNewtabController.remove();
+    return;
+  }
+
+  D.openInNewtabController.onClick(() => {
+    window.open(window.location.toString(), "_blank");
+  });
+}
+
+function setupMobileModeController() {
   if (CssUtils.isWideScreen()) {
     D.mobileModeController.remove();
     return;
@@ -156,7 +172,7 @@ function setupMobileMode() {
   ToastUtils.show("info", `Editor is read-only.\nCheckout the mobile-icon.`);
 }
 
-function setupSettings() {
+function setupSettingsController() {
   D.settingsController.onClick(() => {
     D.settingPopupController.toggle();
   });

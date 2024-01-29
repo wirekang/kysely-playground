@@ -118,6 +118,9 @@
 #mobile-mode {
   background-color: var(--bg);
 }
+#open-in-new-tab {
+  background-color: var(--bg);
+}
 
 #panel-container > .border > .line {
   background-color: var(--border);
