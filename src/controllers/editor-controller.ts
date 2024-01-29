@@ -33,10 +33,13 @@ export class EditorController {
       scrollbar: {
         verticalScrollbarSize: 4,
         verticalSliderSize: 4,
-        horizontalScrollbarSize: 4,
-        horizontalSliderSize: 4,
         useShadows: false,
       },
+    });
+
+    // disable F1
+    editor.addCommand(monaco.KeyCode.F1, () => {
+      window.dispatchEvent(new KeyboardEvent("keydown", { key: "F1" }));
     });
 
     // hacky vs-code like behavior

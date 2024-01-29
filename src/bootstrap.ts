@@ -19,7 +19,7 @@ import { StringUtils } from "./lib/utility/string-utils";
 import { ClipboardUtils } from "./lib/utility/clipboard-utils";
 import { Formatter } from "./lib/format/formatter";
 import { ToastUtils } from "./lib/utility/toast-utils";
-import { settingPopupController } from "./controllers/settings-popup-controller";
+import { MorePopupController } from "./controllers/more-popup-controller";
 import { DEBUG, SETTING_KEYS } from "./lib/constants";
 import { SettingsUtils } from "./lib/utility/settings-utils";
 import { PanelContainerController } from "./controllers/panel-container-controller";
@@ -34,7 +34,6 @@ const D = {
   versionController: lazy as SelectController,
   dialectController: lazy as SelectController,
   switchThemeController: lazy as ElementController,
-  viewController: lazy as ElementController,
   hightlighter: lazy as Hightlighter,
   executer: lazy as Executer,
   state: lazy as State,
@@ -44,8 +43,8 @@ const D = {
   panel1: lazy as ElementController,
   panel2: lazy as ElementController,
   formatter: lazy as Formatter,
-  settingsController: lazy as ElementController,
-  settingPopupController: lazy as settingPopupController,
+  moreController: lazy as ElementController,
+  morePopupController: lazy as MorePopupController,
   mobileModeController: lazy as ElementController,
   loadingOverayController: lazy as ElementController,
   panelContainerController: lazy as PanelContainerController,
@@ -76,10 +75,9 @@ async function init() {
   D.versionController = new SelectController(e`version`);
   D.dialectController = new SelectController(e`dialect`);
   D.switchThemeController = new ElementController(e`switch-theme`);
-  D.viewController = new ElementController(e`view`);
   D.formatter = new Formatter();
-  D.settingsController = new ElementController(e`settings`);
-  D.settingPopupController = new settingPopupController(e`settings-popup`);
+  D.moreController = new ElementController(e`more`);
+  D.morePopupController = new MorePopupController(e`more-popup`);
   D.mobileModeController = new ElementController(e`mobile-mode`);
   D.loadingOverayController = new ElementController(e`loading-overlay`);
 
@@ -113,7 +111,6 @@ function setup() {
   setupVersionController();
   setupDialectController();
   setupSwitchThemeController();
-  setupViewController();
   setupTypeEditorController();
   setupQueryEditorController();
   setupHotKeys();
@@ -173,12 +170,12 @@ function setupMobileModeController() {
 }
 
 function setupSettingsController() {
-  D.settingsController.onClick(() => {
-    D.settingPopupController.toggle();
+  D.moreController.onClick(() => {
+    D.morePopupController.toggle();
   });
 
   function append(name: string, settingsKey: (typeof SETTING_KEYS)[number], cb?: () => unknown) {
-    D.settingPopupController.appendBooleanInput(name, SettingsUtils.get(settingsKey), (v) => {
+    D.morePopupController.appendBooleanInput(name, SettingsUtils.get(settingsKey), (v) => {
       SettingsUtils.set(settingsKey, v);
       if (cb) {
         cb();
@@ -186,25 +183,26 @@ function setupSettingsController() {
     });
   }
 
-  D.settingPopupController.appendText("Ctrl-S            Save");
-  D.settingPopupController.appendText("Ctrl-Shift-S      Save and shorten link");
-  D.settingPopupController.appendText("Ctrl-1            Foucs on type-editor");
-  D.settingPopupController.appendText("Ctrl-2            Foucs on query-editor");
+  D.morePopupController.appendText("To share a playground, press 'Save'");
+  D.morePopupController.appendHeading("commands");
+  D.morePopupController.appendButton("Save", "Ctrl-S", save.bind(null, false));
+  D.morePopupController.appendButton("Save and shorten link", "Ctrl-Shift-S", save.bind(null, true));
+  D.morePopupController.appendButton("Toggle type-editor", "Ctrl-Q", toggleTypeEditor);
 
-  D.settingPopupController.appendHeading("typescript-format");
+  D.morePopupController.appendHeading("typescript-format");
   append("semi", "ts-format:semi", formatEditors);
   append("single-quote", "ts-format:single-quote", formatEditors);
   append("wider-width", "ts-format:wider-width", formatEditors);
 
-  D.settingPopupController.appendHeading("sql-format");
+  D.morePopupController.appendHeading("sql-format");
   append("inline-parameters", "sql-format:inline-parameters", executeQuery);
   append("upper-keywords", "sql-format:upper-keywords", executeQuery);
 
-  D.settingPopupController.appendHeading("save");
+  D.morePopupController.appendHeading("save");
   append("format-before-save", "save:format-before-save");
   append("copy-url-after-save", "save:copy-url-after-save");
   append("save-view-state", "save:save-view-state");
-  D.settingPopupController.appendHeading("editor");
+  D.morePopupController.appendHeading("editor");
   append("indent-guide", "editor:indent-guide", updateEditorOptions);
 }
 
@@ -291,14 +289,12 @@ function setupSwitchThemeController() {
   D.switchThemeController.onClick(CssUtils.toggleTheme.bind(null, true));
 }
 
-function setupViewController() {
-  D.viewController.onClick(() => {
-    const hidden = D.panel0.isHidden();
-    D.panel0.setHidden(!hidden);
-    if (hidden) {
-      D.panelContainerController.resetSizes();
-    }
-  });
+function toggleTypeEditor() {
+  const hidden = D.panel0.isHidden();
+  D.panel0.setHidden(!hidden);
+  if (hidden) {
+    D.panelContainerController.resetSizes();
+  }
 }
 
 function setupTypeEditorController() {
@@ -394,12 +390,10 @@ async function setupMonaco() {
 function setupHotKeys() {
   HotkeyUtils.register(["ctrl"], "s", save.bind(null, false));
   HotkeyUtils.register(["ctrl", "shift"], "s", save.bind(null, true));
-  HotkeyUtils.register(["ctrl"], "1", () => {
-    D.typeEditorController.focus();
+  HotkeyUtils.register([], "f1", () => {
+    D.morePopupController.toggle();
   });
-  HotkeyUtils.register(["ctrl"], "2", () => {
-    D.queryEditorController.focus();
-  });
+  HotkeyUtils.register(["ctrl"], "q", toggleTypeEditor);
 }
 
 async function save(shorten: boolean) {

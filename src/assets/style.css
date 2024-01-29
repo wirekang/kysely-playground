@@ -132,7 +132,14 @@ body {
   font-size: 0.7rem;
 }
 
-#settings-popup {
+#more > span {
+  margin-left: 1px;
+  opacity: 0.9;
+  font-size: 0.95em;
+  background-color: #0000;
+}
+
+#more-popup {
   position: fixed;
   left: 0;
   top: calc(var(--header-height) + 0px);
@@ -144,7 +151,7 @@ body {
   min-width: 17.7rem;
 }
 
-#settings-popup > .settings-item > .heading {
+#more-popup > .item > .heading {
   font-size: 0.9rem;
   opacity: 0.9;
   margin-top: 1.2rem;
@@ -152,13 +159,40 @@ body {
   pointer-events: none;
 }
 
-#settings-popup > .settings-item > .text {
+#more-popup > .item > .text {
   font-size: 0.7rem;
-  margin-bottom: 4px;
-  white-space: pre;
 }
 
-#settings-popup > .settings-item > .input-container {
+#more-popup > .item > .button-container {
+  font-size: 0.7rem;
+  margin-bottom: 8px;
+  white-space: pre;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+  width: 90%;
+}
+
+#more-popup > .item > .button-container:hover {
+  font-weight: bold;
+}
+
+#more-popup > .item > .button-container > .name {
+  border-width: 1px;
+  border-style: solid;
+  padding: 3px;
+}
+
+#more-popup > .item > .button-container > .hotkey {
+  opacity: 0.9;
+  font-size: 0.65rem;
+  width: 5rem;
+  margin-left: auto;
+}
+
+#more-popup > .item > .input-container {
   font-size: 0.8rem;
   display: flex;
   flex-direction: row;
@@ -167,11 +201,11 @@ body {
   margin-bottom: 1px;
 }
 
-#settings-popup > .settings-item > .input-container:hover {
+#more-popup > .item > .input-container:hover {
   font-weight: bold;
 }
 
-#settings-popup > .settings-item .checkbox {
+#more-popup > .item .checkbox {
   margin-right: 3px;
 }
 

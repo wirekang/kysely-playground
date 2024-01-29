@@ -96,14 +96,21 @@
   border-color: var(--border);
 }
 
-#settings-popup {
+#more-popup {
   color: var(--fg);
   background-color: var(--header);
   border-color: var(--border);
 }
 
-#settings-popup > .settings-item .checkbox {
+#more-popup > .item .checkbox {
   color: var(--fg);
+}
+
+#more-popup > .item > .button-container > .name {
+  border-color: var(--fg);
+}
+#more-popup > .item > .button-container:hover > .name {
+  background-color: var(--header-hover);
 }
 
 #loading-overlay {
