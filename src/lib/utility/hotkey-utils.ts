@@ -6,7 +6,7 @@ export class HotkeyUtils {
     window.addEventListener("keydown", (e) => {
       if (
         e.key.toLowerCase() === key.toLowerCase() &&
-        ctrl === e.ctrlKey &&
+        (ctrl === e.ctrlKey || ctrl === e.metaKey) &&
         shift === e.shiftKey &&
         alt === e.altKey
       ) {

@@ -109,6 +109,7 @@
 #more-popup > .item > .button-container > .name {
   border-color: var(--fg);
 }
+
 #more-popup > .item > .button-container:hover > .name {
   background-color: var(--header-hover);
 }

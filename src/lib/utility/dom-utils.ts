@@ -6,4 +6,8 @@ export class DomUtils {
       return true;
     }
   }
+
+  static isMac() {
+    return navigator.userAgent.toLowerCase().includes("mac");
+  }
 }

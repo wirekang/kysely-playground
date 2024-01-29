@@ -183,11 +183,13 @@ function setupSettingsController() {
     });
   }
 
+  const actionKey = DomUtils.isMac() ? "Cmd" : "Ctrl";
   D.morePopupController.appendText("To share a playground, press 'Save'");
   D.morePopupController.appendHeading("commands");
-  D.morePopupController.appendButton("Save", "Ctrl-S", save.bind(null, false));
-  D.morePopupController.appendButton("Save and shorten link", "Ctrl-Shift-S", save.bind(null, true));
-  D.morePopupController.appendButton("Toggle type-editor", "Ctrl-Q", toggleTypeEditor);
+  D.morePopupController.appendButton("Save", `${actionKey}-S`, save.bind(null, false));
+  D.morePopupController.appendButton("Save and shorten link", `${actionKey}-Shift-S`, save.bind(null, true));
+  D.morePopupController.appendButton("Toggle type-editor", `${actionKey}-Q`, toggleTypeEditor);
+  D.morePopupController.appendText(" ");
 
   D.morePopupController.appendHeading("typescript-format");
   append("semi", "ts-format:semi", formatEditors);
@@ -390,10 +392,8 @@ async function setupMonaco() {
 function setupHotKeys() {
   HotkeyUtils.register(["ctrl"], "s", save.bind(null, false));
   HotkeyUtils.register(["ctrl", "shift"], "s", save.bind(null, true));
-  HotkeyUtils.register([], "f1", () => {
-    D.morePopupController.toggle();
-  });
   HotkeyUtils.register(["ctrl"], "q", toggleTypeEditor);
+  HotkeyUtils.register([], "f1", D.morePopupController.toggle.bind(D.morePopupController));
 }
 
 async function save(shorten: boolean) {

@@ -161,6 +161,7 @@ body {
 
 #more-popup > .item > .text {
   font-size: 0.7rem;
+  white-space: pre;
 }
 
 #more-popup > .item > .button-container {
