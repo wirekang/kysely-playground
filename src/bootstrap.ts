@@ -149,7 +149,7 @@ function setupOpenInNewTabController() {
   }
 
   D.openInNewtabController.onClick(() => {
-    window.open(window.location.toString(), "_blank");
+    window.open(window.location.origin + window.location.pathname + window.location.hash, "_blank");
   });
 }
 
