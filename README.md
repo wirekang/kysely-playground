@@ -1,46 +1,46 @@
 # [Kysely Playground](https://kyse.link/)
 
-| branch  | url                               |
-|---------|-----------------------------------|
-| main    | https://kyse.link                 |
 
-Playground for [Kysely](https://github.com/kysely-org/kysely).
-
-Provides vscode-like experiences including type checking and auto suggestions.  
-Supports built-in dialects(postgres, mysql, sqlite), last 20 kysely versions.
-
-You can test stuffs quickly, create issues with reproducing with playground.
+Playground for [Kysely](https://github.com/kysely-org/kysely),
+with vscode-like experiences including type checking and auto suggestions.
+Supports built-in dialects, various versions and unrealeased branches.
 
 ## Guide
 
-The playground has 3 editor: `schema`, `query` and `sql`.
+There are three panels in playground. From left to right, `type-editor`, `query-editor` and `result`.
 
-Schema editor is the leftmost editor(in wide-enough screen).  
-You can declare global scope interface `DB` to help checking types related database schema. 
+In `type-editor` you can declare any kind of typescript types.
+For Kysely's type-safety and autocompletion to work, `Database` type must be declared with `export`.
+If you don't familiar with Kysely, checkout [the official guide](https://kysely.dev/docs/getting-started#types) for more information about database types.
 
-You can hide the editor by clicking `Schema` checkbox on header of playground.  
-If you want to let people focus on building query not schema, hide the schema editor before share.  
-The visibility of schema editor will be shared together.  
-(Type checking for schema still works even though it is hidden.)
+In `query-editor` you can write the query.
+`db` is pre-defined Kysely instance with `Database` type from `type-editor`.
+You can import any other types from `type-editor`: `import {..} from "type-editor"`. 
+Result of executions will be displayed in `result`.
 
-If you want to disable the type checking for schema,
-check out
-[the example](https://kyse.link/?p=b&i=haFkqHBvc3RncmVzoXamMC4yNC4yoXPZSmRlY2xhcmUgZ2xvYmFsIHsKICBpbnRlcmZhY2UgREIgewogICAgW2tleTogc3RyaW5nXTogYW55CiAgfQp9CgpleHBvcnQge30KoXHZK2t5c2VseQogIC5zZWxlY3RGcm9tKCJhc2RmIikKICAuc2VsZWN0QWxsKCmhY8M=).
+For advanced usage, you can import esm module directly from url:  
+```ts
+// @ts-ignore
+import isNumber from "https://esm.run/is-number@7.0.0/index.js"
+```
 
-To
-prevent [2669 error](https://stackoverflow.com/questions/57132428/augmentations-for-the-global-scope-can-only-be-directly-nested-in-external-modul),
-you should specify `export {}` if you import nothing in schema editor.
 
-The editor in the middle is the query editor.
 
-These are pre-defined variables you can use without import:
+## API
 
-| variable | description                                             |
-|----------|---------------------------------------------------------|
-| `kysely` | an Kysely instance with DB interface from schema editor |
-| `db`     | alias for kysely                                        |
+### Set states
 
-You can see the generated sql in the rightmost sql editor.  
-By default, the playground will show you the generated sql string as-is(with parameter placeholders).  
-You can generate sql with hard-coded parameter by turning on `More Options` -> `SQL Format` -> `inlineParameters`.  
-It is useful when you copy-paste the sql into database cli or DataGrip.  
+`<origin>#r<encoded>`
+
+`<encoded>` = `encodeURIComponent(JSON.strinify(<state>))`
+
+
+`<state>` = [Type Definition](https://github.com/wirekang/kysely-playground/tree/main/src/lib/state/state.ts)
+
+Example: `https://kyse.link#r%7Beditors%3A%7Btype%3A%22%22%2Cquery%3A%22%22%7D%7D`
+
+### Override theme
+
+`<origin>?theme=light`
+
+`<origin>?theme=dark`

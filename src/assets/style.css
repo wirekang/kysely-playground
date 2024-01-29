@@ -1,0 +1,392 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap");
+
+:root {
+  font-size: 16px;
+  --header-height: 1.5rem;
+}
+
+* {
+  font-family: "JetBrains Mono", Courier, Consolas, monospace;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#header * {
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Open Sans",
+    "Helvetica Neue",
+    sans-serif !important;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+#header {
+  width: 100%;
+  height: var(--header-height);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+#header-suffix {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: auto;
+}
+
+.header-icon {
+  width: calc(var(--header-height) - 4px);
+  height: calc(var(--header-height) - 4px);
+  margin-left: 2px;
+  margin-right: 2px;
+  cursor: pointer;
+}
+
+#main {
+  width: 100%;
+  height: calc(100% - var(--header-height));
+}
+
+.monaco-editor {
+  position: absolute !important;
+}
+.monaco-editor .view-line {
+  padding-left: 4px;
+}
+
+#header > select,
+#header > button {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.2rem;
+  margin-right: 0.4rem;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+#panel-2 {
+  overflow-y: auto;
+}
+
+#result {
+  height: 100%;
+  padding-left: 4px;
+}
+
+#result > .result-item {
+  padding: 2px 0;
+}
+
+#result > .result-item > .message {
+  font-weight: 600;
+  font-size: 0.7rem;
+}
+
+#result > .result-item > .message.trace {
+  font-weight: lighter;
+  font-size: 0.7rem;
+}
+
+#result > .result-item > hr {
+  width: 100%;
+  height: 1rem;
+}
+
+#result > .result-item > .code {
+  white-space: pre;
+  overflow-x: auto;
+  overflow-y: hidden;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+#result > .result-item > .code:hover {
+  border-width: 1px;
+  border-style: solid;
+  margin-left: -1px;
+  margin-top: -1px;
+  margin-bottom: -1px;
+}
+
+#result > .result-item > .code > .language-plaintext {
+  opacity: 0.8;
+  font-size: 0.7rem;
+}
+
+#settings-popup {
+  position: fixed;
+  left: 0;
+  top: calc(var(--header-height) + 0px);
+  border-style: solid;
+  border-width: 1px;
+  border-top-width: 0;
+  z-index: 999;
+  padding: 8px;
+  min-width: 17.7rem;
+}
+
+#settings-popup > .settings-item > .heading {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  margin-top: 1.2rem;
+  margin-bottom: 0.2rem;
+  pointer-events: none;
+}
+
+#settings-popup > .settings-item > .text {
+  font-size: 0.7rem;
+  margin-bottom: 4px;
+  white-space: pre;
+}
+
+#settings-popup > .settings-item > .input-container {
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 1px;
+}
+
+#settings-popup > .settings-item > .input-container:hover {
+  font-weight: bold;
+}
+
+#settings-popup > .settings-item .checkbox {
+  width: 0.9rem;
+  height: 0.9rem;
+  border-style: solid;
+  border-width: 2px;
+  margin-right: 3px;
+}
+
+#debug-indicator {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  color: red;
+  font-size: 1.3rem;
+  font-weight: bold;
+  pointer-events: none;
+}
+
+#loading-overlay {
+  z-index: 12345;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: bold;
+  pointer-events: none;
+  transition: opacity 0.2s linear;
+}
+
+#mobile-mode {
+  position: fixed;
+  z-index: 1;
+  top: calc(var(--header-height) + 0.5rem);
+  right: 0.5rem;
+  width: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#open-in-new-tab {
+  position: fixed;
+  z-index: 1;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  width: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#panel-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+#panel-container > .panel {
+  position: absolute;
+}
+
+#panel-container > .border {
+  position: absolute;
+  z-index: 12;
+  border-style: solid;
+  border-width: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: stretch;
+}
+
+#panel-container > .border > .line {
+}
+
+/************************************************************* PORTRAIT */
+#panel-container > .border {
+  flex-direction: row;
+}
+
+#panel-container > .border:hover {
+  cursor: row-resize;
+}
+
+#panel-container > .border > .line {
+  width: 100%;
+  height: 1px;
+}
+
+/************************************************************ LANDSCAPE */
+@media (min-width: 650px) {
+  #panel-container > .border {
+    flex-direction: column;
+  }
+  #panel-container > .border:hover {
+    cursor: col-resize;
+  }
+  #panel-container > .border > .line {
+    width: 1px;
+    height: 100%;
+  }
+}
+
+/************************************************************* hightlight.js */
+
+pre code.hljs {
+  display: block;
+  overflow-x: auto;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+.hljs-strong {
+  font-weight: bold;
+}
+
+.hljs-comment,
+.hljs-quote {
+  font-style: italic;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+.hljs-strong {
+  font-weight: bold;
+}
+
+.hljs-addition {
+  display: inline-block;
+  width: 100%;
+}
+.hljs-deletion {
+  display: inline-block;
+  width: 100%;
+}
+
+/*************************************************************** toastify.js */
+
+.toastify {
+  padding: 12px 20px;
+  display: inline-block;
+  position: fixed;
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+  border-radius: 2px;
+  cursor: pointer;
+  text-decoration: none;
+  max-width: calc(50% - 20px);
+  z-index: 2147483647;
+}
+
+.toastify.on {
+  opacity: 1;
+}
+
+.toast-close {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1em;
+  opacity: 0.4;
+  padding: 0 5px;
+}
+
+.toastify-right {
+  right: 15px;
+}
+
+.toastify-left {
+  left: 15px;
+}
+
+.toastify-top {
+  top: -150px;
+}
+
+.toastify-bottom {
+  bottom: -150px;
+}
+
+.toastify-rounded {
+  border-radius: 25px;
+}
+
+.toastify-avatar {
+  width: 1.5em;
+  height: 1.5em;
+  margin: -7px 5px;
+  border-radius: 2px;
+}
+
+.toastify-center {
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  max-width: fit-content;
+  max-width: -moz-fit-content;
+}
+
+@media only screen and (max-width: 360px) {
+  .toastify-right,
+  .toastify-left {
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    max-width: fit-content;
+  }
+}

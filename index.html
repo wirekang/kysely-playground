@@ -1,13 +1,68 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <link rel="stylesheet" href="./src/assets/reset.css" />
+    <link rel="stylesheet" href="./src/assets/style.css" />
+    <link rel="stylesheet" href="./src/assets/color.css" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <link rel="preconnect" href="https://api.github.com" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kysely Playground</title>
+    <script src="https://www.googletagmanager.com/gtag/js?l=dataLayer&amp;id=G-G1QNWZ9NSP" async></script>
   </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+  <body data-theme="dark">
+    <div id="header">
+      <select id="dialect">
+        <option>loading...</option>
+      </select>
+      <select id="version">
+        <option>loading...</option>
+      </select>
+      <button type="button" id="view">View</button>
+      <button type="button" id="settings">More</button>
+      <div id="header-suffix">
+        <button class="header-icon" id="switch-theme">
+          <img class="dark" src="./src/assets/switch-theme-white.svg" />
+          <img class="light" src="./src/assets/switch-theme.svg" />
+        </button>
+        <a
+          id="github"
+          class="header-icon"
+          href="https://github.com/wirekang/kysely-playground"
+          target="_blank"
+        >
+          <img class="dark" src="./src/assets/github-mark-white.svg" />
+          <img class="light" src="./src/assets/github-mark.svg" />
+        </a>
+      </div>
+    </div>
+    <div id="main">
+      <div id="panel-container">
+        <div class="panel" id="panel-0">
+          <div class="loading">loading...</div>
+        </div>
+        <div class="panel" id="panel-1">
+          <div class="loading">loading...</div>
+        </div>
+        <div class="panel" id="panel-2">
+          <div id="result"></div>
+        </div>
+      </div>
+    </div>
+    <div id="settings-popup" hidden></div>
+    <div id="loading-overlay">Loading...</div>
+    <button id="mobile-mode">
+      <img class="dark" src="./src/assets/mobile-white.svg" />
+      <img class="light" src="./src/assets/mobile.svg" />
+    </button>
+    <button id="open-in-new-tab" title="Open in new tab">
+      <img class="dark" src="./src/assets/open-in-new-tab-white.svg" />
+      <img class="light" src="./src/assets/open-in-new-tab.svg" />
+    </button>
+
+    <div id="debug-indicator" hidden>DEBUG MODE</div>
+    <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

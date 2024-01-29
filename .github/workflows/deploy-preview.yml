@@ -1,6 +1,6 @@
-name: deploy
+name: deploy-preview
 on:
-  push:
+  pull_request:
     branches:
       - main
   workflow_dispatch:
@@ -18,9 +18,11 @@ jobs:
       - run: npm run build
         env:
           VITE_BRANCH: ${{ github.ref_name }}
+          VITE_PREVIEW: 1
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_KYSELY_PLAYGROUND }}'
-          channelId: live
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_KYSELY_PLAYGROUND }}"
+          channelId: preview
+          expires: 7d
           projectId: kysely-playground

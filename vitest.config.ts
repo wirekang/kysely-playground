@@ -1,10 +1,3 @@
-import { defineConfig } from "vitest/config"
-import { resolve } from "path"
+import { defineConfig } from "vitest/config";
 
-export default defineConfig({
-  resolve: {
-    alias: {
-      src: resolve("src/"),
-    },
-  },
-})
+export default defineConfig({});
