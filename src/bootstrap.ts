@@ -154,7 +154,7 @@ function setupOpenInNewTabController() {
 }
 
 function setupMobileModeController() {
-  if (CssUtils.isWideScreen()) {
+  if (!CssUtils.isMobile()) {
     D.mobileModeController.remove();
     return;
   }
@@ -293,7 +293,11 @@ function setupSwitchThemeController() {
 
 function setupViewController() {
   D.viewController.onClick(() => {
-    D.panel0.setHidden(!D.panel0.isHidden());
+    const hidden = D.panel0.isHidden();
+    D.panel0.setHidden(!hidden);
+    if (hidden) {
+      D.panelContainerController.resetSizes();
+    }
   });
 }
 
