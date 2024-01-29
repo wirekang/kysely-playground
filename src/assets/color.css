@@ -103,11 +103,7 @@
 }
 
 #settings-popup > .settings-item .checkbox {
-  border-color: var(--fg);
-}
-
-#settings-popup > .settings-item .checkbox.checked {
-  background-color: var(--fg);
+  color: var(--fg);
 }
 
 #loading-overlay {

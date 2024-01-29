@@ -37,13 +37,17 @@ export class settingPopupController {
       container.addEventListener("click", () => {
         if (checkbox.classList.contains("checked")) {
           checkbox.classList.remove("checked");
+          checkbox.textContent = "☐";
           cb(false);
         } else {
           checkbox.classList.add("checked");
+          checkbox.textContent = "☑";
           cb(true);
         }
       });
+      checkbox.textContent = "☐";
       if (defaultValue) {
+        checkbox.textContent = "☑";
         checkbox.classList.add("checked");
       }
       container.appendChild(checkbox);

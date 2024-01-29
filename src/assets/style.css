@@ -172,10 +172,6 @@ body {
 }
 
 #settings-popup > .settings-item .checkbox {
-  width: 0.9rem;
-  height: 0.9rem;
-  border-style: solid;
-  border-width: 2px;
   margin-right: 3px;
 }
 
