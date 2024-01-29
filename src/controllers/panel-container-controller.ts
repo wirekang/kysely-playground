@@ -108,9 +108,7 @@ export class PanelContainerController {
   }
 
   private resize() {
-    logger.debug("resize");
     const cs = CssUtils.isWideScreen() ? this.container.clientWidth : this.container.clientHeight;
-    logger.debug("cw", cs);
     let ts = 0;
     let length = 0;
     this.getItems().forEach(({ size }) => {
@@ -119,8 +117,6 @@ export class PanelContainerController {
     });
     const tp = cs - ts;
     const ep = tp / length;
-    logger.debug("ts", ts, "lenth", length, "tp", tp, "ep", ep);
-    logger.debug(this.sizes);
     this.getItems().forEach(({ id, size }) => {
       this.sizes[id] = size + ep;
     });
@@ -138,7 +134,6 @@ export class PanelContainerController {
           border: this.borders[id] as HTMLElement | undefined,
         };
       });
-    logger.debug("items", items);
     return items;
   }
 
