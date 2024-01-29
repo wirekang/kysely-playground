@@ -145,6 +145,8 @@ function setupOpenInNewTabController() {
     return;
   }
 
+  D.moreController.remove();
+  D.switchThemeController.remove();
   D.openInNewtabController.onClick(() => {
     window.open(window.location.origin + window.location.pathname + window.location.hash, "_blank");
   });
