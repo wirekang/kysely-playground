@@ -17,11 +17,11 @@ export class StateManager {
     const encoded = await lzEncode(JSON.stringify(state));
     if (shorten) {
       const id = await this.firestoreStateRepository.add(encoded);
-      window.history.replaceState(null, "", window.location.origin + "/" + id);
+      window.history.replaceState(null, "", window.location.origin + "/" + id + window.location.search);
       return;
     }
     const header: FragmentHeader = "c";
-    window.history.replaceState(null, "", window.location.origin);
+    window.history.replaceState(null, "", window.location.origin + window.location.search);
     window.location.hash = header + encoded;
   }
 
