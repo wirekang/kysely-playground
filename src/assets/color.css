@@ -119,6 +119,10 @@
   background-color: var(--bg);
 }
 
+#panel-container > .border > .line {
+  background-color: var(--border);
+}
+
 /*********************************************** */
 
 [data-theme="light"] .light {

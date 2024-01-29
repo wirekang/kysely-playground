@@ -277,11 +277,7 @@ function setupSwitchThemeController() {
 
 function setupViewController() {
   D.viewController.onClick(() => {
-    const hidden = !D.panel0.isHidden();
-    D.panel0.setHidden(hidden);
-    if (!hidden) {
-      D.panelContainerController.resetSizes();
-    }
+    D.panel0.setHidden(!D.panel0.isHidden());
   });
 }
 

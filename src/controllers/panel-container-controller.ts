@@ -1,6 +1,8 @@
 import { CssUtils } from "../lib/utility/css-utils";
 import { logger } from "../lib/utility/logger";
 
+// TODO
+// needs refactoring
 export class PanelContainerController {
   private readonly borders: Record<string, HTMLElement>;
   private sizes: Record<string, number>;
@@ -21,7 +23,56 @@ export class PanelContainerController {
       }
       const border = document.createElement("div");
       border.classList.add("border");
+      const borderLine = document.createElement("div");
+      borderLine.classList.add("line");
+      border.appendChild(borderLine);
       container.appendChild(border);
+      let dragging = false;
+      let wide = CssUtils.isWideScreen();
+      border.addEventListener("mousedown", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dragging = true;
+        wide = CssUtils.isWideScreen();
+      });
+      window.addEventListener("mousemove", (e) => {
+        if (!dragging) {
+          return;
+        }
+        e.preventDefault();
+        e.stopPropagation();
+        let delta: number;
+        if (wide) {
+          delta = e.movementX;
+        } else {
+          delta = e.movementY;
+        }
+        const items = this.getItems();
+        const itemIndex = items.findIndex((it) => it.id === id);
+        if (itemIndex === -1) {
+          logger.warn("It seems panel hided while dragging");
+          return;
+        }
+        const current = items[itemIndex];
+        const after = items[itemIndex + 1];
+        this.sizes[current.id] += delta;
+        this.sizes[after.id] -= delta;
+        if (this.sizes[current.id] < 50 || this.sizes[after.id] < 50) {
+          this.sizes[current.id] -= delta;
+          this.sizes[after.id] += delta;
+          return;
+        }
+
+        this.layout();
+      });
+      window.addEventListener("mouseup", (e) => {
+        if (!dragging) {
+          return;
+        }
+        e.preventDefault();
+        e.stopPropagation();
+        dragging = false;
+      });
       this.borders[id] = border;
     });
 
@@ -42,11 +93,17 @@ export class PanelContainerController {
     const wide = CssUtils.isWideScreen();
 
     let start = 0;
-    this.getItems().forEach(({ id, panel, size, border }, i) => {
-      const { setStart, setSize } = makePositioner(wide, panel);
-      setStart(start);
-      setSize(size);
+    this.getItems().forEach(({ id, panel, size, border }) => {
+      const pp = makePositioner(wide, panel);
+      pp.setStart(start);
+      pp.setSize(size);
       start += size;
+      if (!border) {
+        return;
+      }
+      const bp = makePositioner(wide, border);
+      bp.setStart(start - 8);
+      bp.setSize(16);
     });
   }
 
@@ -89,20 +146,22 @@ export class PanelContainerController {
     this.panels
       .filter((it) => it.hasAttribute("hidden"))
       .forEach((panel) => {
-        const id = panel.getAttribute("id")!;
         panel.style.removeProperty("left");
         panel.style.removeProperty("right");
         panel.style.removeProperty("top");
         panel.style.removeProperty("bottom");
         panel.style.removeProperty("width");
         panel.style.removeProperty("height");
+        const border = this.borders[panel.getAttribute("id")!];
+        if (border) {
+          border.style.removeProperty("left");
+          border.style.removeProperty("right");
+          border.style.removeProperty("top");
+          border.style.removeProperty("bottom");
+          border.style.removeProperty("width");
+          border.style.removeProperty("height");
+        }
       });
-  }
-
-  resetSizes() {
-    this.getItems().forEach(({ id }) => {
-      this.sizes[id] = 0;
-    });
   }
 }
 

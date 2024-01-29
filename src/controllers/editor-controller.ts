@@ -30,6 +30,13 @@ export class EditorController {
       theme: CssUtils.getTheme() === "dark" ? "vs-dark" : "vs",
       padding: { top: 2 },
       contextmenu: false,
+      scrollbar: {
+        verticalScrollbarSize: 4,
+        verticalSliderSize: 4,
+        horizontalScrollbarSize: 4,
+        horizontalSliderSize: 4,
+        useShadows: false,
+      },
     });
 
     // hacky vs-code like behavior
