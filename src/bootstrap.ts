@@ -1,6 +1,6 @@
 import { logger } from "./lib/utility/logger";
 import { EditorController } from "./controllers/editor-controller";
-import { ElementController } from "./controllers/button-controller";
+import { ElementController } from "./controllers/element-controller";
 import { CssUtils } from "./lib/utility/css-utils";
 import { StateManager } from "./lib/state/state-manager";
 import { FirestoreStateRepository } from "./lib/state/firestore-state-repository";
@@ -22,6 +22,7 @@ import { ToastUtils } from "./lib/utility/toast-utils";
 import { settingPopupController } from "./controllers/settings-popup-controller";
 import { DEBUG, SETTING_KEYS } from "./lib/constants";
 import { SettingsUtils } from "./lib/utility/settings-utils";
+import { PanelContainerController } from "./controllers/panel-container-controller";
 
 const lazy = null as unknown;
 const D = {
@@ -38,14 +39,15 @@ const D = {
   state: lazy as State,
   typeEditorController: lazy as EditorController,
   queryEditorController: lazy as EditorController,
-  panel0: lazy as HTMLElement,
-  panel1: lazy as HTMLElement,
-  panel2: lazy as HTMLElement,
+  panel0: lazy as ElementController,
+  panel1: lazy as ElementController,
+  panel2: lazy as ElementController,
   formatter: lazy as Formatter,
   settingsController: lazy as ElementController,
   settingPopupController: lazy as settingPopupController,
   mobileModeController: lazy as ElementController,
   loadingOverayController: lazy as ElementController,
+  panelContainerController: lazy as PanelContainerController,
 };
 
 async function init() {
@@ -56,9 +58,14 @@ async function init() {
     }
     return r;
   }
-  D.panel0 = e`panel-0`;
-  D.panel1 = e`panel-1`;
-  D.panel2 = e`panel-2`;
+  D.panel0 = new ElementController(e`panel-0`);
+  D.panel1 = new ElementController(e`panel-1`);
+  D.panel2 = new ElementController(e`panel-2`);
+  D.panelContainerController = new PanelContainerController(e`panel-container`, [
+    D.panel0.element,
+    D.panel1.element,
+    D.panel2.element,
+  ]);
   D.resultController = new ResultController(e`result`);
   setupResultController();
   D.stateManager = new StateManager(new FirestoreStateRepository());
@@ -198,14 +205,14 @@ function initExecuter() {
 }
 
 async function initTypeEditorController() {
-  D.typeEditorController = await EditorController.init(D.panel0, {
+  D.typeEditorController = await EditorController.init(D.panel0.element, {
     language: "typescript",
     filePath: "node_modules/type-editor/index.ts",
   });
 }
 
 async function initQueryEditorController() {
-  D.queryEditorController = await EditorController.init(D.panel1, {
+  D.queryEditorController = await EditorController.init(D.panel1.element, {
     language: "typescript",
     filePath: "query-editor.ts",
   });
@@ -218,7 +225,10 @@ function updateEditorOptions() {
 }
 
 function setupResultController() {
-  function handleUnexpectedError() {
+  function handleUnexpectedError(e: any) {
+    if (e.message && e.message.trim().startsWith("ResizeObserver")) {
+      return;
+    }
     D.resultController.appendMessage(
       "error",
       `ERROR: There is an unexpected error. Checkout the developer console.`,
@@ -235,7 +245,7 @@ function setupResultController() {
 
 function setupPanels() {
   if (D.state.hideType) {
-    D.panel0.setAttribute("hidden", "");
+    D.panel0.setHidden(true);
   }
 }
 
@@ -267,10 +277,10 @@ function setupSwitchThemeController() {
 
 function setupViewController() {
   D.viewController.onClick(() => {
-    if (D.panel0.hasAttribute("hidden")) {
-      D.panel0.removeAttribute("hidden");
-    } else {
-      D.panel0.setAttribute("hidden", "");
+    const hidden = !D.panel0.isHidden();
+    D.panel0.setHidden(hidden);
+    if (!hidden) {
+      D.panelContainerController.resetSizes();
     }
   });
 }
@@ -425,7 +435,7 @@ function makeState(): State {
       type: D.kyselyModule.type,
       name: D.kyselyModule.name,
     },
-    hideType: SettingsUtils.get("save:save-view-state") && D.panel0.hasAttribute("hidden") ? true : undefined,
+    hideType: SettingsUtils.get("save:save-view-state") && D.panel0.isHidden() ? true : undefined,
   };
   logger.debug("newState", s);
   return s;

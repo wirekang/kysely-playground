@@ -10,6 +10,8 @@ export class MonacoUtils {
       moduleResolution: monaco.languages.typescript.ModuleResolutionKind.NodeJs,
       module: monaco.languages.typescript.ModuleKind.ESNext,
       target: monaco.languages.typescript.ScriptTarget.ESNext,
+      strict: true,
+      noImplicitAny: true,
     });
   }
 
