@@ -52,7 +52,7 @@ export class StateManager {
     switch (header) {
       case "r": {
         logger.debug("raw fragment");
-        json = body;
+        json = decodeURIComponent(body);
         break;
       }
       case "c": {
