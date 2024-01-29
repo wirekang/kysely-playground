@@ -8,11 +8,9 @@ Playground for [Kysely](https://github.com/kysely-org/kysely).
 
 REWRITING
 
+## Guide
 
-TODO
- * embeded detecting  
-     open-in-new-window button
- * tests
+
 
 ## API
 
