@@ -1,9 +1,13 @@
-import { CSS_MIN_WIDE_WIDTH, LOCALSTORAGE_THEME } from "../constants";
+import { CSS_MIN_DESKTOP_WIDTH, CSS_MIN_WIDE_WIDTH, LOCALSTORAGE_THEME } from "../constants";
 import { logger } from "./logger";
 
 export class CssUtils {
   static isWideScreen() {
     return window.innerWidth >= CSS_MIN_WIDE_WIDTH;
+  }
+
+  static isMobile() {
+    return window.innerWidth < CSS_MIN_DESKTOP_WIDTH;
   }
 
   static colorSchemaEffect(cb: (light: boolean) => unknown) {

@@ -87,6 +87,13 @@ export class PanelContainerController {
     this.layout();
   }
 
+  resetSizes() {
+    Object.keys(this.sizes).forEach((key) => {
+      this.sizes[key] = 0;
+    });
+    this.layout();
+  }
+
   private layout() {
     this.resetHidden();
     this.resize();

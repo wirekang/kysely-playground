@@ -1,5 +1,9 @@
 export class DomUtils {
   static inIframe() {
-    return window.parent !== window.top;
+    try {
+      return window.self !== window.top;
+    } catch {
+      return true;
+    }
   }
 }
