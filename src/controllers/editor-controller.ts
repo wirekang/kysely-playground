@@ -37,9 +37,12 @@ export class EditorController {
       },
     });
 
-    // disable F1
+    // disable F1/F2
     editor.addCommand(monaco.KeyCode.F1, () => {
       window.dispatchEvent(new KeyboardEvent("keydown", { key: "F1" }));
+    });
+    editor.addCommand(monaco.KeyCode.F2, () => {
+      window.dispatchEvent(new KeyboardEvent("keydown", { key: "F2" }));
     });
 
     // hacky vs-code like behavior

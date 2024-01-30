@@ -1,10 +1,10 @@
 export class DomUtils {
-  static inIframe() {
-    try {
-      return window.self !== window.top;
-    } catch {
-      return true;
-    }
+  static getSearchParam(name: string) {
+    return new URLSearchParams(location.search).get(name);
+  }
+
+  static hasSearchParam(name: string) {
+    return !!DomUtils.getSearchParam(name);
   }
 
   static isMac() {

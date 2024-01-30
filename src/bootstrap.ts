@@ -115,7 +115,7 @@ function setup() {
   setupQueryEditorController();
   setupHotKeys();
   setupMonaco();
-  setupSettingsController();
+  setupMoreController();
   setupMobileModeController();
   setLoading(false);
   setupOpenInNewTabController();
@@ -140,13 +140,10 @@ async function useLoading(cb: () => unknown) {
 }
 
 function setupOpenInNewTabController() {
-  if (!DomUtils.inIframe()) {
+  if (!DomUtils.hasSearchParam("open")) {
     D.openInNewtabController.remove();
     return;
   }
-
-  D.moreController.remove();
-  D.switchThemeController.remove();
   D.openInNewtabController.onClick(() => {
     window.open(window.location.origin + window.location.pathname + window.location.hash, "_blank");
   });
@@ -171,7 +168,12 @@ function setupMobileModeController() {
   ToastUtils.show("info", `Editor is read-only.\nCheckout the mobile-icon.`);
 }
 
-function setupSettingsController() {
+function setupMoreController() {
+  if (DomUtils.hasSearchParam("nomore")) {
+    D.moreController.remove();
+    return;
+  }
+
   D.moreController.onClick(() => {
     D.morePopupController.toggle();
   });
@@ -290,6 +292,10 @@ function setupDialectController() {
 }
 
 function setupSwitchThemeController() {
+  if (DomUtils.hasSearchParam("notheme")) {
+    D.switchThemeController.remove();
+    return;
+  }
   D.switchThemeController.onClick(CssUtils.toggleTheme.bind(null, true));
 }
 
@@ -392,6 +398,9 @@ async function setupMonaco() {
 }
 
 function setupHotKeys() {
+  if (DomUtils.hasSearchParam("nohotkey")) {
+    return;
+  }
   HotkeyUtils.register(["ctrl"], "s", save.bind(null, false));
   HotkeyUtils.register(["ctrl", "shift"], "s", save.bind(null, true));
   HotkeyUtils.register([], "f1", D.morePopupController.toggle.bind(D.morePopupController));

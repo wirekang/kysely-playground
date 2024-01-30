@@ -39,8 +39,17 @@ import isNumber from "https://esm.run/is-number@7.0.0/index.js"
 
 Example: `https://kyse.link#r%7Beditors%3A%7Btype%3A%22%22%2Cquery%3A%22%22%7D%7D`
 
-### Override theme
+### SearchParams
 
-`<origin>?theme=light`
 
-`<origin>?theme=dark`
+| key | value | description |
+|--|--|--|
+| theme |  'light' \| 'dark'  | override theme
+| open | any | show floating 'open-in-new-tab' button
+| nomore | any | hide 'More' button
+| notheme | any | hide 'switch-theme' button
+| nohotkey | any | disable all hotkeys
+
+*When user opens a new tab with 'open-in-new-tab' button, all SearchParams are removed.*
+
+Example: `https://kyse.link?theme=dark&open=1`
