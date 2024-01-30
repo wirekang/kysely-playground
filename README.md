@@ -16,9 +16,16 @@ If you don't familiar with Kysely, checkout [the official guide](https://kysely.
 In `query-editor` you can write the query.
 `db` is pre-defined Kysely instance with `Database` type from `type-editor`.
 You can import any other types from `type-editor`: `import {..} from "type-editor"`. 
-Result of executions will be displayed in `result`.
 
-For advanced usage, you can import esm module directly from url:  
+For advanced usage, you can set the result of `db.*.execute()` by setting `$playground.result`:
+
+```ts
+$playground.result = { rows: [{id:3},{id:4}] };
+$playground.log(await db.selectFrom('person').select("id").execute())
+// [{id:3},{id:4}]
+```
+
+For more advanced usage, you can import esm module directly from url:  
 ```ts
 // @ts-ignore
 import isNumber from "https://esm.run/is-number@7.0.0/index.js"
