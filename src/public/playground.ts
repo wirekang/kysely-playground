@@ -16,17 +16,30 @@ interface KyselyConstructor<T> extends Function {
   new (config: KyselyConfig): Kysely<T>;
 }
 
+type PlaygroundInterceptor = {
+  result: QueryResult<any>;
+  log: (...args: Array<any>) => any;
+};
+
+let interceptor: Partial<PlaygroundInterceptor>;
+
 export function init(
   kyselyConstructor: KyselyConstructor<any>,
   adapter: DialectAdapter,
   introspector: DatabaseIntrospector,
   queryCompiler: QueryCompiler,
+  i: Partial<PlaygroundInterceptor>,
 ) {
-  const kysely = new kyselyConstructor({
+  interceptor = i;
+  interceptor.log = (...args: unknown[]) => {
+    dispatch("log", { args: args.map((it) => JSON.stringify(it)) });
+  };
+
+  const db = new kyselyConstructor({
     dialect: new PlaygroundDialect(queryCompiler, adapter, introspector),
   });
 
-  return { kysely };
+  return { db };
 }
 
 class PlaygroundDialect implements Dialect {
@@ -94,12 +107,10 @@ class PlaygroundDriver implements Driver {
   }
 }
 
-const queryResult: QueryResult<any> = { rows: [] };
-
 class PlaygroundConnection implements DatabaseConnection {
   executeQuery<R>(compiledQuery: CompiledQuery<unknown>): Promise<QueryResult<R>> {
     dispatch("executeQuery", { compiledQuery });
-    return Promise.resolve(queryResult);
+    return Promise.resolve(playgroundResult());
   }
 
   streamQuery<R>(
@@ -108,7 +119,14 @@ class PlaygroundConnection implements DatabaseConnection {
   ): AsyncIterableIterator<QueryResult<R>> {
     dispatch("streamQuery", { compiledQuery, chunkSize });
     return (async function* g() {
-      yield queryResult;
+      yield playgroundResult();
     })();
   }
+}
+
+function playgroundResult(): QueryResult<any> {
+  if (interceptor?.result) {
+    return interceptor.result;
+  }
+  return { rows: [] };
 }

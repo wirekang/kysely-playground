@@ -10,11 +10,16 @@ var __asyncGenerator = (this && this.__asyncGenerator) || function (thisArg, _ar
     function reject(value) { resume("throw", value); }
     function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
 };
-export function init(kyselyConstructor, adapter, introspector, queryCompiler) {
-    const kysely = new kyselyConstructor({
+let interceptor;
+export function init(kyselyConstructor, adapter, introspector, queryCompiler, i) {
+    interceptor = i;
+    interceptor.log = (...args) => {
+        dispatch("log", { args: args.map((it) => JSON.stringify(it)) });
+    };
+    const db = new kyselyConstructor({
         dialect: new PlaygroundDialect(queryCompiler, adapter, introspector),
     });
-    return { kysely };
+    return { db };
 }
 class PlaygroundDialect {
     constructor(queryCompiler, adapter, introspector) {
@@ -69,18 +74,23 @@ class PlaygroundDriver {
         return resolved;
     }
 }
-const queryResult = { rows: [] };
 class PlaygroundConnection {
     executeQuery(compiledQuery) {
         dispatch("executeQuery", { compiledQuery });
-        return Promise.resolve(queryResult);
+        return Promise.resolve(playgroundResult());
     }
     streamQuery(compiledQuery, chunkSize) {
         dispatch("streamQuery", { compiledQuery, chunkSize });
         return (function g() {
             return __asyncGenerator(this, arguments, function* g_1() {
-                yield yield __await(queryResult);
+                yield yield __await(playgroundResult());
             });
         })();
     }
+}
+function playgroundResult() {
+    if (interceptor === null || interceptor === void 0 ? void 0 : interceptor.result) {
+        return interceptor.result;
+    }
+    return { rows: [] };
 }

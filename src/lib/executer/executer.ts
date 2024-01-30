@@ -31,6 +31,9 @@ export class Executer {
         case "rollbackTransaction":
           outputs.push({ type: "transaction", type2: "rollback" });
           break;
+        case "log":
+          outputs.push({ type: "log", args: detail.args });
+          break;
       }
     };
     window.addEventListener("playground", cb);
@@ -89,7 +92,16 @@ export class Executer {
 
 class ExecuterError extends Error {}
 
-export type ExecuteOutput = ExecuteOutputQuery | ExecuteOutputError | ExecuteOutputTransaction;
+export type ExecuteOutput =
+  | ExecuteOutputQuery
+  | ExecuteOutputError
+  | ExecuteOutputTransaction
+  | ExecuteOutputLog;
+
+type ExecuteOutputLog = {
+  type: "log";
+  args: Array<unknown>;
+};
 
 type ExecuteOutputQuery = {
   type: "query";
