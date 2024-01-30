@@ -190,7 +190,7 @@ function setupSettingsController() {
   D.morePopupController.appendHeading("commands");
   D.morePopupController.appendButton("Save", `${actionKey}-S`, save.bind(null, false));
   D.morePopupController.appendButton("Save and shorten link", `${actionKey}-Shift-S`, save.bind(null, true));
-  D.morePopupController.appendButton("Toggle type-editor", `${actionKey}-Q`, toggleTypeEditor);
+  D.morePopupController.appendButton("Toggle type-editor", `F2`, toggleTypeEditor);
   D.morePopupController.appendText(" ");
 
   D.morePopupController.appendHeading("typescript-format");
@@ -394,8 +394,8 @@ async function setupMonaco() {
 function setupHotKeys() {
   HotkeyUtils.register(["ctrl"], "s", save.bind(null, false));
   HotkeyUtils.register(["ctrl", "shift"], "s", save.bind(null, true));
-  HotkeyUtils.register(["ctrl"], "q", toggleTypeEditor);
   HotkeyUtils.register([], "f1", D.morePopupController.toggle.bind(D.morePopupController));
+  HotkeyUtils.register([], "f2", toggleTypeEditor);
 }
 
 async function save(shorten: boolean) {
