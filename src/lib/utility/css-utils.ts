@@ -1,4 +1,5 @@
 import { CSS_MIN_DESKTOP_WIDTH, CSS_MIN_WIDE_WIDTH, LOCALSTORAGE_THEME } from "../constants";
+import { DomUtils } from "./dom-utils";
 import { logger } from "./logger";
 
 export class CssUtils {
@@ -23,7 +24,7 @@ export class CssUtils {
   }
 
   static initTheme() {
-    const queryTheme = new URLSearchParams(window.location.search).get("theme");
+    const queryTheme = DomUtils.getSearchParam("theme");
     if (queryTheme && ["light", "dark"].includes(queryTheme)) {
       CssUtils.setTheme(queryTheme, false);
       return;
