@@ -361,6 +361,8 @@ function setupQueryEditorController() {
             D.resultController.appendPadding();
           }
           break;
+        case "log":
+          D.resultController.appendMessage("trace", `log: ${output.args.join(", ")}`);
       }
     }
     D.hightlighter.highlight();
