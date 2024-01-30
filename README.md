@@ -24,12 +24,16 @@ $playground.result = { rows: [{id:3},{id:4}] };
 $playground.log(await db.selectFrom('person').select("id").execute())
 // [{id:3},{id:4}]
 ```
+[Playground Link](https://kyse.link/#cN4IgpgJglgLg9gJwM4gFyhgTwA5jSEAGhAEcBXMBTfAEmwBsBDTAcwTjIDsIA6BMJGXowABAF4RwEewDuSVCIDaUqBAUBmEQF9CkkaoUAWbQF1tAbgA6nOk1bsuvenBYAKRjMawREAEY8kMHowAGMYADF2AFtXSxBcZDhOOIBKAKDQmFiQVVSeMAAPULIYMFcUlKtOEB0QaEZgsPxsOCQYNgEiEABrTED6anQQLFx8GEYWLs5GKLxUEAAGHgAmAHYVmuIAC1UwABUcOZgECi0gA)
+
 
 For more advanced usage, you can import esm module directly from url:  
 ```ts
 // @ts-ignore
 import isNumber from "https://esm.run/is-number@7.0.0/index.js"
 ```
+
+[Playground Link](https://kyse.link/#cN4IgpgJglgLg9gJwM4gFyhgTwA5jSEAGhAEcBXMBTfAehoAIABGJAWigHMA7RMAHS5QAttkQx6UJADkyQgEaV6AMwRwh9PiAAWMGNiSo6YJEIB0CMlxqTWXWQoSMA7KYAMb61whgAHqYBWSJoA3AIAJNgANgCGmByqlhCmkXAcABSSMvKUaQDMAJSEEtL2OZrRmvn5oVwgAL7E0NGRYADGMPiiSDDxxkQgANaYSGCR1OggWLj4MNEc-VzRQnioIO4ATC7r9cRaUN4AKjgrMBZgdUA)
 
 
 
