@@ -51,8 +51,13 @@ export class Executer {
   private makeModule(js: string) {
     logger.debug("execute:\n", js);
     js = this.replaceImports(js);
+
+    // issue 34
+    js = js + `\n\nawait new Promise(r=>setTimeout(r,0))`;
+
     // prevent module caching
     js = js + `\n\nexport const timestamp = ${Date.now()};\n`;
+
     js = encodeURIComponent(js);
     return `data:text/javascript;charset=utf-8,${js}`;
   }
