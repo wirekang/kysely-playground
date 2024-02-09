@@ -94,7 +94,6 @@
 :where(template),
 :where(tbody),
 :where(td),
-:where(textarea),
 :where(tfoot),
 :where(th),
 :where(thead),
@@ -146,8 +145,7 @@ table {
 }
 
 /* Safari - solving issue when using user-select:none on the <body> text input doesn't working */
-input,
-textarea {
+input {
   -webkit-user-select: auto;
 }
 
