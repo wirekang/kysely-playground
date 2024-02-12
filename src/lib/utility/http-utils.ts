@@ -16,7 +16,6 @@ export class HttpUtils {
         const res = await fetch(url, {
           method,
           headers: {
-            "User-Agent": "kysely-playground",
             ...headers,
           },
         });
