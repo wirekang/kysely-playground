@@ -32,7 +32,7 @@ let $playground: {
    * Set the result of \`execute()\`.
    * 
    * default:
-   *  \`{ rows: [] }\`
+   *  \`{ rows: [{}] }\`
    */
   result: import("kysely").QueryResult<any>;
 
