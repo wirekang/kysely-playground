@@ -128,5 +128,5 @@ function playgroundResult(): QueryResult<any> {
   if (interceptor?.result) {
     return interceptor.result;
   }
-  return { rows: [] };
+  return { rows: [{}] };
 }
