@@ -24,6 +24,7 @@ import { DEBUG, SETTING_KEYS } from "./lib/constants";
 import { SettingsUtils } from "./lib/utility/settings-utils";
 import { PanelContainerController } from "./controllers/panel-container-controller";
 import { DomUtils } from "./lib/utility/dom-utils";
+import { GtagUtils } from "./lib/utility/gtag-utils";
 
 const lazy = null as unknown;
 const D = {
@@ -119,6 +120,7 @@ function setup() {
   setupMobileModeController();
   setLoading(false);
   setupOpenInNewTabController();
+  setupGtag();
 }
 
 function setLoading(v: boolean) {
@@ -249,6 +251,7 @@ function setupResultController() {
     if (e.message && e.message.trim().startsWith("ResizeObserver")) {
       return;
     }
+    GtagUtils.event("exception", { description: e, fatal: true });
     D.resultController.appendMessage(
       "error",
       `ERROR: There is an unexpected error. Checkout the developer console.`,
@@ -259,6 +262,7 @@ function setupResultController() {
   D.resultController.clear();
   D.resultController.appendMessage("info", "Loading...");
   D.resultController.onClickCode = (v) => {
+    GtagUtils.event("click_result_code");
     copyText(v, "Code copied");
   };
 }
@@ -274,6 +278,7 @@ function setupVersionController() {
   D.versionController.setValue(D.kyselyModule.id);
   D.versionController.onChange((id) => {
     const newModule = D.kyselyManager.getModule(id)!;
+    GtagUtils.event("change_version", { type: newModule.type, name: newModule.name });
     patchState({
       kysely: {
         type: newModule.type,
@@ -287,6 +292,7 @@ function setupDialectController() {
   D.dialectController.setOptions([...D.kyselyModule.dialects]);
   D.dialectController.setValue(D.state.dialect);
   D.dialectController.onChange((dialect: any) => {
+    GtagUtils.event("change_dialect", { dialect });
     patchState({ dialect });
   });
 }
@@ -301,6 +307,7 @@ function setupSwitchThemeController() {
 
 function toggleTypeEditor() {
   const hidden = D.panel0.isHidden();
+  GtagUtils.event("toggle_type_editor", { on: !hidden });
   D.panel0.setHidden(!hidden);
   if (hidden) {
     D.panelContainerController.resetSizes();
@@ -410,6 +417,7 @@ function setupHotKeys() {
 }
 
 async function save(shorten: boolean) {
+  GtagUtils.event("save", { shorten });
   await useLoading(async () => {
     if (SettingsUtils.get("save:format-before-save")) {
       await formatEditors();
@@ -423,6 +431,7 @@ async function save(shorten: boolean) {
 }
 
 async function formatEditors() {
+  GtagUtils.event("format");
   await useLoading(async () => {
     try {
       const printWidth = SettingsUtils.get("ts-format:wider-width") ? 100 : 70;
@@ -492,4 +501,8 @@ async function copyText(v: string, msg: string) {
   } catch (e: any) {
     ToastUtils.show("error", e.message ?? e.toString());
   }
+}
+
+function setupGtag() {
+  GtagUtils.init({ dialect: D.state.dialect, version: D.state.kysely?.name });
 }
