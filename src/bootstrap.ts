@@ -504,5 +504,9 @@ async function copyText(v: string, msg: string) {
 }
 
 function setupGtag() {
-  GtagUtils.init({ dialect: D.state.dialect, version: D.state.kysely?.name });
+  const params = { dialect: D.state.dialect, version: D.state.kysely?.name } as any;
+  if (DEBUG) {
+    params.debug_mode = true;
+  }
+  GtagUtils.init(params);
 }
