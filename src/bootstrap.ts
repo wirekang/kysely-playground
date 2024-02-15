@@ -278,7 +278,6 @@ function setupVersionController() {
   D.versionController.setValue(D.kyselyModule.id);
   D.versionController.onChange((id) => {
     const newModule = D.kyselyManager.getModule(id)!;
-    GtagUtils.event("change_version", { type: newModule.type, name: newModule.name });
     patchState({
       kysely: {
         type: newModule.type,
@@ -292,7 +291,6 @@ function setupDialectController() {
   D.dialectController.setOptions([...D.kyselyModule.dialects]);
   D.dialectController.setValue(D.state.dialect);
   D.dialectController.onChange((dialect: any) => {
-    GtagUtils.event("change_dialect", { dialect });
     patchState({ dialect });
   });
 }
