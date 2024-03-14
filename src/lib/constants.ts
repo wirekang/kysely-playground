@@ -41,6 +41,7 @@ export const SETTING_KEYS = [
   "save:copy-url-after-save",
   "save:save-view-state",
   "editor:indent-guide",
+  "editor:lower-debounce-time",
 ] as const;
 
 export const SETTING_DEFAULTS: Record<(typeof SETTING_KEYS)[number], boolean> = {
@@ -53,6 +54,7 @@ export const SETTING_DEFAULTS: Record<(typeof SETTING_KEYS)[number], boolean> = 
   "save:copy-url-after-save": true,
   "save:save-view-state": true,
   "editor:indent-guide": true,
+  "editor:lower-debounce-time": false,
 };
 
 export const DIALECT_CONSTRUCTORS = {
@@ -77,6 +79,9 @@ export const DIALECT_CONSTRUCTORS = {
     queryCompiler: "SqliteQueryCompiler",
   },
 };
+
+export const DEBOUNCE_TIME = 400;
+export const DEBOUNCE_TIME_LOWER = 150;
 
 export const DEFUALT_STATE: State = {
   dialect: "postgres",

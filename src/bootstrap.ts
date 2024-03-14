@@ -20,11 +20,12 @@ import { ClipboardUtils } from "./lib/utility/clipboard-utils";
 import { Formatter } from "./lib/format/formatter";
 import { ToastUtils } from "./lib/utility/toast-utils";
 import { MorePopupController } from "./controllers/more-popup-controller";
-import { DEBUG, SETTING_KEYS } from "./lib/constants";
+import { DEBUG, DEBOUNCE_TIME, SETTING_KEYS } from "./lib/constants";
 import { SettingsUtils } from "./lib/utility/settings-utils";
 import { PanelContainerController } from "./controllers/panel-container-controller";
 import { DomUtils } from "./lib/utility/dom-utils";
 import { GtagUtils } from "./lib/utility/gtag-utils";
+import { PerformanceUtils } from "./lib/utility/performance-utils.js";
 
 const lazy = null as unknown;
 const D = {
@@ -191,11 +192,9 @@ function setupMoreController() {
 
   const actionKey = DomUtils.isMac() ? "Cmd" : "Ctrl";
   D.morePopupController.appendText("To share a playground, press 'Save'");
-  D.morePopupController.appendHeading("commands");
   D.morePopupController.appendButton("Save", `${actionKey}-S`, save.bind(null, false));
   D.morePopupController.appendButton("Save and shorten link", `${actionKey}-Shift-S`, save.bind(null, true));
   D.morePopupController.appendButton("Toggle type-editor", `F2`, toggleTypeEditor);
-  D.morePopupController.appendText(" ");
 
   D.morePopupController.appendHeading("typescript-format");
   append("semi", "ts-format:semi", formatEditors);
@@ -212,6 +211,7 @@ function setupMoreController() {
   append("save-view-state", "save:save-view-state");
   D.morePopupController.appendHeading("editor");
   append("indent-guide", "editor:indent-guide", updateEditorOptions);
+  append("lower-debounce-time", "editor:lower-debounce-time");
 }
 
 function initExecuter() {
@@ -321,7 +321,7 @@ function setupTypeEditorController() {
     clearTimeout(timeout);
     timeout = setTimeout(() => {
       D.queryEditorController.touch();
-    }, 500);
+    }, PerformanceUtils.getDebounceTime());
   });
 }
 
