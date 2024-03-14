@@ -3,6 +3,7 @@ import { CssUtils } from "../lib/utility/css-utils";
 import { logger } from "../lib/utility/logger";
 import { StringUtils } from "../lib/utility/string-utils";
 import { DEBUG } from "../lib/constants";
+import { PerformanceUtils } from "../lib/utility/performance-utils.js";
 
 export class EditorController {
   static async init(
@@ -76,7 +77,7 @@ export class EditorController {
         clearTimeout(this.onChangeHandle);
         this.onChangeHandle = setTimeout(() => {
           this.invokeOnChange();
-        }, 500);
+        }, PerformanceUtils.getDebounceTime());
       });
     });
   }
@@ -184,6 +185,10 @@ export class EditorController {
         this.editor.setSelection(this.getWholeSelection());
       }
     });
+  }
+
+  touch() {
+    this.setValue(this.getValue());
   }
 
   private getHiddenHeaderLineLength() {
