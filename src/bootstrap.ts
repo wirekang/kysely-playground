@@ -20,7 +20,7 @@ import { ClipboardUtils } from "./lib/utility/clipboard-utils";
 import { Formatter } from "./lib/format/formatter";
 import { ToastUtils } from "./lib/utility/toast-utils";
 import { MorePopupController } from "./controllers/more-popup-controller";
-import { DEBUG, DEBOUNCE_TIME, SETTING_KEYS } from "./lib/constants";
+import { DEBUG, SETTING_KEYS } from "./lib/constants";
 import { SettingsUtils } from "./lib/utility/settings-utils";
 import { PanelContainerController } from "./controllers/panel-container-controller";
 import { DomUtils } from "./lib/utility/dom-utils";
