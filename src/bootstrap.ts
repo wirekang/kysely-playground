@@ -314,6 +314,15 @@ function toggleTypeEditor() {
 
 function setupTypeEditorController() {
   D.typeEditorController.setValue(D.state.editors.type);
+
+  // issue 45
+  let timeout: any;
+  D.typeEditorController.onChange(() => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      D.queryEditorController.touch();
+    }, 500);
+  });
 }
 
 function setupQueryEditorController() {

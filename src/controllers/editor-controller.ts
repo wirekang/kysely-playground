@@ -186,6 +186,10 @@ export class EditorController {
     });
   }
 
+  touch() {
+    this.setValue(this.getValue());
+  }
+
   private getHiddenHeaderLineLength() {
     if (!this.hiddenHeader) {
       return 0;
