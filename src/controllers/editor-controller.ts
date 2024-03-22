@@ -36,6 +36,7 @@ export class EditorController {
         verticalSliderSize: 4,
         useShadows: false,
       },
+      tabSize: 2,
     });
 
     // disable F1/F2
