@@ -39,28 +39,37 @@ import isNumber from "https://esm.run/is-number@7.0.0/index.js"
 
 ## API
 
-### Set states
+You can embed the playground in your site. See [kysely.dev](https://kysely.dev/docs/examples/SELECT/a-single-column)
 
-`<origin>#r<encoded>`
+### URL Fragment
 
-`<encoded>` = `encodeURIComponent(JSON.strinify(<state>))`
+Set initial [State](https://github.com/wirekang/kysely-playground/tree/main/src/lib/state/state.ts) via url fragment.
 
+```js
+const state = {
+  dialect: "postgres",
+  editors: {
+    type: "// type editor contents",
+    query: "// query editor contents",
+  },
+}
+const fragment = "r" + encodedURIComponent(JSON.stringify(state))
+const url = "https://kyse.link" + fragment
+```
 
-`<state>` = [Type Definition](https://github.com/wirekang/kysely-playground/tree/main/src/lib/state/state.ts)
-
-Example: `https://kyse.link#r%7Beditors%3A%7Btype%3A%22%22%2Cquery%3A%22%22%7D%7D`
 
 ### SearchParams
 
+There are some extra flags mostly for iframe.
+Note that when user opens a new tab by 'open-in-new-tab' button, all SearchParams are removed.
 
 | key | value | description |
 |--|--|--|
-| theme |  'light' \| 'dark'  | override theme
 | open | any | show floating 'open-in-new-tab' button
+| theme |  'light' \| 'dark'  | override theme
 | nomore | any | hide 'More' button
 | notheme | any | hide 'switch-theme' button
 | nohotkey | any | disable all hotkeys
 
-*When user opens a new tab with 'open-in-new-tab' button, all SearchParams are removed.*
 
-Example: `https://kyse.link?theme=dark&open=1`
+Example: `https://kyse.link?theme=dark&open=1&theme=dark`
