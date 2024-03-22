@@ -43,7 +43,7 @@ class FirestoreError extends Error {}
 
 // firestore document id
 
-const validChars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-.+$&" as const;
+const validChars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-." as const;
 
 function randomId(size: number) {
   const b = crypto.getRandomValues(new Uint8Array(size));
