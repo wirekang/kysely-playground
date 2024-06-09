@@ -1,3 +1,5 @@
+import monacoPackageJson from "monaco-editor/package.json?raw";
+
 export class MonacoUtils {
   static async init() {
     window.MonacoEnvironment = {
@@ -18,5 +20,14 @@ export class MonacoUtils {
   static async addLib(filePath: string, value: string) {
     const monaco = await import("monaco-editor");
     monaco.languages.typescript.typescriptDefaults.addExtraLib(value, filePath);
+  }
+
+  static async getVersions() {
+    const monaco = await import("monaco-editor");
+
+    return {
+      typescript: monaco.languages.typescript.typescriptVersion,
+      monaco: JSON.parse(monacoPackageJson).version,
+    };
   }
 }
