@@ -3,7 +3,7 @@ import { CssUtils } from "../lib/utility/css-utils";
 import { logger } from "../lib/utility/logger";
 import { StringUtils } from "../lib/utility/string-utils";
 import { DEBUG } from "../lib/constants";
-import { PerformanceUtils } from "../lib/utility/performance-utils.js";
+import { AsyncUtils } from "../lib/utility/async-utils.js";
 
 export class EditorController {
   static async init(
@@ -63,7 +63,6 @@ export class EditorController {
     return new EditorController(editor);
   }
 
-  private onChangeHandle?: any;
   private readonly onChangeListeners: Array<(v: string) => unknown> = [];
   private hiddenHeader?: string;
 
@@ -74,11 +73,11 @@ export class EditorController {
       });
       const model = this.editor.getModel()!;
       model.setEOL(monaco.editor.EndOfLineSequence.LF);
+      const debounce = AsyncUtils.makeDebounceTimeout(() => {
+        return this.invokeOnChange();
+      });
       model.onDidChangeContent((e) => {
-        clearTimeout(this.onChangeHandle);
-        this.onChangeHandle = setTimeout(() => {
-          this.invokeOnChange();
-        }, PerformanceUtils.getDebounceTime());
+        debounce();
       });
     });
   }

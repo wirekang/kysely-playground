@@ -25,7 +25,7 @@ import { SettingsUtils } from "./lib/utility/settings-utils";
 import { PanelContainerController } from "./controllers/panel-container-controller";
 import { DomUtils } from "./lib/utility/dom-utils";
 import { GtagUtils } from "./lib/utility/gtag-utils";
-import { PerformanceUtils } from "./lib/utility/performance-utils.js";
+import { AsyncUtils } from "./lib/utility/async-utils.js";
 
 const lazy = null as unknown;
 const D = {
@@ -117,7 +117,7 @@ async function setup() {
   setupQueryEditorController();
   setupHotKeys();
   setupMonaco();
-  setupMoreController();
+  await setupMoreController();
   setupMobileModeController();
   setLoading(false);
   setupOpenInNewTabController();
@@ -322,14 +322,10 @@ function toggleTypeEditor() {
 function setupTypeEditorController() {
   D.typeEditorController.setValue(D.state.editors.type);
 
-  // issue 45
-  let timeout: any;
-  D.typeEditorController.onChange(() => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-      D.queryEditorController.touch();
-    }, PerformanceUtils.getDebounceTime());
+  const debounce = AsyncUtils.makeDebounceTimeout(() => {
+    D.queryEditorController.touch();
   });
+  D.typeEditorController.onChange(debounce);
 }
 
 function setupQueryEditorController() {
@@ -337,56 +333,59 @@ function setupQueryEditorController() {
   D.queryEditorController.setValue(header + D.state.editors.query);
   D.queryEditorController.setHiddenHeader(header);
 
-  D.queryEditorController.onChange(async (v) => {
-    D.resultController.clear();
-    D.resultController.appendMessage("info", "Compiling...");
-    const js = await TypescriptUtils.transpile(v);
-    D.resultController.clear();
-    const outputs = await D.executer.execute(js);
-    if (outputs.length === 0) {
-      D.resultController.appendMessage("info", "Call kysely.execute()");
-    }
-    if (outputs.filter((it) => it.type === "query").length > 1) {
-      D.resultController.appendMessage("info", "execute() has been called multiple times.");
-      D.resultController.appendPadding();
-    }
-    logger.debug("execute outputs", outputs);
-    for (const output of outputs) {
-      switch (output.type) {
-        case "transaction":
-          D.resultController.appendMessage(
-            "trace",
-            `${StringUtils.capitalize(output.type2)}${StringUtils.capitalize(output.type)}`,
-          );
-          break;
-        case "error":
-          D.resultController.appendMessage("error", `Error`);
-          D.resultController.appendCode("plaintext", output.message);
-          break;
-        case "query":
-          let sql = output.sql;
-          try {
-            const inlineParameters = SettingsUtils.get("sql-format:inline-parameters");
-            const upperKeywords = SettingsUtils.get("sql-format:upper-keywords");
-            sql = await D.formatter.formatSql(sql, output.parameters, { inlineParameters, upperKeywords });
-          } catch (e) {
-            logger.error(e);
-            D.resultController.appendMessage("error", "Failed to format");
-          }
-          D.resultController.appendCode("sql", sql);
-          if (output.parameters.length > 0) {
-            D.resultController.appendCode(
-              "plaintext",
-              output.parameters.map((p, i) => `[${i + 1}] ${p}`).join("\n"),
-            );
-            D.resultController.appendPadding();
-          }
-          break;
-        case "log":
-          D.resultController.appendMessage("trace", `log: ${output.args.join(", ")}`);
+  const eventQueue = AsyncUtils.makeEventQueue();
+  D.queryEditorController.onChange((v) => {
+    eventQueue(async () => {
+      D.resultController.clear();
+      D.resultController.appendMessage("info", "Loading...");
+      const js = await TypescriptUtils.transpile(v);
+      const outputs = await D.executer.execute(js);
+      D.resultController.clear();
+      if (outputs.length === 0) {
+        D.resultController.appendMessage("info", "Call kysely.execute()");
       }
-    }
-    D.hightlighter.highlight();
+      if (outputs.filter((it) => it.type === "query").length > 1) {
+        D.resultController.appendMessage("info", "execute() has been called multiple times.");
+        D.resultController.appendPadding();
+      }
+      logger.debug("execute outputs", outputs);
+      for (const output of outputs) {
+        switch (output.type) {
+          case "transaction":
+            D.resultController.appendMessage(
+              "trace",
+              `${StringUtils.capitalize(output.type2)}${StringUtils.capitalize(output.type)}`,
+            );
+            break;
+          case "error":
+            D.resultController.appendMessage("error", `Error`);
+            D.resultController.appendCode("plaintext", output.message);
+            break;
+          case "query":
+            let sql = output.sql;
+            try {
+              const inlineParameters = SettingsUtils.get("sql-format:inline-parameters");
+              const upperKeywords = SettingsUtils.get("sql-format:upper-keywords");
+              sql = await D.formatter.formatSql(sql, output.parameters, { inlineParameters, upperKeywords });
+            } catch (e) {
+              logger.error(e);
+              D.resultController.appendMessage("error", "Failed to format");
+            }
+            D.resultController.appendCode("sql", sql);
+            if (output.parameters.length > 0) {
+              D.resultController.appendCode(
+                "plaintext",
+                output.parameters.map((p, i) => `[${i + 1}] ${p}`).join("\n"),
+              );
+              D.resultController.appendPadding();
+            }
+            break;
+          case "log":
+            D.resultController.appendMessage("trace", `log: ${output.args.join(", ")}`);
+        }
+      }
+      D.hightlighter.highlight();
+    });
   });
 }
 
@@ -396,7 +395,7 @@ function executeQuery() {
 
 export async function bootstrap() {
   await init();
-  setup();
+  await setup();
 }
 
 async function setupMonaco() {
