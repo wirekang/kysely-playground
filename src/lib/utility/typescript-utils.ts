@@ -12,8 +12,4 @@ export class TypescriptUtils {
       module: ts.ModuleKind.ES2020,
     });
   }
-
-  static async getVersion(): Promise<string> {
-    return (await import("typescript")).version;
-  }
 }
