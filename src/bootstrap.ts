@@ -108,7 +108,7 @@ async function init() {
   }
 }
 
-function setup() {
+async function setup() {
   setupPanels();
   setupVersionController();
   setupDialectController();
@@ -168,10 +168,10 @@ function setupMobileModeController() {
   };
   D.mobileModeController.onClick(toggle);
   toggle();
-  ToastUtils.show("info", `Editor is read-only.\nCheckout the mobile-icon.`);
+  ToastUtils.show("info", `Editor is read-only.\nCheckout the right-top mobile icon.`);
 }
 
-function setupMoreController() {
+async function setupMoreController() {
   if (DomUtils.hasSearchParam("nomore")) {
     D.moreController.remove();
     return;
@@ -191,10 +191,11 @@ function setupMoreController() {
   }
 
   const actionKey = DomUtils.isMac() ? "Cmd" : "Ctrl";
-  D.morePopupController.appendText("To share a playground, press 'Save'");
+  D.morePopupController.appendHint("To share a playground, press 'Save'");
   D.morePopupController.appendButton("Save", `${actionKey}-S`, save.bind(null, false));
   D.morePopupController.appendButton("Save and shorten link", `${actionKey}-Shift-S`, save.bind(null, true));
   D.morePopupController.appendButton("Toggle type-editor", `F2`, toggleTypeEditor);
+  D.morePopupController.appendText(" ");
 
   D.morePopupController.appendHeading("typescript-format");
   append("semi", "ts-format:semi", formatEditors);
@@ -212,6 +213,12 @@ function setupMoreController() {
   D.morePopupController.appendHeading("editor");
   append("indent-guide", "editor:indent-guide", updateEditorOptions);
   append("lower-debounce-time", "editor:lower-debounce-time");
+
+  D.morePopupController.appendText(" ");
+  const versions = await MonacoUtils.getVersions();
+  D.morePopupController.appendHeading("runtime");
+  D.morePopupController.appendText(`typescript     ${versions.typescript}`);
+  D.morePopupController.appendText(`monaco-editor  ${versions.monaco}`);
 }
 
 function initExecuter() {

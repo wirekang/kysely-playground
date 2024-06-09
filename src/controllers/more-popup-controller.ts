@@ -19,7 +19,7 @@ export class MorePopupController {
   appendHeading(v: string) {
     return this.append((item) => {
       const heading = document.createElement("div");
-      heading.textContent = `[${v}]`;
+      heading.textContent = `# ${v}`;
       heading.classList.add("heading");
       item.appendChild(heading);
     });
@@ -60,6 +60,15 @@ export class MorePopupController {
     return this.append((item) => {
       const text = document.createElement("div");
       text.classList.add("text");
+      text.textContent = v;
+      item.appendChild(text);
+    });
+  }
+
+  appendHint(v: string) {
+    return this.append((item) => {
+      const text = document.createElement("div");
+      text.classList.add("hint");
       text.textContent = v;
       item.appendChild(text);
     });
