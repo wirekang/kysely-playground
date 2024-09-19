@@ -195,12 +195,12 @@ export class EditorController {
     if (!this.hiddenHeader) {
       return 0;
     }
-    return this.hiddenHeader.split("\n").length;
+    return this.hiddenHeader.split("\n").length - 1;
   }
 
   private getWholeSelection() {
     return {
-      startLineNumber: this.getHiddenHeaderLineLength(),
+      startLineNumber: this.getHiddenHeaderLineLength() + 1,
       endLineNumber: 9999,
       startColumn: 1,
       endColumn: 9999,
