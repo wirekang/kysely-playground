@@ -139,7 +139,7 @@ export class EditorController {
         return;
       }
       const changes = e.changes.filter((it) => {
-        return it.range.startLineNumber < end;
+        return it.range.startLineNumber <= end;
       });
       if (changes.length === 0) {
         return;
