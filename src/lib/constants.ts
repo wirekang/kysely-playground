@@ -29,7 +29,8 @@ export const LOCALSTORAGE_HTTP_CACHE = "cache:";
 
 export const LEGACY_PLAYGROUND_URL = "https://old.kyse.link";
 
-export const QUERY_EDITOR_HEADER_DELIMITER = "\n/* __QUERY_EDITOR_HEADER_DELIMITER__ */\n";
+export const QUERY_EDITOR_HEADER_DELIMITER =
+  "\n// prettier-ignore\n// @ts-ignore\n(()=>'__header__end__')()\n";
 
 export const SETTING_KEYS = [
   "ts-format:semi",

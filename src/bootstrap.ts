@@ -89,6 +89,7 @@ async function init() {
     })(),
     (async () => {
       D.state = await D.stateManager.load();
+      logger.debug("state loaded:", D.state);
       D.formatter.dialect = D.state.dialect;
     })(),
     (async () => {

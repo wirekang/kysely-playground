@@ -133,7 +133,7 @@ export class EditorController {
       this.editor.setHiddenAreas([{ startLineNumber: 1, startColumn: 0, endLineNumber: end, endColumn: 0 }]);
     }
 
-    // for auto-import action
+    // prevent header changes
     this.editor.getModel()!.onDidChangeContent((e) => {
       if (e.isUndoing || e.isRedoing || e.isEolChange) {
         return;
@@ -195,12 +195,12 @@ export class EditorController {
     if (!this.hiddenHeader) {
       return 0;
     }
-    return this.hiddenHeader.split("\n").length - 1;
+    return this.hiddenHeader.split("\n").length;
   }
 
   private getWholeSelection() {
     return {
-      startLineNumber: this.getHiddenHeaderLineLength() + 1,
+      startLineNumber: this.getHiddenHeaderLineLength(),
       endLineNumber: 9999,
       startColumn: 1,
       endColumn: 9999,
