@@ -133,7 +133,7 @@ export class EditorController {
       this.editor.setHiddenAreas([{ startLineNumber: 1, startColumn: 0, endLineNumber: end, endColumn: 0 }]);
     }
 
-    // prevent header changes
+    // for auto-import action
     this.editor.getModel()!.onDidChangeContent((e) => {
       if (e.isUndoing || e.isRedoing || e.isEolChange) {
         return;
